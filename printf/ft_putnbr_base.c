@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 20:15:44 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/11/29 15:57:04 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:51:58 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ static int	ft_base_length(char *base)
 
 	i = 0;
 	while (base[i] != '\0')
-	{
 		i++;
-	}
 	return (i);
 }
 

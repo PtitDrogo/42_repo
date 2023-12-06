@@ -6,26 +6,35 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:04:32 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/11/29 15:57:24 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:52:16 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putunsign_int(unsigned int nbr)
+static int	ft_base_length(char *base);
+int	ft_putunsign_int(unsigned int nbr, char *base)
 {
 	char    digit;
+	int		base_len;
 	
-    if (nbr >= 10)
+	base_len = ft_base_length(base);
+    if (nbr >= base_len)
 	{
-		ft_putunsign_int(nbr / 10);
-		ft_putunsign_int(nbr % 10);
+		ft_putnbr_base(nbr / base_len, base);
+		ft_putnbr_base(nbr % base_len, base);
 	}
-	if (nbr < 10)
-	{	
-        digit = nbr + '0';
-        write(1, &digit, 1);
-    }
-    return (ft_nbr_len(nbr, 10));
+	if (nbr < base_len )
+		write(1, &base[nbr], 1);
+    return (ft_nbr_len(nbr, base_len));
+}
 
+static int	ft_base_length(char *base)
+{
+	int	i;
+
+	i = 0;
+	while (base[i] != '\0')
+		i++;
+	return (i);
 }

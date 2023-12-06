@@ -1,10 +1,10 @@
 SRCS	=	ft_printf.c ft_nbr_len.c ft_putnbr_base.c ft_putncount_char.c \
-		ft_putncount_str.c ft_strlen.c ft_putunsign_int.c 
+		ft_putncount_str.c ft_strlen.c ft_putunsign_int.c ft_print_ptr.c 
 OBJS	=	$(SRCS:.c=.o)
 
 CC	=	cc
 RM	=	rm -f
-CFLAGS	=	-Wall -Wextra -I. -MMD -MP
+CFLAGS	=	-Wall -Werror -Wextra -I. -MMD -MP
 DEPS	=	$(OBJS:.o=.d)
 
 NAME	=	libftprintf.a

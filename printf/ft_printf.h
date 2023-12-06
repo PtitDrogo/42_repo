@@ -9,6 +9,8 @@ int ft_putncount_char(char c);
 size_t ft_nbr_len(long int nbr, int base_len);
 int	ft_putnbr_base(int nbr, char *base);
 size_t	ft_strlen(const char *s);
-int	ft_putunsign_int(unsigned int nbr);
+int	ft_putunsign_int(unsigned int nbr, char *base);
+int ft_print_ptr(unsigned long long ptr);
+int ft_printf(const char *text, ...);
 
 #endif

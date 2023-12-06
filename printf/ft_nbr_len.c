@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 20:15:14 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/11/29 16:04:04 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:01:23 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,3 +26,4 @@ int ft_nbr_len(long int nbr, int base_len)
     // printf("i = %i\n", i);
     return (i);
 }
+
