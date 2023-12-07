@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 17:09:05 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/06 19:37:14 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:39:06 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,20 @@ int ft_printf(const char *text, ...)
 	size_t	i;
 	int		size;
 
-	if (!text)
+	if (!text || write(1, NULL, 0) == -1)
 		return (-1);
 	va_start(argptr, text);
 	size = 0;
 	i = 0;
 	while(text[i])
 	{
-		if (text[i] == '%')
-		{	
-			i++;
+		if ((text[i] == '%' && !text[i + 1]))
+			return (-1);
+		else if (text[i++] == '%')
 			size += ft_special_char(text[i], argptr);
-			i++;
-		}
 		else
-		{	
 			size += ft_putncount_char(text[i]);
-			i++;
-		}
+		i++;
 	}
 	va_end(argptr);
 	return (size);
