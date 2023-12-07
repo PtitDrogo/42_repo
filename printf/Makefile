@@ -4,7 +4,7 @@ OBJS	=	$(SRCS:.c=.o)
 
 CC	=	cc
 RM	=	rm -f
-CFLAGS	=	-Wall -Werror -Wextra -I. -MMD -MP
+CFLAGS	=	-I. -MMD -MP
 DEPS	=	$(OBJS:.o=.d)
 
 NAME	=	libftprintf.a

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 13:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/06 19:36:32 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/07 20:13:57 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ static int ft_ptr_len(unsigned long long ptr, int base_len)
         ptr /= base_len;
         i++;
     }
-    // #include <stdio.h>
-    // printf("i = %i\n", i);
     return (i);
 }
 
