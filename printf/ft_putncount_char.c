@@ -6,16 +6,16 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 20:15:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/07 20:15:42 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/08 14:47:07 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int ft_putncount_char(char c)
+void	ft_putncount_char(char c, int *size)
 {
-    if (write(1, &c, 1) == -1)
-        return (-1);
-    else
-        return (1);        
+	if (write(1, &c, 1) == -1)
+		*size = -1;
+	else
+		*size += 1;
 }

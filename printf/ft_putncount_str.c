@@ -6,20 +6,35 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 20:16:06 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/05 16:49:58 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/08 15:00:06 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int ft_putncount_str(char *str)
+size_t	ft_strlen(const char *s);
+
+void	ft_putncount_str(char *str, int *size)
 {
-    if (!str)
-    {        
-        write(1, "(null)", 6);
-        return(6);
-    }
-    if (write(1, str, ft_strlen(str)) == -1)
-        return (-1);
-    return (ft_strlen(str));
+	int	strlen;
+
+	strlen = ft_strlen(str);
+	if (!str)
+		ft_putncount_str("(null)", size);
+	else if (write(1, str, strlen) == -1)
+		*size = -1;
+	else
+		*size += strlen;
+}
+
+size_t	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+		i++;
+	return (i);
 }

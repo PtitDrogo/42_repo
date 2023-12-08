@@ -6,89 +6,92 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 17:09:05 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/07 20:17:32 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/08 14:56:33 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	ft_special_char(char c, va_list argptr);
+static void	ft_special_char(char c, va_list argptr, int *size);
 
-int ft_printf(const char *text, ...)
+int	ft_printf(const char *text, ...)
 {
-	va_list argptr;
+	va_list	argptr;
 	size_t	i;
-	int		size;
+	int		actual_size;
 
-	if (!text || write(1, NULL, 0) == -1)
-		return (-1);
 	va_start(argptr, text);
-	size = 0;
+	actual_size = 0;
 	i = 0;
-	while(text[i])
+	if (!text || write(1, NULL, 0) == -1)
+		actual_size = -1;
+	while (text[i] && actual_size != -1)
 	{
-		if ((text[i] == '%' && !text[i + 1]))
-			return (-1);
-		else if (text[i] == '%')
-		{	
+		if (text[i] == '%')
+		{
 			i++;
-			size += ft_special_char(text[i], argptr);
+			ft_special_char(text[i], argptr, &actual_size);
 		}
 		else
-			size += ft_putncount_char(text[i]);
+			ft_putncount_char(text[i], &actual_size);
 		i++;
 	}
 	va_end(argptr);
-	return (size);
+	return (actual_size);
 }
 
-
-static int	ft_special_char(char c, va_list argptr)
+static void	ft_special_char(char c, va_list argptr, int *size)
 {
 	if (c == 'c')
-		return(ft_putncount_char(va_arg(argptr, int)));
-	if (c == 's')
-		return(ft_putncount_str(va_arg(argptr, char *)));
-	if (c == 'p')
-		return(ft_print_ptr(va_arg(argptr, unsigned long long)));
-	if (c == 'd')
-		return(ft_putnbr_base(va_arg(argptr, int), "0123456789"));
-	if (c == 'i')
-		return(ft_putnbr_base(va_arg(argptr, int), "0123456789"));
-	if (c == 'u')
-		return(ft_putunsign_int(va_arg(argptr, unsigned int), "0123456789"));
-	if (c == 'x')
-		return(ft_putunsign_int(va_arg(argptr, unsigned int), "0123456789abcdef"));
-	if (c == 'X')
-		return(ft_putunsign_int(va_arg(argptr, unsigned int), "0123456789ABCDEF"));
-	if (c == '%')
-		return(ft_putncount_char('%'));
-	return (ft_putncount_char('%') + ft_putncount_char(c));
+		ft_putncount_char(va_arg(argptr, int), size);
+	else if (c == 's')
+		ft_putncount_str(va_arg(argptr, char *), size);
+	else if (c == 'p')
+		ft_print_ptr(va_arg(argptr, unsigned long long), size);
+	else if (c == 'd')
+		ft_putnbr(va_arg(argptr, int), size);
+	else if (c == 'i')
+		ft_putnbr(va_arg(argptr, int), size);
+	else if (c == 'u')
+		ft_putunsign(va_arg(argptr, unsigned int), "0123456789", size);
+	else if (c == 'x')
+		ft_putunsign(va_arg(argptr, unsigned int), "0123456789abcdef", size);
+	else if (c == 'X')
+		ft_putunsign(va_arg(argptr, unsigned int), "0123456789ABCDEF", size);
+	else if (c == '%')
+		ft_putncount_char('%', size);
+	else if (c == '\0')
+		*size = -1;
+	else
+	{	
+		ft_putncount_char('%', size);
+		ft_putncount_char(c, size);
+	}
 }
 // int    main()
 // {
 //     #include <stdio.h>
 //     char str[]= "aa ";
-//     char *s2 = NULL;
+//     char *s2 = "wesh la team";
 
 //     printf("   %d\n", ft_printf("ft_printf char : %c", 'v'));
 //     printf("   %d\n\n", printf("prinft    char : %c", 'v'));
-//     printf("   %d\n\n", ft_printf("ft_printf str : %s %s %s %s %s", " - ", "", "4", "", s2));
-//     printf("   %d\n\n", printf("printf    str : %s %s %s %s %s", " - ", "", "4", "", s2));
+//     printf("   %d\n\n", ft_printf("ft_printf str : %s%s%s%s%s", " - ", "", "4", "", s2));
+//     printf("   %d\n\n", printf("printf    str : %s%s%s%s%s", " - ", "", "4", "", s2));
 //     printf("   %d\n", ft_printf("ft_printf ptr : %p", str));
 //     printf("   %d\n\n", printf("printf    ptr : %p", str));
 //     printf("   %d\n", ft_printf("ft_printf inter/decimal : %d", -2147483647));
-//     printf("   %d\n\n", printf("printf    inter/deScimal : %d", -2147483647));
+//     printf("   %d\n\n", printf("printf    inter/decimal : %d", -2147483647));
 //     printf("   %d\n", ft_printf("ft_printf unsigned : %u %u %u %u %u %u", 0, 2147483647, 9, -1, -0, -2147483647));
 //     printf("   %d\n\n", printf("printf    unsigned : %u %u %u %u %u %u", 0, 2147483647, 9, -1, -0, -2147483647));
 //     printf("   %d\n", ft_printf("ft_printf hexa : %x",-123456789));
 //     printf("   %d\n\n", printf("printf    hexa : %x",-123456789));
 //     printf("   %d\n", ft_printf("ft_printf HEXA : %X",-123456789));
 //     printf("   %d\n\n", printf("printf    HEXA : %X",-123456789));
-//     printf("   %d\n", ft_printf("ft_printf pourcentage : %% %% %%%"));
-//     printf("   %d\n\n", printf("printf    pourcentage : %% %% %%%"));
+//     printf("   %d\n", ft_printf(""));
+//     printf("   %d\n\n", printf(""));
 //     printf("   %d\n", ft_printf("ft_printf pourcentage : %w %y %I"));
 //     printf("   %d\n\n", printf("printf    pourcentage : %w %y %I"));
-//     printf("   %d\n", ft_printf(NULL));
-//     printf("   %d\n\n", printf(NULL));
+//     printf("   %d\n", ft_printf(" NULL %s NULL ", NULL));
+//     printf("   %d\n\n", printf(" NULL %s NULL ", NULL));
 // }

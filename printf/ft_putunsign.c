@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putunsign_int.c                                 :+:      :+:    :+:   */
+/*   ft_putunsign.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:04:32 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/05 16:52:16 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/08 15:03:53 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	ft_base_length(char *base);
-int	ft_putunsign_int(unsigned int nbr, char *base)
+static unsigned int	ft_base_length(char *base);
+
+void	ft_putunsign(unsigned int nbr, char *base, int *size)
 {
-	char    digit;
-	int		base_len;
-	
+	unsigned int		base_len;
+
 	base_len = ft_base_length(base);
-    if (nbr >= base_len)
+	if (nbr >= base_len && *size != -1)
 	{
-		ft_putnbr_base(nbr / base_len, base);
-		ft_putnbr_base(nbr % base_len, base);
+		ft_putunsign(nbr / base_len, base, size);
+		ft_putunsign(nbr % base_len, base, size);
 	}
-	if (nbr < base_len )
-		write(1, &base[nbr], 1);
-    return (ft_nbr_len(nbr, base_len));
+	else if (nbr < base_len && *size != -1)
+		ft_putncount_char(base[nbr], size);
 }
 
-static int	ft_base_length(char *base)
+static unsigned int	ft_base_length(char *base)
 {
 	int	i;
 
