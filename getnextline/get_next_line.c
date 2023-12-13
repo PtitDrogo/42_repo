@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/12 20:52:09 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:15:00 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,67 +16,62 @@ char	*ft_strjoin(char *s1, char *s2);
 size_t  ft_strlen(char *str);
 size_t	ft_strlcpy(char *dst, char *src, size_t size);
 
-char    *get_next_line(int fd)
-{
-	static char		buffer[BUFFER_SIZE + 1];
-	char			*line;
-	int             bytes_read;
-	int             i;
+// char    *get_next_line(int fd)
+// {
+// 	static char		buffer[BUFFER_SIZE + 1];
+// 	char			*line;
+// 	int             bytes_read;
+// 	int             i;
 
-	i = 0;
-	line = malloc(1);
-	if (!line)
-		return (NULL);
-	line[0] = '\0';
+// 	i = 0;
+// 	line = malloc(1);
+// 	if (!line)
+// 		return (NULL);
+// 	line[0] = '\0';
 
-	//if not empty buffer
-	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	buffer[BUFFER_SIZE] = '\0';
-	if (bytes_read < 0)
-		return (NULL);
-	join_and_free(line, buffer);
-	//I want to read my buffer until i see a \\n, then somehow remember whats after;
-	//I want to add whats in my buffer to my line;
+// 	//if not empty buffer
+// 	bytes_read = read(fd, buffer, BUFFER_SIZE);
+// 	if (bytes_read < 0)
+// 		return (NULL);
+// 	buffer[BUFFER_SIZE] = '\0';
+// 	join_and_free(line, buffer);
+// 	//I want to read my buffer until i see a \\n, then somehow remember whats after;
+// 	//I want to add whats in my buffer to my line;
 	
 	
-	return (line);
-}
+// 	return (line);
+// }
 char	*join_and_free(char *line, char *buffer)
 {
 	char	*new_line;
-	int	strlen;
+	int	relevantlen;
 	int	i;
+
 	
 	i = 0;
-	while (buffer[i] != '\n' || buffer[i] != '\0')
+	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
-	strlen = (i + ft_strlen(line) + 1);
-	new_line = malloc(sizeof(char) * (strlen));
-	new_line[strlen] = '\0';
+	relevantlen = ft_strlen(line);
+	new_line = malloc(sizeof(char) * (relevantlen + i + 1));
+	new_line[relevantlen + i] = '\0';
 	i = 0;
-	while (i < strlen)
+	while (i < relevantlen)
 	{
-		newline[i] = line[i];
+		new_line[i] = line[i];
 		i++;
 	}
 	int j = 0;
-	while (newline[i])
+	relevantlen = ft_strlen(buffer);
+	while (j < relevantlen)
 	{
-		newline[i] = buffer[j]
+		new_line[i] = buffer[j];
 		i++;
 		j++;
 	}
 	free (line);
 	return (new_line);
 }
-// int		is_empty(char buffer[BUFFER_SIZE + 1])
-// {
-// 	int		i;
 
-// 	i = 0;
-// 	while (buffer[i])
-// 		i++;
-// }
 size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {
 	size_t	i;
@@ -130,22 +125,31 @@ size_t  ft_strlen(char *str)
 int main(void)
 {
 	#include <stdio.h>
+	char	*string;
+	char	*buffer = " Je suis un buffer";
+	char	*new_line;
+
+	string = malloc(sizeof(char) * (2 + 1));
+	string[2] = '\0';
+	string[1] = 'O';
+	string[0] = 'Y';
+
+	new_line = join_and_free(string, buffer);
+	// printf("%s\n", new_line);
+	free(new_line);
+
+
+	// char    *current_line;
+	// int fd = open("test.txt", 0);
 	
-	char    *current_line;
-	int fd = open("test.txt", 0);
-	
-	// current_line = get_next_line(fd);
-	printf("%s\n", get_next_line(fd));
+	// // current_line = get_next_line(fd);
 	// printf("%s\n", get_next_line(fd));
-	// printf("%s\n", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	if (fd == -1)
-		printf("Error");
-	// while (current_line)
-	// {
-	//     printf("%s", current_line);
-	//     current_line = get_next_line(fd);
-	// } 
-	return (0);
+	// if (fd == -1)
+	// 	printf("Error");
+	// // while (current_line)
+	// // {
+	// //     printf("%s", current_line);
+	// //     current_line = get_next_line(fd);
+	// // } 
+	// return (0);
 }
