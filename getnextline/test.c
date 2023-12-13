@@ -1,17 +1,19 @@
 
 void    ft_coucou(void)
 {
-    
-    static int i = 0;
-    printf("%i\n", i);
-    i++;
-    i = 152;
+    static char		buffer[10];
 }
 
+#include <stdio.h>
 int main(void)
 {
-    ft_coucou();
-    ft_coucou();
-    ft_coucou();
+    static char		buffer[10];
+    int i = 0;
+
+    while (i <= 10)
+    {
+        printf("%i", buffer[i]);
+        i++;
+    }
     return (0);
 }

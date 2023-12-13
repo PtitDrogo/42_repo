@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/13 14:15:00 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:08:17 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,63 +15,117 @@
 char	*ft_strjoin(char *s1, char *s2);
 size_t  ft_strlen(char *str);
 size_t	ft_strlcpy(char *dst, char *src, size_t size);
+void    *ft_memmove(void *dest, void *src, int n);
+char	*join_and_free(char *line, char *buffer);
 
-// char    *get_next_line(int fd)
-// {
-// 	static char		buffer[BUFFER_SIZE + 1];
-// 	char			*line;
-// 	int             bytes_read;
-// 	int             i;
+char    *get_next_line(int fd)
+{
+	static char		buffer[BUFFER_SIZE + 1];
+	char			*temp_buff;
+	char			*line;
+	int             bytes_read;
+	int             i;
 
-// 	i = 0;
-// 	line = malloc(1);
-// 	if (!line)
-// 		return (NULL);
-// 	line[0] = '\0';
-
-// 	//if not empty buffer
-// 	bytes_read = read(fd, buffer, BUFFER_SIZE);
-// 	if (bytes_read < 0)
-// 		return (NULL);
-// 	buffer[BUFFER_SIZE] = '\0';
-// 	join_and_free(line, buffer);
-// 	//I want to read my buffer until i see a \\n, then somehow remember whats after;
-// 	//I want to add whats in my buffer to my line;
+	i = 0;
+	bytes_read = 1;
+	line = malloc(1);
+	if (!line)
+		return (NULL);
+	
+	while (no_newline(buffer) && bytes_read > 0)
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read < 0)
+			return (NULL);
+	}
+		line = join_and_free(line, buffer);
+	}	
+	while (buffer[i] != '\n' && buffer[i] != '\0')
+		i++;
+	if (buffer[i] == '\n')
+	{
+		temp_buff = &buffer[i];
+		ft_memmove(buffer, temp_buff, i);
+	}
+	
+	return (line);
+	//I want to read my buffer until i see a \\n, then somehow remember whats after;
+	//I want to add whats in my buffer to my line;
 	
 	
-// 	return (line);
-// }
+	return (line);
+}
+
+void    *ft_memmove(void *dest, void *src, int n)
+{
+        char    *from;
+        char    *to;
+        int             i;
+
+        from = (char *)src;
+        to = (char *)dest;
+        if (from == to || n == 0)
+                return (dest);
+        else if (to > from)
+        {
+                i = n - 1;
+                while (i >= 0)
+                {
+                        to[i] = from[i];
+                        i--;
+                }
+        }
+        else
+        {
+                i = -1;
+                while (++i < n)
+                        to[i] = from[i];
+        }
+        return (dest);
+}
+
 char	*join_and_free(char *line, char *buffer)
 {
 	char	*new_line;
 	int	relevantlen;
 	int	i;
+	int j;
 
-	
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
 	relevantlen = ft_strlen(line);
 	new_line = malloc(sizeof(char) * (relevantlen + i + 1));
-	new_line[relevantlen + i] = '\0';
-	i = 0;
-	while (i < relevantlen)
+	if(!new_line)
 	{
-		new_line[i] = line[i];
-		i++;
+		free(line);
+		return (NULL);
 	}
-	int j = 0;
+	new_line[relevantlen + i] = '\0';
+	i = -1;
+	while (++i < relevantlen)
+		new_line[i] = line[i];
+	j = 0;
 	relevantlen = ft_strlen(buffer);
 	while (j < relevantlen)
-	{
-		new_line[i] = buffer[j];
-		i++;
-		j++;
-	}
+		new_line[i++] = buffer[j++];
 	free (line);
 	return (new_line);
 }
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t	i;
+	char	*copy;
 
+	copy = (char *)s;
+	i = 0;
+	while (i < n)
+	{
+		copy[i] = c;
+		i++;
+	}
+	return (s);
+}
 size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {
 	size_t	i;
@@ -122,34 +176,19 @@ size_t  ft_strlen(char *str)
 	return (i);
 }
 
+#include <stdio.h>
 int main(void)
 {
-	#include <stdio.h>
-	char	*string;
-	char	*buffer = " Je suis un buffer";
-	char	*new_line;
-
-	string = malloc(sizeof(char) * (2 + 1));
-	string[2] = '\0';
-	string[1] = 'O';
-	string[0] = 'Y';
-
-	new_line = join_and_free(string, buffer);
-	// printf("%s\n", new_line);
-	free(new_line);
-
-
-	// char    *current_line;
-	// int fd = open("test.txt", 0);
+	char    *current_line;
+	int fd = open("test.txt", 0);
+	int i = 0;
 	
-	// // current_line = get_next_line(fd);
-	// printf("%s\n", get_next_line(fd));
-	// if (fd == -1)
-	// 	printf("Error");
-	// // while (current_line)
-	// // {
-	// //     printf("%s", current_line);
-	// //     current_line = get_next_line(fd);
-	// // } 
-	// return (0);
+	if (fd == -1)
+		printf("Error");
+	while (i < 1)
+	{
+	    printf("%s\n", get_next_line(fd));
+		i++;
+	} 
+	return (0);
 }
