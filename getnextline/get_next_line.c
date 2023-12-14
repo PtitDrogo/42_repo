@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/13 17:09:20 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/14 19:15:43 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,71 @@ size_t  ft_strlen(char *str);
 size_t	ft_strlcpy(char *dst, char *src, size_t size);
 void    *ft_memmove(void *dest, void *src, int n);
 char	*join_and_free(char *line, char *buffer);
+void	*ft_memset(void *s, int c, size_t n);
 
 char    *get_next_line(int fd)
 {
 	static char		buffer[BUFFER_SIZE + 1];
 	char			*temp_buff;
 	char			*line;
-	int             bytes_read;
-	int             i;
+	int				bytes_read;
+	int				i;
 
 	i = 0;
 	bytes_read = 1;
 	line = malloc(1);
 	if (!line)
 		return (NULL);
+	line[0] = '\0';
 	
-	while (no_newline(buffer) && bytes_read > 0)
+	if (buffer[0]) //check if buffer exist from previous call;
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read < 0)
-			return (NULL);
-	}
 		line = join_and_free(line, buffer);
-	}	
-	while (buffer[i] != '\n' && buffer[i] != '\0')
-		i++;
-	if (buffer[i] == '\n')
-	{
-		temp_buff = &buffer[i];
-		ft_memmove(buffer, temp_buff, i);
+		if (!line)
+			return (NULL);
+		while (buffer[i] != '\n' && buffer[i] != '\0')
+			i++;
+		if (buffer[i] == '\n')
+		{
+			i++;
+			temp_buff = &buffer[i];
+			ft_memmove(buffer, temp_buff, ft_strlen(temp_buff) + 1);
+			return(line);
+		}
+		else if (buffer[i] == '\0')
+			ft_memset(buffer, 0, BUFFER_SIZE);
 	}
-	
-	return (line);
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	while(bytes_read != 0)
+	{	
+		if (bytes_read <= 0)
+		{	
+			free(line);
+			return (NULL);
+		}
+		line = join_and_free(line, buffer);	
+		i = 0;
+		while (buffer[i] != '\n' && buffer[i] != '\0')
+			i++;
+		if (buffer[i] == '\n')
+		{
+			i++;
+			temp_buff = &buffer[i];
+			ft_memmove(buffer, temp_buff, ft_strlen(temp_buff) + 1);
+			return (line);
+		}
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+	}
 	//I want to read my buffer until i see a \\n, then somehow remember whats after;
 	//I want to add whats in my buffer to my line;
-	
-	
-	return (line);
+	if (buffer[0])
+	{
+		ft_memset(buffer, 0, BUFFER_SIZE);
+		return (line);
+	}
+	if (line[0])
+		return(line);
+	return (NULL);
 }
 
 void    *ft_memmove(void *dest, void *src, int n)
@@ -87,29 +115,30 @@ void    *ft_memmove(void *dest, void *src, int n)
 char	*join_and_free(char *line, char *buffer)
 {
 	char	*new_line;
-	int	relevantlen;
+	int	linelen;
+	int	effective_bufferlen;
 	int	i;
 	int j;
 
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
-	relevantlen = ft_strlen(line);
-	new_line = malloc(sizeof(char) * (relevantlen + i + 1));
+	effective_bufferlen = i + (buffer[i] == '\n');
+	linelen = ft_strlen(line);
+	new_line = malloc(sizeof(char) * (linelen + effective_bufferlen + 1));
 	if(!new_line)
 	{
 		free(line);
 		return (NULL);
 	}
-	new_line[relevantlen + i] = '\0';
+	new_line[linelen + effective_bufferlen] = '\0';
 	i = -1;
-	while (++i < relevantlen)
+	while (++i < linelen)
 		new_line[i] = line[i];
 	j = 0;
-	relevantlen = ft_strlen(buffer);
-	while (j < relevantlen)
+	while (j < effective_bufferlen)
 		new_line[i++] = buffer[j++];
-	free (line);
+	free (line); //Je ne free pas un malloc de 1 je suis un boulet !
 	return (new_line);
 }
 void	*ft_memset(void *s, int c, size_t n)
@@ -176,19 +205,20 @@ size_t  ft_strlen(char *str)
 	return (i);
 }
 
+#include <fcntl.h>
 #include <stdio.h>
-int main(void)
+
+int main()
 {
-	char    *current_line;
-	int fd = open("test.txt", 0);
-	int i = 0;
-	
-	if (fd == -1)
-		printf("Error");
-	while (i < 1)
-	{
-	    printf("%s\n", get_next_line(fd));
-		i++;
-	} 
-	return (0);
+    int fd = open("test.txt", O_RDONLY);
+    char *line;
+    int i = 1;
+
+    while((line = get_next_line(fd)))
+    {
+        printf("line %d => %s",i,line);
+        free(line);
+        i++;
+    }
+    return (0);
 }

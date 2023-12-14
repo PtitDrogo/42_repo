@@ -1,11 +1,5 @@
-hihihihi je suis un petit gandin
-et oui c'est moi le petit gandin
-wooooow
-\n
-\n
-\n
-\n
-\n
-\n\n\n\n\n\n\n\n\n\n
-lalalalalal
-FIN
+123
+456
+789
+abc
+fin
