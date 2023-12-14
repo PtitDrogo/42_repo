@@ -6,7 +6,7 @@ CC	=	cc
 RM	=	rm -f
 CFLAGS	=	-Wall -Wextra -Werror -I.
 
-NAME	=	libft.a
+NAME	=	get_next_line.a
 
 all:	$(NAME)
 

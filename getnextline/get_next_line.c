@@ -6,15 +6,16 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/14 19:15:43 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/14 20:47:45 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <string.h>
+#include <stdio.h>
+
 char	*ft_strjoin(char *s1, char *s2);
 size_t  ft_strlen(char *str);
-size_t	ft_strlcpy(char *dst, char *src, size_t size);
 void    *ft_memmove(void *dest, void *src, int n);
 char	*join_and_free(char *line, char *buffer);
 void	*ft_memset(void *s, int c, size_t n);
@@ -59,7 +60,9 @@ char    *get_next_line(int fd)
 			free(line);
 			return (NULL);
 		}
-		line = join_and_free(line, buffer);	
+		line = join_and_free(line, buffer);
+		if (!line)
+			return (NULL);
 		i = 0;
 		while (buffer[i] != '\n' && buffer[i] != '\0')
 			i++;
@@ -71,9 +74,12 @@ char    *get_next_line(int fd)
 			return (line);
 		}
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read < 0)
+		{	
+			free(line);
+			return (NULL);
+		}	
 	}
-	//I want to read my buffer until i see a \\n, then somehow remember whats after;
-	//I want to add whats in my buffer to my line;
 	if (buffer[0])
 	{
 		ft_memset(buffer, 0, BUFFER_SIZE);
@@ -81,6 +87,7 @@ char    *get_next_line(int fd)
 	}
 	if (line[0])
 		return(line);
+	free(line);
 	return (NULL);
 }
 
@@ -138,7 +145,7 @@ char	*join_and_free(char *line, char *buffer)
 	j = 0;
 	while (j < effective_bufferlen)
 		new_line[i++] = buffer[j++];
-	free (line); //Je ne free pas un malloc de 1 je suis un boulet !
+	free (line);
 	return (new_line);
 }
 void	*ft_memset(void *s, int c, size_t n)
@@ -155,47 +162,6 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
-size_t	ft_strlcpy(char *dst, char *src, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	if (size > 0)
-	{
-		while (src[i] != '\0' && i < size - 1)
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (ft_strlen(src));
-}
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*joined;
-	size_t	i;
-	size_t	j;
-	size_t	s1_len;
-	size_t	s2_len;
-
-	if (!s1 || !s2)
-		return (NULL);
-	
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	i = -1;
-	j = 0;
-	joined = malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (!joined)
-		return (NULL);
-	while (++i < s1_len)
-		joined[i] = s1[i];
-	while (j < s2_len)
-		joined[i++] = s2[j++];
-	joined[i] = '\0';
-	return (joined);
-}
 size_t  ft_strlen(char *str)
 {
 	int i;
@@ -206,7 +172,6 @@ size_t  ft_strlen(char *str)
 }
 
 #include <fcntl.h>
-#include <stdio.h>
 
 int main()
 {
