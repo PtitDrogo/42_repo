@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/15 19:45:14 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:53:28 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char    *get_next_line(int fd)
 		i = 0;
 		while (buffer[i] != '\n' && buffer[i] != '\0' && i < bytes_read)
 			i++;
-		if (bytes_read < BUFFER_SIZE && buffer[i] != '\n')
+		if (bytes_read < BUFFER_SIZE && buffer[i] != '\n')//Fin de fichier
 		{	
 			buffer[i] = '\0';
 			line = join_and_free(line, buffer);
@@ -85,11 +85,11 @@ char    *get_next_line(int fd)
 			ft_memmove(buffer, temp_buff, ft_strlen(temp_buff) + 1);
 			return (line);
 		}
-		if (i == bytes_read && bytes_read < BUFFER_SIZE)
-		{
-			ft_memset(buffer, 0, BUFFER_SIZE);
-			return (line);
-		}
+		// if (i == bytes_read && bytes_read < BUFFER_SIZE)
+		// {
+		// 	ft_memset(buffer, 0, BUFFER_SIZE);
+		// 	return (line);
+		// } useless ?
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
 		{		
@@ -188,7 +188,7 @@ size_t  ft_strlen(char *str)
 
 int main()
 {
-    int fd = open("test.txt", O_RDONLY);
+    int fd = open("bible.txt", O_RDONLY);
     char *line;
     int i = 1;
 
