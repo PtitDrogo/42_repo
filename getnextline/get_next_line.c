@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/14 20:47:45 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:03:56 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ size_t  ft_strlen(char *str);
 void    *ft_memmove(void *dest, void *src, int n);
 char	*join_and_free(char *line, char *buffer);
 void	*ft_memset(void *s, int c, size_t n);
+void	*free_and_return_NULL(void *array_to_free);
 
 char    *get_next_line(int fd)
 {
@@ -56,29 +57,24 @@ char    *get_next_line(int fd)
 	while(bytes_read != 0)
 	{	
 		if (bytes_read <= 0)
-		{	
-			free(line);
-			return (NULL);
-		}
+			return(free_and_return_NULL(line));
 		line = join_and_free(line, buffer);
 		if (!line)
 			return (NULL);
 		i = 0;
-		while (buffer[i] != '\n' && buffer[i] != '\0')
+		while (buffer[i] != '\n' && buffer[i] != '\0' && i < bytes_read)
 			i++;
-		if (buffer[i] == '\n')
+		if (buffer[i] == '\n' || (i == bytes_read && bytes_read < BUFFER_SIZE))
 		{
 			i++;
 			temp_buff = &buffer[i];
 			ft_memmove(buffer, temp_buff, ft_strlen(temp_buff) + 1);
+			// ft_memset(&buffer[i] + 1, 0, ));
 			return (line);
 		}
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
-		{	
-			free(line);
-			return (NULL);
-		}	
+			return(free_and_return_NULL(line));	
 	}
 	if (buffer[0])
 	{
@@ -91,6 +87,11 @@ char    *get_next_line(int fd)
 	return (NULL);
 }
 
+void	*free_and_return_NULL(void *array_to_free)
+{
+	free(array_to_free);
+	return (NULL);
+}
 void    *ft_memmove(void *dest, void *src, int n)
 {
         char    *from;
@@ -134,10 +135,7 @@ char	*join_and_free(char *line, char *buffer)
 	linelen = ft_strlen(line);
 	new_line = malloc(sizeof(char) * (linelen + effective_bufferlen + 1));
 	if(!new_line)
-	{
-		free(line);
-		return (NULL);
-	}
+		return(free_and_return_NULL(line));
 	new_line[linelen + effective_bufferlen] = '\0';
 	i = -1;
 	while (++i < linelen)
@@ -173,17 +171,17 @@ size_t  ft_strlen(char *str)
 
 #include <fcntl.h>
 
-int main()
-{
-    int fd = open("test.txt", O_RDONLY);
-    char *line;
-    int i = 1;
+// int main()
+// {
+//     int fd = open("bible.txt", O_RDONLY);
+//     char *line;
+//     int i = 1;
 
-    while((line = get_next_line(fd)))
-    {
-        printf("line %d => %s",i,line);
-        free(line);
-        i++;
-    }
-    return (0);
-}
+//     while((line = get_next_line(fd)))
+//     {
+//         printf("line %d => %s",i,line);
+//         free(line);
+//         i++;
+//     }
+//     return (0);
+// }
