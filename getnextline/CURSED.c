@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_cursed.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/15 19:45:14 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:17:57 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char    *get_next_line(int fd)
 	if (!line)
 		return (NULL);
 	line[0] = '\0';
-	
 	if (buffer[0]) //check if buffer exist from previous call;
 	{
 		line = join_and_free(line, buffer);
@@ -55,47 +54,33 @@ char    *get_next_line(int fd)
 			ft_memset(buffer, 0, BUFFER_SIZE);
 	}
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	if (bytes_read < 0)
-	{		
-		ft_memset(buffer, 0, BUFFER_SIZE);
-		return(free(line), (NULL));
-	}
 	while(bytes_read != 0)
 	{	
 		i = 0;
 		while (buffer[i] != '\n' && buffer[i] != '\0' && i < bytes_read)
 			i++;
-		if (bytes_read < BUFFER_SIZE && buffer[i] != '\n')
+		if (i == bytes_read && buffer[i] != '\0')
 		{	
 			buffer[i] = '\0';
 			line = join_and_free(line, buffer);
 			if (!line)
 				return (NULL);
-			ft_memset(buffer, 0, BUFFER_SIZE);
 			return (line);
- 		}
-
+		}
 		line = join_and_free(line, buffer);
 		if (!line)
 			return (NULL);
-		if (buffer[i] == '\n')
+		if (buffer[i] == '\n' || (i == bytes_read && bytes_read < BUFFER_SIZE))
 		{
 			i++;
 			temp_buff = &buffer[i];
 			ft_memmove(buffer, temp_buff, ft_strlen(temp_buff) + 1);
-			return (line);
-		}
-		if (i == bytes_read && bytes_read < BUFFER_SIZE)
-		{
-			ft_memset(buffer, 0, BUFFER_SIZE);
+			// ft_memset(&buffer[i] + 1, 0, ));
 			return (line);
 		}
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
-		{		
-			ft_memset(buffer, 0, BUFFER_SIZE);
-			return(free(line), (NULL));
-		}	
+			return(free_and_return_NULL(line));	
 	}
 	if (buffer[0])
 	{
@@ -105,6 +90,12 @@ char    *get_next_line(int fd)
 	if (line[0])
 		return(line);
 	free(line);
+	return (NULL);
+}
+
+void	*free_and_return_NULL(void *array_to_free)
+{
+	free(array_to_free);
 	return (NULL);
 }
 void    *ft_memmove(void *dest, void *src, int n)
@@ -150,7 +141,7 @@ char	*join_and_free(char *line, char *buffer)
 	linelen = ft_strlen(line);
 	new_line = malloc(sizeof(char) * (linelen + effective_bufferlen + 1));
 	if(!new_line)
-		return(free(line), (NULL));
+		return(free_and_return_NULL(line));
 	new_line[linelen + effective_bufferlen] = '\0';
 	i = -1;
 	while (++i < linelen)
@@ -186,20 +177,17 @@ size_t  ft_strlen(char *str)
 
 #include <fcntl.h>
 
-int main()
-{
-    int fd = open("test.txt", O_RDONLY);
-    char *line;
-    int i = 1;
+// int main()
+// {
+//     int fd = open("test.txt", O_RDONLY);
+//     char *line;
+//     int i = 1;
 
-    while((line = get_next_line(fd)))
-    {
-        printf("line %d => %s",i,line);
-        free(line);
-        i++;
-    }
-	// fd = open(NULL, O_RDONLY);
-	// line = get_next_line(fd);
-	// printf("line %d => %s",i,line);
-    // return (0);
-}
+//     while((line = get_next_line(fd)))
+//     {
+//         printf("line %d => %s",i,line);
+//         free(line);
+//         i++;
+//     }
+//     return (0);
+// }
