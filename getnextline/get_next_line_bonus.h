@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/09 19:01:45 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/19 20:35:53 by tfreydie         ###   ########.fr       */
+/*   Created: 2023/12/19 20:30:52 by tfreydie          #+#    #+#             */
+/*   Updated: 2023/12/19 20:37:04 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
 # endif
