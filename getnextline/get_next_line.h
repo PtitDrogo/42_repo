@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:01:45 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/19 20:35:53 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:36:00 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ void	*ft_memset(void *s, int c, size_t n);
 int		safe_read(char *line, char *buffer, int buffer_size, int fd);
 void	*free_and_null(char *line);
 char	*line_check(char *line, char *buffer, int *line_status);
-void	*secure_init(int buffer_size, int *line_status);
+void	*secure_init(int buffer_size, int *line_status, int fd);
 
 #endif

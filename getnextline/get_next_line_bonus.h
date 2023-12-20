@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 20:30:52 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/19 20:37:04 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:35:58 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(char *str);
@@ -27,6 +28,6 @@ void	*ft_memset(void *s, int c, size_t n);
 int		safe_read(char *line, char *buffer, int buffer_size, int fd);
 void	*free_and_null(char *line);
 char	*line_check(char *line, char *buffer, int *line_status);
-void	*secure_init(int buffer_size, int *line_status);
+void	*secure_init(int buffer_size, int *line_status, int fd);
 
 #endif

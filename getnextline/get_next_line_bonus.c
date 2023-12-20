@@ -6,50 +6,54 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 20:35:14 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/19 20:40:30 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:48:19 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line_bonus.h"
+
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	buffer[FOPEN_MAX][BUFFER_SIZE + 1];
 	char		*line;
 	int			bytes_read;
 	int			line_status;
 
-	line = secure_init(BUFFER_SIZE, &line_status);
+	line = secure_init(BUFFER_SIZE, &line_status, fd);
 	if (!line)
 		return (free_and_null(line));
-	if (buffer[0])
-		line = line_check(line, buffer, &line_status);
-	if (line_status && buffer[0])
+	if (buffer[fd][0])
+		line = line_check(line, buffer[fd], &line_status);
+	if (line_status && buffer[fd][0])
 		return (line);
-	bytes_read = safe_read(line, buffer, BUFFER_SIZE, fd);
+	bytes_read = safe_read(line, buffer[fd], BUFFER_SIZE, fd);
 	while (bytes_read)
 	{
 		if (bytes_read < 0)
 			return (NULL);
-		line = line_check(line, buffer, &line_status);
+		line = line_check(line, buffer[fd], &line_status);
 		if (line_status)
 			return (line);
-		bytes_read = safe_read(line, buffer, BUFFER_SIZE, fd);
+		bytes_read = safe_read(line, buffer[fd], BUFFER_SIZE, fd);
 	}
 	if (line[0])
 		return (line);
 	return (free_and_null(line));
 }
 
-void	*secure_init(int buffer_size, int *line_status)
+void	*secure_init(int buffer_size, int *line_status, int fd)
 {
 	char	*line;
 
-	*line_status = 1;
+	if (fd > FOPEN_MAX || fd < 0)
+		return (NULL);
 	if (buffer_size + 1 <= 0)
 		return (NULL);
 	line = malloc(1);
 	if (!line)
 		return (NULL);
 	line[0] = '\0';
+	*line_status = 1;
 	return (line);
 }
 

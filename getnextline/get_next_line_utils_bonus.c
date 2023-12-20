@@ -6,11 +6,11 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 20:35:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/19 20:35:47 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:16:43 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(char *str)
 {

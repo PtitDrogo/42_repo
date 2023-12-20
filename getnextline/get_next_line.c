@@ -6,11 +6,13 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/19 20:35:52 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:56:36 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
@@ -19,7 +21,9 @@ char	*get_next_line(int fd)
 	int			bytes_read;
 	int			line_status;
 
-	line = secure_init(BUFFER_SIZE, &line_status);
+	// printf("%d\n", BUFFER_SIZE);
+	line = secure_init(BUFFER_SIZE, &line_status, fd);
+	// printf("%d\n", BUFFER_SIZE);
 	if (!line)
 		return (free_and_null(line));
 	if (buffer[0])
@@ -27,6 +31,7 @@ char	*get_next_line(int fd)
 	if (line_status && buffer[0])
 		return (line);
 	bytes_read = safe_read(line, buffer, BUFFER_SIZE, fd);
+	// printf("%d\n", BUFFER_SIZE);
 	while (bytes_read)
 	{
 		if (bytes_read < 0)
@@ -35,16 +40,20 @@ char	*get_next_line(int fd)
 		if (line_status)
 			return (line);
 		bytes_read = safe_read(line, buffer, BUFFER_SIZE, fd);
+		// printf("%d\n", BUFFER_SIZE);
 	}
 	if (line[0])
 		return (line);
+	// printf("%d\n", BUFFER_SIZE);
 	return (free_and_null(line));
 }
 
-void	*secure_init(int buffer_size, int *line_status)
+void	*secure_init(int buffer_size, int *line_status, int fd)
 {
 	char	*line;
 
+	if (fd < 0)
+		return (NULL);
 	*line_status = 1;
 	if (buffer_size + 1 <= 0)
 		return (NULL);
@@ -80,6 +89,7 @@ int	safe_read(char *line, char *buffer, int buffer_size, int fd)
 {
 	int	bytes_read;
 
+	printf("%d\n", BUFFER_SIZE);
 	bytes_read = read(fd, buffer, buffer_size);
 	if (bytes_read < 0)
 	{
@@ -88,6 +98,7 @@ int	safe_read(char *line, char *buffer, int buffer_size, int fd)
 		return (-1);
 	}
 	buffer[bytes_read] = '\0';
+	printf("%d\n", BUFFER_SIZE);
 	return (bytes_read);
 }
 
