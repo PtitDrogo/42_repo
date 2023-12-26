@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/20 19:56:36 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:53:18 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,14 @@ char	*get_next_line(int fd)
 	int			bytes_read;
 	int			line_status;
 
-	// printf("%d\n", BUFFER_SIZE);
-	line = secure_init(BUFFER_SIZE, &line_status, fd);
-	// printf("%d\n", BUFFER_SIZE);
+	line = secure_init(&line_status, fd);
 	if (!line)
 		return (free_and_null(line));
 	if (buffer[0])
 		line = line_check(line, buffer, &line_status);
 	if (line_status && buffer[0])
 		return (line);
-	bytes_read = safe_read(line, buffer, BUFFER_SIZE, fd);
-	// printf("%d\n", BUFFER_SIZE);
+	bytes_read = safe_read(line, buffer, fd);
 	while (bytes_read)
 	{
 		if (bytes_read < 0)
@@ -39,23 +36,21 @@ char	*get_next_line(int fd)
 		line = line_check(line, buffer, &line_status);
 		if (line_status)
 			return (line);
-		bytes_read = safe_read(line, buffer, BUFFER_SIZE, fd);
-		// printf("%d\n", BUFFER_SIZE);
+		bytes_read = safe_read(line, buffer, fd);
 	}
 	if (line[0])
 		return (line);
-	// printf("%d\n", BUFFER_SIZE);
 	return (free_and_null(line));
 }
 
-void	*secure_init(int buffer_size, int *line_status, int fd)
+void	*secure_init(int *line_status, int fd)
 {
 	char	*line;
 
 	if (fd < 0)
 		return (NULL);
 	*line_status = 1;
-	if (buffer_size + 1 <= 0)
+	if (BUFFER_SIZE + 1 <= 0)
 		return (NULL);
 	line = malloc(1);
 	if (!line)
@@ -85,20 +80,18 @@ char	*line_check(char *line, char *buffer, int *line_status)
 	return (line);
 }
 
-int	safe_read(char *line, char *buffer, int buffer_size, int fd)
+int	safe_read(char *line, char *buffer, int fd)
 {
 	int	bytes_read;
 
-	printf("%d\n", BUFFER_SIZE);
-	bytes_read = read(fd, buffer, buffer_size);
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read < 0)
 	{
-		ft_memset(buffer, 0, buffer_size);
+		ft_memset(buffer, 0, BUFFER_SIZE);
 		free(line);
 		return (-1);
 	}
 	buffer[bytes_read] = '\0';
-	printf("%d\n", BUFFER_SIZE);
 	return (bytes_read);
 }
 
@@ -117,7 +110,7 @@ char	*join_and_free(char *line, char *buffer)
 	linelen = ft_strlen(line);
 	new_line = malloc(sizeof(char) * (linelen + effective_bufferlen + 1));
 	if (!new_line)
-		return (free(line), (NULL));
+		return (free_and_null(line));
 	new_line[linelen + effective_bufferlen] = '\0';
 	i = -1;
 	while (++i < linelen)
