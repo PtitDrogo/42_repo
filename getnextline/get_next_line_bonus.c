@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 20:35:14 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/21 15:12:32 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/27 13:50:09 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ char	*get_next_line(int fd)
 	if (!line)
 		return (free_and_null(line));
 	if (buffer[fd][0])
+	{
 		line = line_check(line, buffer[fd], &line_status);
-	if (line_status && buffer[fd][0])
-		return (line);
+		if (line_status)
+			return (line);
+	}
 	bytes_read = safe_read(line, buffer[fd], fd);
 	while (bytes_read)
 	{
@@ -36,9 +38,7 @@ char	*get_next_line(int fd)
 			return (line);
 		bytes_read = safe_read(line, buffer[fd], fd);
 	}
-	if (line[0])
-		return (line);
-	return (free_and_null(line));
+	return (final_check(line));
 }
 
 void	*secure_init(int *line_status, int fd)

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 20:35:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/21 14:39:02 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/27 13:46:27 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,11 @@ void	*free_and_null(char *line)
 {
 	free(line);
 	return (NULL);
+}
+
+char	*final_check(char *line)
+{
+	if (line[0])
+		return (line);
+	return (free_and_null(line));
 }

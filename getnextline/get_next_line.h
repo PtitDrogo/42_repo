@@ -6,14 +6,14 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 19:01:45 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/21 14:36:02 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/27 13:42:49 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 4
 # endif
 
 # include <unistd.h>
@@ -28,5 +28,6 @@ int		safe_read(char *line, char *buffer, int fd);
 void	*free_and_null(char *line);
 char	*line_check(char *line, char *buffer, int *line_status);
 void	*secure_init(int *line_status, int fd);
+char	*final_check(char *line);
 
 #endif

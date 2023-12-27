@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 20:30:52 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/21 14:39:00 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/27 13:54:54 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ int		safe_read(char *line, char *buffer, int fd);
 void	*free_and_null(char *line);
 char	*line_check(char *line, char *buffer, int *line_status);
 void	*secure_init(int *line_status, int fd);
+char	*final_check(char *line);
 
 #endif
