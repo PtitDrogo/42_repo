@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:51:19 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/07 18:28:24 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/07 18:29:43 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     }
     if (id == 0)
     {
-        if (dup2(fd[1], STDOUT_FILENO) == -1);
+        if (dup2(fd[1], STDOUT_FILENO) == -1)
         {
             perror("Error duplicating file descriptor");
             exit(EXIT_FAILURE);
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        if (dup2(fd[0], STDIN_FILENO) == -1);
+        if (dup2(fd[0], STDIN_FILENO) == -1)
         {
             perror("Error duplicating file descriptor");
             exit(EXIT_FAILURE);
