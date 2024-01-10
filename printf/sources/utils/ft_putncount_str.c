@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putunsign.c                                     :+:      :+:    :+:   */
+/*   ft_putncount_str.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 15:04:32 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/08 15:03:53 by tfreydie         ###   ########.fr       */
+/*   Created: 2023/11/28 20:16:06 by tfreydie          #+#    #+#             */
+/*   Updated: 2023/12/08 15:31:17 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static unsigned int	ft_base_length(char *base);
+static size_t	ft_strlen(const char *s);
 
-void	ft_putunsign(unsigned int nbr, char *base, int *size)
+void	ft_putncount_str(char *str, int *size)
 {
-	unsigned int		base_len;
+	int	strlen;
 
-	base_len = ft_base_length(base);
-	if (nbr >= base_len && *size != -1)
-	{
-		ft_putunsign(nbr / base_len, base, size);
-		ft_putunsign(nbr % base_len, base, size);
-	}
-	else if (nbr < base_len && *size != -1)
-		ft_putncount_char(base[nbr], size);
+	strlen = ft_strlen(str);
+	if (!str)
+		ft_putncount_str("(null)", size);
+	else if (write(1, str, strlen) == -1)
+		*size = -1;
+	else
+		*size += strlen;
 }
 
-static unsigned int	ft_base_length(char *base)
+static size_t	ft_strlen(const char *s)
 {
 	int	i;
 
 	i = 0;
-	while (base[i] != '\0')
+	if (!s)
+		return (0);
+	while (s[i])
 		i++;
 	return (i);
 }

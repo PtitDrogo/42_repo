@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 17:09:05 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/12/08 14:56:33 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/12/09 14:25:39 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,35 +63,8 @@ static void	ft_special_char(char c, va_list argptr, int *size)
 	else if (c == '\0')
 		*size = -1;
 	else
-	{	
+	{
 		ft_putncount_char('%', size);
 		ft_putncount_char(c, size);
 	}
 }
-// int    main()
-// {
-//     #include <stdio.h>
-//     char str[]= "aa ";
-//     char *s2 = "wesh la team";
-
-//     printf("   %d\n", ft_printf("ft_printf char : %c", 'v'));
-//     printf("   %d\n\n", printf("prinft    char : %c", 'v'));
-//     printf("   %d\n\n", ft_printf("ft_printf str : %s%s%s%s%s", " - ", "", "4", "", s2));
-//     printf("   %d\n\n", printf("printf    str : %s%s%s%s%s", " - ", "", "4", "", s2));
-//     printf("   %d\n", ft_printf("ft_printf ptr : %p", str));
-//     printf("   %d\n\n", printf("printf    ptr : %p", str));
-//     printf("   %d\n", ft_printf("ft_printf inter/decimal : %d", -2147483647));
-//     printf("   %d\n\n", printf("printf    inter/decimal : %d", -2147483647));
-//     printf("   %d\n", ft_printf("ft_printf unsigned : %u %u %u %u %u %u", 0, 2147483647, 9, -1, -0, -2147483647));
-//     printf("   %d\n\n", printf("printf    unsigned : %u %u %u %u %u %u", 0, 2147483647, 9, -1, -0, -2147483647));
-//     printf("   %d\n", ft_printf("ft_printf hexa : %x",-123456789));
-//     printf("   %d\n\n", printf("printf    hexa : %x",-123456789));
-//     printf("   %d\n", ft_printf("ft_printf HEXA : %X",-123456789));
-//     printf("   %d\n\n", printf("printf    HEXA : %X",-123456789));
-//     printf("   %d\n", ft_printf(""));
-//     printf("   %d\n\n", printf(""));
-//     printf("   %d\n", ft_printf("ft_printf pourcentage : %w %y %I"));
-//     printf("   %d\n\n", printf("printf    pourcentage : %w %y %I"));
-//     printf("   %d\n", ft_printf(" NULL %s NULL ", NULL));
-//     printf("   %d\n\n", printf(" NULL %s NULL ", NULL));
-// }
