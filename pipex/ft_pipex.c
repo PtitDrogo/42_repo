@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_pipex.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:51:19 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/07 18:29:43 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/10 19:23:07 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "pipex.h"
 #include <stdio.h>
 
 int main(int argc, char *argv[])
 {
     //fd[0] == read;
-    //fd[1] == write;
+    //fd[1] == write;e
+    if (argc != 3)
+    {
+        perror("Invalid number of arguments");
+        exit(EXIT_FAILURE);
+    }
     int fd[2];
     if (pipe(fd) == -1)
     {
