@@ -7,8 +7,10 @@
 int main(int argc, char *argv[])
 {
     char *arr[] = {
-        "ls",
-        "-l",
+        "echo",
+        "More text",
+        ">>",
+        "filename.txt",
         NULL
     };
     char *env[] = {

@@ -6,12 +6,13 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:51:19 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/10 19:23:07 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/13 14:34:36 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
+
 
 int main(int argc, char *argv[])
 {
@@ -80,3 +81,5 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 }
+
+
