@@ -38,40 +38,40 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-int main(int argc, char *argv[]) {
-    int processes = argc - 1;
-    int currentindex_process;
+int main(int argc, char *argv[])
+{
     int i = 1;
+    int status;
+    pid_t child_pid;
 
     while(i < argc) 
     {
         int id = fork();
-
-        if (id == -1) {
+        if (id == -1) 
+        {
             perror("fork");
             exit(EXIT_FAILURE);
         }
-        if (id == 0) {
+        if (id > 0)
+        {
+            // wait(NULL);
+            child_pid = wait(&status);
+        }
+        if (child_pid == -1) 
+        {
+            perror("wait");
+            exit(EXIT_FAILURE);
+        }
+        if (id == 0)
+        {
+            // sleep(2);
             execlp(argv[i], argv[i], NULL);
             perror("execlp");
             exit(EXIT_FAILURE);
         }
+        printf("Child process finished\n");
         i++;
     }
-
-    while (processes > 0) {
-        int status;
-        pid_t child_pid = wait(&status);
-        
-        if (child_pid == -1) {
-            perror("wait");
-            exit(EXIT_FAILURE);
-        }
-
-        printf("Child process %d finished\n", child_pid);
-        processes--;
-    }
-
     printf("All child processes have finished.\n");
     return 0;
 }
