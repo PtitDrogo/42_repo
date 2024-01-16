@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:51:19 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/14 18:35:43 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/16 20:11:40 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int main(int argc, char *argv[])
     }
     else
     {
+        wait(NULL);
         if (dup2(fd[0], STDIN_FILENO) == -1)
         {
             perror("Error duplicating file descriptor");

@@ -10,9 +10,9 @@ int main(int argc, char *argv[])
 {
     int id1 = fork();
     int id2 = fork();
-    // while (wait(NULL) != -1 || errno != ECHILD)
-    //     printf("waited for a child to finish\n");
-    wait(NULL);
+    while (wait(NULL) != -1 || errno != ECHILD)
+        printf("waited for a child to finish\n");
+    // wait(NULL);
     if (id1 == 0)
         if (id2 == 0)
         {    
