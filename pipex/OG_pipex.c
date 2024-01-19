@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:51:19 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/17 15:11:40 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/19 21:52:46 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,13 @@ int main(int argc, char *argv[])
     }
     else
     {
-        wait(NULL);
+        int status;
+        if (waitpid(id, &status, 0) == -1)
+        {
+            perror("error waiting for children");
+            exit(EXIT_FAILURE);
+        }
+        
         if (dup2(fd[0], STDIN_FILENO) == -1)
         {
             perror("Error duplicating file descriptor");
