@@ -6,15 +6,16 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/20 00:03:42 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/20 04:03:04 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
 
-//THE LOGIC FOR THE MIDDLE PIPES IS WRONG AND A SIMPLE +1 
-//DOESNT FIX IT IMMEDIATELY VERY SAD
+t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line);
+int **init_fds(int **fds, t_command_line  *cmd_line);
+void    free_all_fds(int i, int **fds, t_command_line  *cmd_line);
 void	ft_putnbr_fd(int n, int fd)
 {
 	char	digit;
@@ -42,8 +43,60 @@ void	ft_putnbr_fd(int n, int fd)
 	}
 }
 
+t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line)
+{
+    int i;
+
+    cmd_line->infile = argv[1]; //well do trivial heredoc later;
+    cmd_line->outfile = argv[argc - 1];
+    cmd_line->pipes = argc - 2;
+    cmd_line->current_pipe = 0;
+    cmd_line->current_process = 0;
+    cmd_line->is_err = 0;
+    cmd_line->fd = init_fds(cmd_line->fd, cmd_line);
+    i = 0;    
+    return (cmd_line);
+}
+int **init_fds(int **fds, t_command_line  *cmd_line)
+{
+    int i;
+
+    i = 0;
+    fds = (int **)malloc(sizeof(int *) * cmd_line->pipes);
+    write(2, "hi1", 3);
+    if (!fds)
+    {      
+        cmd_line->is_err = 1;
+        return (NULL);
+    }
+    while (i < cmd_line->pipes)
+    {
+        write(2, "hi2", 3);
+        fds[i] = (int *)malloc(sizeof(int) * 2);
+        if (!fds[i])
+        {
+            free_all_fds(i, fds, cmd_line);
+            cmd_line->is_err = 1;
+            return (NULL);
+        }
+        i++;
+    }
+    return (fds);
+}
+void    free_all_fds(int i, int **fds, t_command_line  *cmd_line)
+{
+    while (i > 0)
+    {
+        i--;
+        free(fds[i]);
+    }
+    free(fds);
+    return ;
+}
+
 int main(int argc, char *argv[])
 {
+    t_command_line cmd_line;
     int pipes = argc - 2;
     int fd[pipes][2];
     pid_t child_ids[argc - 1];
@@ -51,7 +104,12 @@ int main(int argc, char *argv[])
     int current_pipe = 0;
     int current_process;
     int status;
-    int error_happened;
+    int is_err;
+    // if (argc < 5)
+    //     return (perror("Not enough arguments"), 1);
+    init_all(argc, argv, &cmd_line);
+    write(2, "teststruct =", 12);
+    ft_putnbr_fd(cmd_line.pipes, 2);
     while (i < pipes)
     {
         if (pipe(fd[i]) == -1) 
@@ -84,16 +142,16 @@ int main(int argc, char *argv[])
                     perror("Error duplicating file descriptor");
                     exit(EXIT_FAILURE);
                 }
-                error_happened = 0;
+                is_err = 0;
                 while (j < pipes)
                 {
                     if (close(fd[j][0]) == -1)
-                        error_happened = 1;
+                        is_err = 1;
                     if (close(fd[j][1]) == - 1)
-                        error_happened = 1;
+                        is_err = 1;
                     j++;
                 }
-                if (error_happened)
+                if (is_err)
                 {
                     perror("Error closing file descriptor in child");
                     exit(EXIT_FAILURE);
@@ -106,16 +164,16 @@ int main(int argc, char *argv[])
                     perror("Error duplicating file descriptor");
                     exit(EXIT_FAILURE);
                 }
-                error_happened = 0;
+                is_err = 0;
                 while (j < pipes)
                 {
                     if (close(fd[j][0]) == -1)
-                        error_happened = 1;
+                        is_err = 1;
                     if (close(fd[j][1]) == - 1)
-                        error_happened = 1;
+                        is_err = 1;
                     j++;
                 }
-                if (error_happened)
+                if (is_err)
                 {
                     perror("Error closing file descriptor in child");
                     exit(EXIT_FAILURE);
@@ -133,16 +191,16 @@ int main(int argc, char *argv[])
                     perror("Error duplicating file descriptor");
                     exit(EXIT_FAILURE);
                 }
-                error_happened = 0;
+                is_err = 0;
                 while (j < pipes)
                 {
                     if (close(fd[j][0]) == -1)
-                        error_happened = 1;
+                        is_err = 1;
                     if (close(fd[j][1]) == - 1)
-                        error_happened = 1;
+                        is_err = 1;
                     j++;
                 }
-                if (error_happened)
+                if (is_err)
                 {
                     perror("Error closing file descriptor in child");
                     exit(EXIT_FAILURE);
@@ -180,14 +238,14 @@ int main(int argc, char *argv[])
     write(2, " - ", 3);
     ft_putnbr_fd(argc, 2);
     write(2, "\n", 1);
-    error_happened = 0;
+    is_err = 0;
     int j = 0;
     while (j < pipes)
     {
         if (close(fd[j][0]) == -1)
-            error_happened = 1;
+            is_err = 1;
         if (close(fd[j][1]) == - 1)
-            error_happened = 1;
+            is_err = 1;
         j++;
     }
     while (i < (argc - 1))
@@ -205,7 +263,7 @@ int main(int argc, char *argv[])
         write(2, "\n", 1);
         i++;
     }
-    if (error_happened)
+    if (is_err)
     {
         perror("Error closing file descriptor in child");
         exit(EXIT_FAILURE);
