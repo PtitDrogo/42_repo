@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/20 04:03:10 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:58:41 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,15 @@ typedef struct s_command_line
     int     current_process;
     int     is_err;
     int     **fd;
+    int     status;
     pid_t   *child_ids;
 }	t_command_line;
+
+typedef struct s_cmd
+{
+    char    *cmd;
+    char    **args;
+    int     arg_number;
+} t_cmd;
 
 #endif
