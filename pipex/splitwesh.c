@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 14:55:27 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/07 16:15:51 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:24:50 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static void	*free_all(char **array, int j);
 char	**ft_split(char const *s, char c)
 {
 	char	**array;	
-	int		i;
+	int		str_start;
 
-	i = 0;
+	str_start = 0;
 	array = malloc(sizeof(char *) * (count_words(s, c) + 1));
 	if (!array)
 		return (NULL);
-	return (sep_str(s, c, array, i));
+	return (sep_str(s, c, array, str_start));
 }
 
 static	int	count_words(char const *s, char c)
@@ -82,7 +82,7 @@ static	char	**sep_str(char const *s, char c, char **array, int i)
 		start = i;
 		while (s[i] && s[i] != c)
 			i++;
-		array[j] = malloc(sizeof(char) * (i - start) + 1);
+		array[j] = calloc((i - start) + 1, sizeof(char));
 		if (!array[j])
 			return (free_all(array, j));
 		while (s[start] && s[start] != c)

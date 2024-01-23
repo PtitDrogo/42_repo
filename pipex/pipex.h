@@ -6,13 +6,12 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/21 17:58:41 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:19:20 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-
+#ifndef PIPEX_H
+# define PIPEX_H
 
 #include <time.h>
 #include <stdio.h>
@@ -39,7 +38,7 @@ typedef struct s_command_line
 typedef struct s_cmd
 {
     char    *cmd;
-    char    **args;
+    char    **args; // this isnt needed ig
     int     arg_number;
 } t_cmd;
 
