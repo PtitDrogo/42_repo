@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/23 14:10:07 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/23 19:03:38 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int **init_fds(int **fds, t_command_line  *cmd_line)
     }
     while (i < cmd_line->pipes)
     {
-        write(2, "hi2", 3);
         fds[i] = (int *)malloc(sizeof(int) * 2);
         if (!fds[i])
         {
