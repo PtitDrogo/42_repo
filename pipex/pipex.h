@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/24 14:54:03 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:18:20 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,5 @@ typedef struct s_command_line
     char    ***commands; // this isnt needed ig
     pid_t   *child_ids;
 }	t_command_line;
-
-// typedef struct s_cmd
-// {
-//     char    *cmd;
-//     int     arg_number;
-// } t_cmd;
 
 #endif
