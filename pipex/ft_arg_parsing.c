@@ -23,9 +23,8 @@ int main(int argc, char *argv[], char **envp)
         i++;
     }
     cmd_line.commands[i] = NULL;
-    sleep(1); //THIS IS WHERE WE WOULD EXECUTE STUFF, WE FREE ONLY IF IT DOESNT WORK;
-    free_all_all(cmd_line.commands, i);//TEST FREE
-	free(cmd_line.commands);
+    //EXECVE WOULD BE HERE
+    free_all_all(cmd_line.commands, i);
     return (0);
 }
 
@@ -50,6 +49,7 @@ void	*free_all_all(char ***array, int j)
         }
         free(array[j]);
     }
+    free(array);
     printf("hi im out\n");
 	return (NULL);
 }

@@ -6,12 +6,13 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/23 19:03:38 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:27:00 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
+#include <fcntl.h>
 
 t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line);
 pid_t          *init_child_ids(int argc, t_command_line  *cmd_line);
@@ -50,9 +51,9 @@ t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line)
 {
     int i;
 
-    cmd_line->infile = argv[1]; //well do trivial heredoc later;
-    cmd_line->outfile = argv[argc - 1];
-    cmd_line->pipes = argc - 2;
+    cmd_line->infile = 0;
+    cmd_line->outfile = 0;
+    cmd_line->pipes = argc - 4;
     cmd_line->current_pipe = 0;
     cmd_line->current_process = 0;
     cmd_line->is_err = 0;
@@ -64,7 +65,7 @@ t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line)
 pid_t   *init_child_ids(int argc, t_command_line  *cmd_line)
 {
     //ASSUMING NO HEREDOC HERE
-    pid_t   *result = malloc(sizeof(pid_t) * (argc - 1)); //CHANGE THIS HERE WHEN INTRODUCING FILES
+    pid_t   *result = malloc(sizeof(pid_t) * (argc - 3)); //CHANGE THIS HERE WHEN INTRODUCING FILES
     if (!result)
     {
         cmd_line->is_err = 1;
@@ -127,11 +128,12 @@ int main(int argc, char *argv[])
             }
         i++;
     }
-    i = 1;
-    while (i < argc)
+    i = 2; //probably should rename this so i wont be lost later
+    while (i < argc - 1)
     {
-        cmd_line.current_process = i - 1;
+        cmd_line.current_process = i - 2;
         cmd_line.child_ids[cmd_line.current_process] = fork();
+        // write(2, "hi\n", 3);
         if (cmd_line.child_ids[cmd_line.current_process] == -1)
         {
             perror("Error opening file");
@@ -139,18 +141,20 @@ int main(int argc, char *argv[])
         }
         if (cmd_line.child_ids[cmd_line.current_process] == 0)
         {
-            // write(2, "je suis le child : ", 19);
-            // ft_putnbr_fd(i - 1, 2);
-            // write(2, "\n", 1);
             int j = 0;
-            if (i == 1)
+            if (i == 2)
             {    
+                cmd_line.infile = open(argv[1], O_WRONLY | O_CREAT | O_APPEND, 0777);
+                if (dup2(cmd_line.infile, STDIN_FILENO) == -1)
+                {
+                    perror("Error duplicating file descriptor");
+                    exit(EXIT_FAILURE);
+                }
                 if (dup2(cmd_line.fd[cmd_line.current_pipe][1], STDOUT_FILENO) == -1)
                 {
                     perror("Error duplicating file descriptor");
                     exit(EXIT_FAILURE);
                 }
-                cmd_line.is_err = 0;
                 while (j < cmd_line.pipes)
                 {
                     if (close(cmd_line.fd[j][0]) == -1)
@@ -164,15 +168,22 @@ int main(int argc, char *argv[])
                     perror("Error closing file descriptor in child");
                     exit(EXIT_FAILURE);
                 }
+                // exit(EXIT_SUCCESS);
             }
-            else if ((i + 1) == argc)
+            else if ((i + 1) == argc - 1)
             {    
+                write(2, "im cat and im in the condition\n", 31);
+                cmd_line.outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+                if (dup2(cmd_line.outfile, STDOUT_FILENO) == -1)
+                {
+                    perror("Error duplicating file descriptor");
+                    exit(EXIT_FAILURE);
+                }
                 if (dup2(cmd_line.fd[cmd_line.current_pipe][0], STDIN_FILENO) == -1)
                 {
                     perror("Error duplicating file descriptor");
                     exit(EXIT_FAILURE);
                 }
-                cmd_line.is_err = 0;
                 while (j < cmd_line.pipes)
                 {
                     if (close(cmd_line.fd[j][0]) == -1)
@@ -186,6 +197,7 @@ int main(int argc, char *argv[])
                     perror("Error closing file descriptor in child");
                     exit(EXIT_FAILURE);
                 }
+                // exit(EXIT_SUCCESS);
             }
             else
             {
@@ -199,7 +211,6 @@ int main(int argc, char *argv[])
                     perror("Error duplicating file descriptor");
                     exit(EXIT_FAILURE);
                 }
-                cmd_line.is_err = 0;
                 while (j < cmd_line.pipes)
                 {
                     if (close(cmd_line.fd[j][0]) == -1)
@@ -214,21 +225,25 @@ int main(int argc, char *argv[])
                     exit(EXIT_FAILURE);
                 }
             }
+            write(2, "about to execute and i = ", 25);
+            ft_putnbr_fd(i, 2);
+            write(2, "\n", 1);
             execlp(argv[i], argv[i], NULL);
             perror("Error executing parent process");
             exit(EXIT_FAILURE);
+            // if ((i != i) && ((i + 1) != argc))
         }
         write(2, "current pipe = ", 15);
         ft_putnbr_fd(cmd_line.current_pipe, 2);
         write(2, "\n", 1);
-        if (cmd_line.child_ids[cmd_line.current_process] > 0 && i != 1)
+        if (cmd_line.child_ids[cmd_line.current_process] > 0 && i != 2)
             cmd_line.current_pipe++;           
         i++;
     }
     
     i = 0;
-    // ft_putnbr_fd(cmd_line.child_ids[0], 2);
-    // write(2, "is child id\n", 12);
+    ft_putnbr_fd(cmd_line.child_ids[0], 2);
+    write(2, "is child id\n", 12);
     // ft_putnbr_fd(cmd_line.child_ids[1], 2);
     // write(2, "is child id\n", 12);
     // ft_putnbr_fd(cmd_line.child_ids[2], 2);
@@ -238,11 +253,11 @@ int main(int argc, char *argv[])
     // ft_putnbr_fd(cmd_line.child_ids[4], 2);
     // write(2, "is child id\n", 12);
     // write(2, "\n", 1);
-    // write(2, "i et argc sont egaux a ", 23);
-    // ft_putnbr_fd(i, 2);
-    // write(2, " - ", 3);
-    // ft_putnbr_fd(argc, 2);
-    // write(2, "\n", 1);
+    write(2, "i et argc sont egaux a ", 23);
+    ft_putnbr_fd(i, 2);
+    write(2, " - ", 3);
+    ft_putnbr_fd(argc, 2);
+    write(2, "\n", 1);
     int j = 0;
     while (j < cmd_line.pipes)
     {
@@ -252,7 +267,7 @@ int main(int argc, char *argv[])
             cmd_line.is_err = 1;
         j++;
     }
-    while (i < (argc - 1))
+    while (i < (argc - 3))
     {
         write(2, "JVAI ATTENDre je suis le child : ", 33);
         ft_putnbr_fd(cmd_line.child_ids[i], 2);

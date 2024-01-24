@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/23 19:03:39 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:54:03 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 
 typedef struct s_command_line
 {
-    char    *infile;
-	char    *outfile;
+    int     infile;
+	int     outfile;
     int		here_doc;
     int     pipes;
     int     current_pipe;
