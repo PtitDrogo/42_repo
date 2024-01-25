@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/25 19:59:25 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/25 20:19:58 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	*free_all_all(char ***array, int j)
 t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line, char **envp)
 {
 
+	cmd_line->possible_paths = ft_split(find_env_var(envp, "PATH="), ':');
 	cmd_line->commands = ft_arg_parsing(argc, argv, cmd_line);
 	// int i;
 	// i = 0;
@@ -91,7 +92,6 @@ t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line, char
 	// 	}
 	// 	i++;
 	// }
-	cmd_line->possible_paths = ft_split(find_env_var(envp, "PATH="), ':');
 	cmd_line->command_number = argc - 3;
 	cmd_line->infile = 0;
 	cmd_line->outfile = 0;
@@ -176,7 +176,17 @@ int main(int argc, char *argv[], char **envp)
 		return (perror("error happened"), 1); //TODO - error recognition
 	
 	free_all_fds(cmd_line.pipes, cmd_line.fd);
-	
+	//
+	int j = 0;
+	while (cmd_line.possible_paths[j])
+	{
+		if (cmd_line.possible_paths[j])
+			free(cmd_line.possible_paths[j]);
+		j++;
+	}
+	free(cmd_line.possible_paths);
+	// return (NULL);
+	//
 	free(cmd_line.child_ids);
 	free_all_all(cmd_line.commands, cmd_line.command_number);
 	return (0);

@@ -32,7 +32,19 @@ char * ft_env_parsing(int argc, char *argv[], char **envp, t_command_line  *cmd_
         current_path = ft_strjoin_and_add(cmd_line->possible_paths[i], cmd_line->commands[command_index][0], '/'); //Change argv[1] later;
 		if (!current_path)
 		{
-			free_all(cmd_line->possible_paths, i);
+			int j = 0;
+			// free possible path variable without index
+			while (cmd_line->possible_paths[j])
+			{
+				if (cmd_line->possible_paths[j])
+					free(cmd_line->possible_paths[j]);
+				j++;
+			}
+			free(cmd_line->possible_paths);
+			// free posible path variable
+			free(cmd_line->child_ids);
+			free_all_all(cmd_line->commands, cmd_line->command_number);
+			free_all_fds(cmd_line->pipes, cmd_line->fd);
 			perror("failed to create valid path");
 			exit(EXIT_FAILURE);
 		}
