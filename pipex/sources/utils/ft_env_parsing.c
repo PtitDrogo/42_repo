@@ -1,5 +1,4 @@
 #include "pipex.h"
-#include "libft.h"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -7,16 +6,14 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*find_env_var(char **envp, char *env_to_find);
 size_t	ft_strlen(const char *s);
 void	*free_all(char **array, int j);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_and_add(char const *s1, char const *s2, char c);
 
-int main(int argc, char *argv[], char **envp)
+char * ft_env_parsing(int argc, char *argv[], char **envp, t_command_line  *cmd_line, int j)
 {
-    //SEPARATE CMD AND FLAGS
-    //GETENV, GET TO PATH,
-    //TRY ACCESS ON ALL PATHS
+	//THIS FUNCTION, AT ITS CORE, TEST THE COMMAND AND RETURN VALID PATH
     int i;
     char **possible_paths;
-    char *path_env = find_env_var(envp, "PATH");
+    char *path_env = find_env_var(envp, "PATH=");
     char    *current_path;
 
     i = 0;
@@ -26,29 +23,25 @@ int main(int argc, char *argv[], char **envp)
         exit(EXIT_FAILURE);
     }
     printf("path = %s\n", path_env);
-    possible_paths = ft_split(path_env, ':'); //THIS IS A MALLOC
+    possible_paths = ft_split(path_env, ':');
     while (possible_paths[i])
     {
         printf("trying possible path = %s\n", possible_paths[i]); 
-        current_path = ft_strjoin(possible_paths[i], argv[1]); //Change argv[1] later;
-        if (access(current_path, F_OK) == 0)
+        current_path = ft_strjoin_and_add(possible_paths[i], cmd_line->commands[j][0], '/'); //Change argv[1] later;
+		printf("current_path = %s\n", current_path);
+		if (access(current_path, F_OK) == 0)
         {    
-            printf("this is the proper path\n");
+            free_all(possible_paths, i);
+			printf("this is the proper path\n");
             printf("proper path is : %s\n", current_path);
-            // execve(current_path, argv, envp);
+			return (current_path);
         }
         free(current_path);
         i++;
     }
+	cmd_line->is_err = 1;
     free_all(possible_paths, i);
-}
-int execute_cmd(char    *current_path, char *const argv[], char *const envp[])
-{
-    // execve(current_path, argv, envp);
-    // if (execve("/bin/lsAKAPATH", args, env) == -1) {
-    //     perror("execve"); //ARGS is a **char with cmd 1st then flags;
-    // }
-    return (0);
+	return (NULL);
 }
 
 void	*free_all(char **array, int j)
@@ -57,13 +50,9 @@ void	*free_all(char **array, int j)
 	{
 		j--;
 		if (array[j])
-		{
 			free(array[j]);
-			array[j] = NULL;
-		}
 	}
 	free(array);
-	array = NULL;
 	return (NULL);
 }
 char	*find_env_var(char **envp, char *env_to_find)
@@ -79,7 +68,7 @@ char	*find_env_var(char **envp, char *env_to_find)
     while (envp[i])
     {
         if (ft_strnstr(envp[i], env_to_find, len_env))
-            return (envp[i] + len_env + 1); // + 1 for '=' sign
+            return (envp[i] + len_env);
         i++;
     }
     return (NULL);
@@ -108,7 +97,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	}
 	return (NULL);
 }
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_and_add(char const *s1, char const *s2, char c)
 {
 	char	*joined;
 	size_t	i;
@@ -118,7 +107,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	i = 0;
 	j = 0;
-	joined = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	joined = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1 + sizeof(c)));
 	if (!joined)
 		return (NULL);
 	while (i < ft_strlen(s1))
@@ -126,11 +115,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		joined[i] = s1[i];
 		i++;
 	}
+	joined[i] = c;
+	i++;
 	while (j < ft_strlen(s2))
 	{
 		joined[i++] = s2[j++];
 	}
 	joined[i] = '\0';
+	// printf("je suis joined %s\n", joined);
 	return (joined);
 }
 

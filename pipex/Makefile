@@ -1,27 +1,45 @@
-SRCS	=	ft_pipex.c 
-OBJS	=	$(SRCS:.c=.o)
-BONUS            =	pipex_bonus.c 
-BONUS_OBJS        = $(BONUS:.c=.o)
-CC	=	cc
-RM	=	rm -f
-CFLAGS	=	-Wall -Wextra -Werror -I.
+OBJS_DIR	=	.objs
 
-NAME	=	pipex.a
+SRCS_DIR	=	sources
+HEADER_DIR	=	includes
 
-all:	$(NAME)
+SRCS	=	$(SRCS_DIR)/ft_pipex.c \
+			$(SRCS_DIR)/utils/ft_arg_parsing.c \
+			$(SRCS_DIR)/utils/ft_env_parsing.c \
+			$(SRCS_DIR)/utils/splitwesh.c \
 
-$(NAME):	$(OBJS)
-	ar rcs $(NAME) $(OBJS)
+OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
+
+CC		=	cc
+RM		=	rm -f
+CFLAGS	=	-g3
+
+NAME	=	pipex
+
+YELLOW	=	\033[1;33m
+GREEN	=	\033[1;32m
+RESET	=	\033[0m
+UP		=	"\033[A"
+CUT		=	"\033[K"
+
+all: $(NAME)
+
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/pipex.h
+	@mkdir -p $(@D)
+	@echo "$(YELLOW)Compiling [$<]$(RESET)"
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER_DIR)
+	@printf $(UP)$(CUT)
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $@ -I $(HEADER_DIR)
+	@echo "$(GREEN)$(NAME) compiled!$(RESET)"
 
 clean:
-	$(RM) $(OBJS) 
+	@$(RM) $(OBJS)
 
 fclean:	clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re:	fclean $(NAME)
 
-bonus : $(OBJS) 
-	ar rcs $(NAME) $(OBJS) 
-
-.PHONY:	all clean fclean re bonus
+.PHONY:	all clean fclean re
