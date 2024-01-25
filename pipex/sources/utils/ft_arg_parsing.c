@@ -9,16 +9,16 @@ char ***    ft_arg_parsing(int argc, char *argv[], t_command_line  *cmd_line)
 	// args into char ** into the commands attribute of my struct
 	int i;
 	char ***	list_of_commands;
-	list_of_commands = malloc(sizeof(char **) * (argc + 1)); //this will be different in actual code
+	list_of_commands = malloc(sizeof(char **) * (argc - 2)); //this will be different in actual code
 	if (!list_of_commands)
 	{	
 		cmd_line->is_err = 1;
 		return (NULL);
 	}
-	i = 2;
-	while (i < argc - 1)
+	i = 0;
+	while (i < argc - 3)
 	{
-		list_of_commands[i] = ft_split(argv[i], ' ');
+		list_of_commands[i] = ft_split(argv[i + 2], ' ');
 		// printf("nom de la commande : %s\n", list_of_commands[i][0]);
 		// printf("premier flag : %s\n", list_of_commands[i][1]);
 		// printf("deuxieme flag : %s\n", list_of_commands[i][2]);
@@ -32,24 +32,3 @@ char ***    ft_arg_parsing(int argc, char *argv[], t_command_line  *cmd_line)
 	free_all_all(list_of_commands, i);
 }
 
-void	*free_all_all(char ***array, int j)
-{
-	int i;
-
-	while (j > 0)
-	{
-		i = 0;
-		j--;
-		if (array[j])
-		{
-			while (array[j][i])
-			{
-				free(array[j][i]);
-				i++;
-			}
-		}
-		free(array[j]);
-	}
-	free(array);
-	return (NULL);
-}

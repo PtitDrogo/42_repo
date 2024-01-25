@@ -8,31 +8,39 @@ size_t	ft_strlen(const char *s);
 void	*free_all(char **array, int j);
 char	*ft_strjoin_and_add(char const *s1, char const *s2, char c);
 
-char * ft_env_parsing(int argc, char *argv[], char **envp, t_command_line  *cmd_line, int j)
+char * ft_env_parsing(int argc, char *argv[], char **envp, t_command_line  *cmd_line, int command_index)
 {
 	//THIS FUNCTION, AT ITS CORE, TEST THE COMMAND AND RETURN VALID PATH
     int i;
-    char **possible_paths;
-    char *path_env = find_env_var(envp, "PATH=");
+    // char **possible_paths;
+    // char *path_env = find_env_var(envp, "PATH=");
     char    *current_path;
 
     i = 0;
-    if (!path_env)
+
+    // printf("path = %s\n", path_env);
+    // possible_paths = ft_split(path_env, ':');
+	// if (possible_paths[0])
+	// {
+	// 	free(possible_paths);
+	// 	perror("failed to split PATH");
+	// 	exit(EXIT_FAILURE);
+	// }
+    while (cmd_line->possible_paths[i])
     {
-        perror("error finding path");
-        exit(EXIT_FAILURE);
-    }
-    printf("path = %s\n", path_env);
-    possible_paths = ft_split(path_env, ':');
-    while (possible_paths[i])
-    {
-        printf("trying possible path = %s\n", possible_paths[i]); 
-        current_path = ft_strjoin_and_add(possible_paths[i], cmd_line->commands[j][0], '/'); //Change argv[1] later;
+        // printf("trying possible path = %s\n", possible_paths[i]); 
+        current_path = ft_strjoin_and_add(cmd_line->possible_paths[i], cmd_line->commands[command_index][0], '/'); //Change argv[1] later;
+		if (!current_path)
+		{
+			free_all(cmd_line->possible_paths, i);
+			perror("failed to create valid path");
+			exit(EXIT_FAILURE);
+		}
 		printf("current_path = %s\n", current_path);
 		if (access(current_path, F_OK) == 0)
         {    
-            free_all(possible_paths, i);
-			printf("this is the proper path\n");
+            free_all(cmd_line->possible_paths, i);
+			// printf("this is the proper path\n");
             printf("proper path is : %s\n", current_path);
 			return (current_path);
         }
@@ -40,7 +48,7 @@ char * ft_env_parsing(int argc, char *argv[], char **envp, t_command_line  *cmd_
         i++;
     }
 	cmd_line->is_err = 1;
-    free_all(possible_paths, i);
+    free_all(cmd_line->possible_paths, i);
 	return (NULL);
 }
 
@@ -122,7 +130,6 @@ char	*ft_strjoin_and_add(char const *s1, char const *s2, char c)
 		joined[i++] = s2[j++];
 	}
 	joined[i] = '\0';
-	// printf("je suis joined %s\n", joined);
 	return (joined);
 }
 

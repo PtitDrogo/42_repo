@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/25 18:03:25 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/25 19:59:25 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,47 @@ void	       ft_putnbr_fd(int n, int fd)
 	}
 }
 
-t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line, char **envp)
+void	*free_all_all(char ***array, int j)
 {
 	int i;
 
+	while (j > 0)
+	{
+		i = 0;
+		j--;
+		if (array[j])
+		{
+			while (array[j][i])
+			{
+				free(array[j][i]);
+				i++;
+			}
+		}
+		free(array[j]);
+	}
+	free(array);
+	return (NULL);
+}
+
+t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line, char **envp)
+{
+
+	cmd_line->commands = ft_arg_parsing(argc, argv, cmd_line);
+	// int i;
+	// i = 0;
+	// int j = 0;
+	// while (cmd_line->commands[i])
+	// {
+	// 	j = 0;
+	// 	while(cmd_line->commands[i][j])
+	// 	{
+	// 		printf("dans commande %i, arg numero %i est = %s\n", j, i, cmd_line->commands[i][j]);
+	// 		j++;
+	// 	}
+	// 	i++;
+	// }
+	cmd_line->possible_paths = ft_split(find_env_var(envp, "PATH="), ':');
+	cmd_line->command_number = argc - 3;
 	cmd_line->infile = 0;
 	cmd_line->outfile = 0;
 	cmd_line->pipes = argc - 4;
@@ -64,8 +101,6 @@ t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line, char
 	cmd_line->is_err = 0;
 	cmd_line->fd = init_fds(cmd_line->fd, cmd_line);
 	cmd_line->child_ids = init_child_ids(argc, cmd_line);
-	cmd_line->commands = ft_arg_parsing(argc, argv, cmd_line);
-	i = 0;   
 	return (cmd_line);
 }
 pid_t   *init_child_ids(int argc, t_command_line  *cmd_line)
@@ -139,8 +174,11 @@ int main(int argc, char *argv[], char **envp)
 	}
 	if (cmd_line.is_err)
 		return (perror("error happened"), 1); //TODO - error recognition
-	free_all_fds(cmd_line.pipes, cmd_line.fd); 
-	free(cmd_line.child_ids); 
+	
+	free_all_fds(cmd_line.pipes, cmd_line.fd);
+	
+	free(cmd_line.child_ids);
+	free_all_all(cmd_line.commands, cmd_line.command_number);
 	return (0);
 }
 void    init_pipes(t_command_line  *cmd_line)
@@ -202,8 +240,10 @@ void    child_process(int argc, char *argv[], char **envp, t_command_line  *cmd_
 			perror("Error closing file descriptor in child");
 			exit(EXIT_FAILURE);
 		}
+		// execlp(argv[i], argv[i], NULL);
 		cmd_line->valid_path = ft_env_parsing(argc, argv, envp, cmd_line, cmd_line->current_process);
-		execve(cmd_line->valid_path, cmd_line->commands[cmd_line->current_process], envp);
+		if (cmd_line->valid_path)
+			execve(cmd_line->valid_path, cmd_line->commands[cmd_line->current_process], envp);
 		perror("Error executing child process");
 		exit(EXIT_FAILURE);
 	}

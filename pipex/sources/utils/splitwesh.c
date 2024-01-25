@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split (copy).c                                  :+:      :+:    :+:   */
+/*   splitwesh.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 14:55:27 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/23 15:24:50 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/25 19:27:06 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static	char	**sep_str(char const *s, char c, char **array, int i)
 		start = i;
 		while (s[i] && s[i] != c)
 			i++;
-		array[j] = calloc((i - start) + 1, sizeof(char));
+		array[j] = malloc(sizeof(char) * (i - start) + 1);
 		if (!array[j])
 			return (free_all(array, j));
 		while (s[start] && s[start] != c)
