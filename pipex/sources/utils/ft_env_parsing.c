@@ -3,16 +3,16 @@
 #include <unistd.h>
 
 char	*ft_strnstr(const char *big, const char *little, size_t len);
-char	*find_env_var(char **envp, char *env_to_find);
+char	*find_env_variable(char **envp, char *env_to_find);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin_and_add(char const *s1, char const *s2, char c);
 
-char * ft_env_parsing(t_command_line  *cmd_line)
+char * find_valid_path(t_command_line  *cmd_line)
 {
-	//THIS FUNCTION, AT ITS CORE, TEST THE COMMAND AND RETURN VALID PATH
     int i;
     char    *current_path;
-    i = 0;
+    
+	i = 0;
     while (cmd_line->possible_paths[i])
     {
         current_path = ft_strjoin_and_add(cmd_line->possible_paths[i], cmd_line->commands[cmd_line->current_process][0], '/'); //Change argv[1] later;
@@ -22,7 +22,6 @@ char * ft_env_parsing(t_command_line  *cmd_line)
 			perror("failed to create valid path");
 			exit(EXIT_FAILURE);
 		}
-		printf("current_path = %s\n", current_path);
 		if (access(current_path, F_OK) == 0)
         {    
 			free_array_from_index((void **)cmd_line->possible_paths, i);
@@ -31,20 +30,21 @@ char * ft_env_parsing(t_command_line  *cmd_line)
         free(current_path);
         i++;
     }
-	cmd_line->is_err = 1;
-	free_array_from_index((void **)cmd_line->possible_paths, i);
 	return (NULL);
 }
 
 
-char	*find_env_var(char **envp, char *env_to_find)
+char	*find_env_variable(char **envp, char *env_to_find)
 {
     int i;
     int len_env;
 
     if (!env_to_find || !envp || !envp[0])
-        return (NULL);
-    len_env = ft_strlen(env_to_find);
+    {    
+		perror("Environnement does not exist");
+		exit(EXIT_FAILURE);
+	}
+	len_env = ft_strlen(env_to_find);
     i = 0;
     while (envp[i])
     {

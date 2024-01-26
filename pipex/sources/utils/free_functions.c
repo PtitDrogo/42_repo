@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/26 21:13:45 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/26 23:28:57 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,16 @@ void    free_all_init_malloc(t_command_line  *cmd_line)
 	free(cmd_line->child_ids);
 	free_all_commands_n_arguments(cmd_line->commands, cmd_line->command_number);
     return ;
+}
+
+void    perror_and_exit(char *error_message)
+{
+    perror(error_message);
+    exit(EXIT_FAILURE);
+}
+
+void    free_all_and_exit(t_command_line  *cmd_line, char *error_message)
+{
+    free_all_init_malloc(cmd_line);
+    perror_and_exit(error_message);
 }

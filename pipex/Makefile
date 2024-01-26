@@ -13,7 +13,7 @@ OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-g3
+CFLAGS	=	-Wall -Werror -Wextra -g3
 
 NAME	=	pipex
 
