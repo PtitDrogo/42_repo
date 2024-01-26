@@ -6,13 +6,14 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/25 20:21:25 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/26 19:00:21 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+#include <fcntl.h>
 #include <time.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -24,28 +25,29 @@
 
 typedef struct s_command_line
 {
-    int     infile;
+	int     infile;
 	int     outfile;
-    int		here_doc;
-    int     pipes;
-    int     current_pipe;
-    int     current_process;
-    int     is_err;
-    char    *valid_path;
-    char    **possible_paths;
-    int     **fd;
-    int     status;
-    int     command_number;
-    char    ***commands;
-    pid_t   *child_ids;
+	int		here_doc;
+	int     pipes;
+	int     current_pipe;
+	int     current_process;
+	int     is_err;
+	char    *valid_path;
+	char    **possible_paths;
+	int     **fd;
+	int     status;
+	int     command_number;
+	char    ***commands;
+	pid_t   *child_ids;
 }	t_command_line;
 
-char	**ft_split(char const *s, char c);
-char ***    ft_arg_parsing(int argc, char *argv[], t_command_line  *cmd_line);
-t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line, char **envp);
-char * ft_env_parsing(int argc, char *argv[], char **envp, t_command_line  *cmd_line, int i);
-char	*find_env_var(char **envp, char *env_to_find);
-void	*free_all_all(char ***array, int j);
-void    free_all_fds(int index, int **fds);
+char	        **ft_split(char const *s, char c);
+char            ***ft_arg_parsing(int argc, char *argv[], t_command_line  *cmd_line);
+char            *ft_env_parsing(t_command_line  *cmd_line);
+char	        *find_env_var(char **envp, char *env_to_find);
+void	        *free_all_commands_n_arguments(char ***array, int j);
+void	        free_array_from_index(void **array, int j);
+void            free_array(void **array);
+void    		free_all_init_malloc(t_command_line  *cmd_line);
 
 #endif

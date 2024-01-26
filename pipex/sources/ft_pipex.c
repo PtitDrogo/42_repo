@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/25 20:19:58 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/26 21:57:05 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,81 +17,43 @@
 t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line, char **envp);
 pid_t          *init_child_ids(int argc, t_command_line  *cmd_line);
 int            **init_fds(int **fds, t_command_line  *cmd_line);
-void           free_all_fds(int index, int **fds);
 void            close_all_pipes(t_command_line  *cmd_line);
 void            secure_dup2(int old_fd, int new_fd);
 void            init_pipes(t_command_line  *cmd_line);
 void            child_process(int argc, char *argv[], char **envp, t_command_line  *cmd_line, int i);
 void            process_behavior(int argc, char *argv[], t_command_line  *cmd_line, int position);
 
-
-void	       ft_putnbr_fd(int n, int fd)
+int main(int argc, char *argv[], char **envp)
 {
-	char	digit;
-
-	if (n == -2147483648)
-	{
-		write(fd, "-2147483648", 11);
-		return ;
-	}
-	else if (n < 0)
-	{
-		write(fd, "-", 1);
-		n *= -1;
-	}
-	if (n >= 0 && n <= 9)
-	{
-		digit = n + '0';
-		write(fd, &digit, 1);
-		return ;
-	}
-	else if (n >= 10)
-	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putnbr_fd(n % 10, fd);
-	}
-}
-
-void	*free_all_all(char ***array, int j)
-{
+	// printf("%s\n", envp[0]);
+	t_command_line cmd_line;
 	int i;
-
-	while (j > 0)
+	if (argc < 5)
+		return (perror("Not enough arguments"), 1);
+	init_all(argc, argv, &cmd_line, envp);
+	if (cmd_line.is_err)
+		return(perror("error during initialization"),  1);
+	i = 1; 
+	while (++i < argc - 1)
+		child_process(argc, argv, envp, &cmd_line, i);
+	i = -1;
+	close_all_pipes(&cmd_line);
+	while (++i < (argc - 3))
 	{
-		i = 0;
-		j--;
-		if (array[j])
+		if (waitpid(cmd_line.child_ids[i], &cmd_line.status, 0) == -1)
 		{
-			while (array[j][i])
-			{
-				free(array[j][i]);
-				i++;
-			}
+			perror("error waiting for children");
+			exit(EXIT_FAILURE);
 		}
-		free(array[j]);
 	}
-	free(array);
-	return (NULL);
+	if (cmd_line.is_err)
+		return (perror("error happened"), 1); //TODO - error recognition
+	
+	free_all_init_malloc(&cmd_line);
+	return (0);
 }
-
 t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line, char **envp)
 {
-
-	cmd_line->possible_paths = ft_split(find_env_var(envp, "PATH="), ':');
-	cmd_line->commands = ft_arg_parsing(argc, argv, cmd_line);
-	// int i;
-	// i = 0;
-	// int j = 0;
-	// while (cmd_line->commands[i])
-	// {
-	// 	j = 0;
-	// 	while(cmd_line->commands[i][j])
-	// 	{
-	// 		printf("dans commande %i, arg numero %i est = %s\n", j, i, cmd_line->commands[i][j]);
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
 	cmd_line->command_number = argc - 3;
 	cmd_line->infile = 0;
 	cmd_line->outfile = 0;
@@ -99,8 +61,16 @@ t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line, char
 	cmd_line->current_pipe = 0;
 	cmd_line->current_process = 0;
 	cmd_line->is_err = 0;
-	cmd_line->fd = init_fds(cmd_line->fd, cmd_line);
-	cmd_line->child_ids = init_child_ids(argc, cmd_line);
+	cmd_line->possible_paths = ft_split(find_env_var(envp, "PATH="), ':'); //MALLOC 
+	cmd_line->child_ids = init_child_ids(argc, cmd_line); //MALLOC
+	cmd_line->commands = ft_arg_parsing(argc, argv, cmd_line); // MALLOC
+	if (!cmd_line->possible_paths[0])
+	{
+		perror("error splitting PATH");
+		exit(EXIT_FAILURE);
+	}
+	cmd_line->fd = init_fds(cmd_line->fd, cmd_line); // MALLOC
+	init_pipes(cmd_line);
 	return (cmd_line);
 }
 pid_t   *init_child_ids(int argc, t_command_line  *cmd_line)
@@ -130,7 +100,8 @@ int **init_fds(int **fds, t_command_line  *cmd_line)
 		fds[i] = (int *)malloc(sizeof(int) * 2);
 		if (!fds[i])
 		{
-			free_all_fds(i, fds);
+			// free_all_fds(i, fds);
+			free_array_from_index((void **)fds, i);
 			cmd_line->is_err = 1;
 			return (NULL);
 		}
@@ -138,59 +109,7 @@ int **init_fds(int **fds, t_command_line  *cmd_line)
 	}
 	return (fds);
 }
-void    free_all_fds(int index, int **fds)
-{
-	while (index > 0)
-	{
-		index--;
-		free(fds[index]);
-	}
-	free(fds);
-	return ;
-}
 
-int main(int argc, char *argv[], char **envp)
-{
-	t_command_line cmd_line;
-	int i;
-	if (argc < 5)
-		return (perror("Not enough arguments"), 1);
-	init_all(argc, argv, &cmd_line, envp);
-	if (cmd_line.is_err)
-		return(perror("error during initialization"),  1);
-	init_pipes(&cmd_line);
-	i = 1; 
-	while (++i < argc - 1)
-		child_process(argc, argv, envp, &cmd_line, i);
-	i = -1;
-	close_all_pipes(&cmd_line);
-	while (++i < (argc - 3))
-	{
-		if (waitpid(cmd_line.child_ids[i], &cmd_line.status, 0) == -1)
-		{
-			perror("error waiting for children");
-			exit(EXIT_FAILURE);
-		}
-	}
-	if (cmd_line.is_err)
-		return (perror("error happened"), 1); //TODO - error recognition
-	
-	free_all_fds(cmd_line.pipes, cmd_line.fd);
-	//
-	int j = 0;
-	while (cmd_line.possible_paths[j])
-	{
-		if (cmd_line.possible_paths[j])
-			free(cmd_line.possible_paths[j]);
-		j++;
-	}
-	free(cmd_line.possible_paths);
-	// return (NULL);
-	//
-	free(cmd_line.child_ids);
-	free_all_all(cmd_line.commands, cmd_line.command_number);
-	return (0);
-}
 void    init_pipes(t_command_line  *cmd_line)
 {
 	int i;
@@ -251,7 +170,7 @@ void    child_process(int argc, char *argv[], char **envp, t_command_line  *cmd_
 			exit(EXIT_FAILURE);
 		}
 		// execlp(argv[i], argv[i], NULL);
-		cmd_line->valid_path = ft_env_parsing(argc, argv, envp, cmd_line, cmd_line->current_process);
+		cmd_line->valid_path = ft_env_parsing(cmd_line);
 		if (cmd_line->valid_path)
 			execve(cmd_line->valid_path, cmd_line->commands[cmd_line->current_process], envp);
 		perror("Error executing child process");
@@ -266,7 +185,7 @@ void    process_behavior(int argc, char *argv[], t_command_line  *cmd_line, int 
 {
 	if (position == 2)
 	{    
-		cmd_line->infile = open(argv[1], O_WRONLY | O_CREAT | O_APPEND, 0777);
+		cmd_line->infile = open(argv[1], O_RDONLY);
 		secure_dup2(cmd_line->infile, STDIN_FILENO);
 		secure_dup2(cmd_line->fd[cmd_line->current_pipe][1], STDOUT_FILENO);
 	}

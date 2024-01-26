@@ -7,6 +7,7 @@ SRCS	=	$(SRCS_DIR)/ft_pipex.c \
 			$(SRCS_DIR)/utils/ft_arg_parsing.c \
 			$(SRCS_DIR)/utils/ft_env_parsing.c \
 			$(SRCS_DIR)/utils/splitwesh.c \
+			$(SRCS_DIR)/utils/free_functions.c
 
 OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 

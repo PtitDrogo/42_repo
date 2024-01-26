@@ -6,11 +6,13 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 14:55:27 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/25 19:27:06 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/26 21:55:35 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+
 
 static	char	**sep_str(char const *s, char c, char **array, int i);
 static	int	count_words(char const *s, char c);
@@ -21,6 +23,8 @@ char	**ft_split(char const *s, char c)
 	char	**array;	
 	int		str_start;
 
+	if (!s || !s[0])
+		return NULL;
 	str_start = 0;
 	array = malloc(sizeof(char *) * (count_words(s, c) + 1));
 	if (!array)
