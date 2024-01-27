@@ -6,7 +6,8 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*find_env_variable(char **envp, char *env_to_find);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin_and_add(char const *s1, char const *s2, char c);
-char	*ft_strdup(const char *src);
+char	*ft_strdup_secure(const char *src);
+char	**append_to_array(char **current_array, char *to_add);
 
 char * find_valid_path(t_cmd  *cmd_line)
 {
@@ -14,7 +15,8 @@ char * find_valid_path(t_cmd  *cmd_line)
     char	*current_path;
     
 	i = 0;  
-	current_path = ft_strdup(cmd_line->commands[cmd_line->current_process][0]);
+	current_path = ft_strdup_secure(cmd_line->commands[cmd_line->current_process][0]);
+	printf("current_path = %s\n", current_path);
 	if (!current_path)
 		free_all_and_exit(cmd_line, "failed to create valid path");
 	else if (access(current_path, X_OK) == 0)
@@ -54,6 +56,29 @@ char	*find_env_variable(char **envp, char *env_to_find)
         i++;
     }
     return (NULL);
+}
+char	**append_to_array(char **current_array, char *to_add)
+{
+	int		i;
+	char	**new_array;
+
+	i = 0;
+	while (current_array[i])
+		i++;
+	new_array = malloc(sizeof(char *) * (i + 2));
+	if (!new_array)
+		return (NULL);
+	i = 0;
+	while (current_array[i])
+	{
+		new_array[i] = current_array[i];
+		i++;
+	}
+	new_array[i] = to_add;
+	i++;
+	new_array[i] = NULL;
+	free(current_array);
+	return (new_array);
 }
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
@@ -118,7 +143,7 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-char	*ft_strdup(const char *src)
+char	*ft_strdup_secure(const char *src)
 {
 	int		length;
 	int		i;
