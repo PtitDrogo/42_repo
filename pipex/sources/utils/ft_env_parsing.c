@@ -8,10 +8,10 @@ size_t	ft_strlen(const char *s);
 char	*ft_strjoin_and_add(char const *s1, char const *s2, char c);
 char	*ft_strdup(const char *src);
 
-char * find_valid_path(t_command_line  *cmd_line)
+char * find_valid_path(t_cmd  *cmd_line)
 {
-    int i;
-    char    *current_path;
+    int		i;
+    char	*current_path;
     
 	i = 0;  
 	current_path = ft_strdup(cmd_line->commands[cmd_line->current_process][0]);
