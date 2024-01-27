@@ -6,27 +6,36 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*find_env_variable(char **envp, char *env_to_find);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin_and_add(char const *s1, char const *s2, char c);
+char	*ft_strdup(const char *src);
 
 char * find_valid_path(t_command_line  *cmd_line)
 {
     int i;
     char    *current_path;
     
-	i = 0;
-    while (cmd_line->possible_paths[i])
+	i = 0;  
+	current_path = ft_strdup(cmd_line->commands[cmd_line->current_process][0]);
+	if (!current_path)
+	{
+		free_all_init_malloc(cmd_line);
+		perror("failed to create valid path");
+		exit(EXIT_FAILURE);
+	}
+	else if (access(current_path, X_OK) == 0)
+		return (current_path);
+	else
+		free(current_path);
+	while (cmd_line->possible_paths[i])
     {
-        current_path = ft_strjoin_and_add(cmd_line->possible_paths[i], cmd_line->commands[cmd_line->current_process][0], '/'); //Change argv[1] later;
+        current_path = ft_strjoin_and_add(cmd_line->possible_paths[i], cmd_line->commands[cmd_line->current_process][0], '/');
 		if (!current_path)
 		{
 			free_all_init_malloc(cmd_line);
 			perror("failed to create valid path");
 			exit(EXIT_FAILURE);
 		}
-		if (access(current_path, F_OK) == 0)
-        {    
-			free_array_from_index((void **)cmd_line->possible_paths, i);
+		if (access(current_path, F_OK) == 0) 
 			return (current_path);
-        }
         free(current_path);
         i++;
     }
@@ -116,4 +125,29 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+char	*ft_strdup(const char *src)
+{
+	int		length;
+	int		i;
+	char	*dest;
+
+	if (!src)
+		return (NULL);
+	i = 0;
+	length = 0;
+	while (src[length] != '\0')
+	{
+		length++;
+	}
+	dest = malloc(sizeof(char) * length + 1);
+	if (!dest)
+		return (NULL);
+	while (i < length)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[length] = '\0';
+	return (dest);
 }

@@ -2,6 +2,8 @@
     "files.associations": {
         "stdio.h": "c",
         "libft.h": "c",
-        "pipex.h": "c"
+        "pipex.h": "c",
+        "errno.h": "c",
+        "errno-base.h": "c"
     }
 }
