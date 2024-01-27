@@ -16,11 +16,7 @@ char * find_valid_path(t_command_line  *cmd_line)
 	i = 0;  
 	current_path = ft_strdup(cmd_line->commands[cmd_line->current_process][0]);
 	if (!current_path)
-	{
-		free_all_init_malloc(cmd_line);
-		perror("failed to create valid path");
-		exit(EXIT_FAILURE);
-	}
+		free_all_and_exit(cmd_line, "failed to create valid path");
 	else if (access(current_path, X_OK) == 0)
 		return (current_path);
 	else
@@ -29,11 +25,7 @@ char * find_valid_path(t_command_line  *cmd_line)
     {
         current_path = ft_strjoin_and_add(cmd_line->possible_paths[i], cmd_line->commands[cmd_line->current_process][0], '/');
 		if (!current_path)
-		{
-			free_all_init_malloc(cmd_line);
-			perror("failed to create valid path");
-			exit(EXIT_FAILURE);
-		}
+			free_all_and_exit(cmd_line, "failed to create valid path");
 		if (access(current_path, F_OK) == 0) 
 			return (current_path);
         free(current_path);
