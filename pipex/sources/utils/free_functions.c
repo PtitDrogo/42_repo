@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/26 23:28:57 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/27 03:23:43 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void    free_all_init_malloc(t_command_line  *cmd_line)
 void    perror_and_exit(char *error_message)
 {
     perror(error_message);
-    exit(EXIT_FAILURE);
+    exit(errno);
 }
 
 void    free_all_and_exit(t_command_line  *cmd_line, char *error_message)

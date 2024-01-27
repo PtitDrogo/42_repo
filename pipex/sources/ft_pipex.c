@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/27 02:13:54 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/27 04:36:50 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int main(int argc, char *argv[], char **envp)
 {
 	t_command_line cmd_line;
 	int i;
+	cmd_line.exit_status = 0;
 	if (argc < 5)
 		return (perror("Not enough arguments"), 1);
 	init_all(argc, argv, &cmd_line, envp);
@@ -41,7 +42,18 @@ int main(int argc, char *argv[], char **envp)
 			free_all_and_exit(&cmd_line, "error waiting for children");
 	}
 	free_all_init_malloc(&cmd_line);
-	return (0);
+	cmd_line.exit_status = cmd_line.status;
+	printf("alooo tu me vois ?? exit status is %i\n", cmd_line.exit_status);
+	printf("errno = %i\n", errno);
+	printf("fancy new macro result is %i\n", WTERMSIG(cmd_line.status));
+	// errno = cmd_line.exit_status;
+	// printf("fancy new macro result is %i\n", WEXITSTATUS(cmd_line.status));
+	// if (cmd_line.exit_status == 256)
+	// 	return (1);
+	// if (cmd_line.exit_status == 512)
+	// 	return (127);
+	return (WEXITSTATUS(cmd_line.status));
+	// return (errno);
 }
 t_command_line *init_all(int argc, char *argv[], t_command_line  *cmd_line, char **envp)
 {
@@ -156,7 +168,7 @@ void    child_process(int argc, char *argv[], char **envp, t_command_line  *cmd_
 		if (cmd_line->valid_path)
 			execve(cmd_line->valid_path, cmd_line->commands[cmd_line->current_process], envp);
 		free(cmd_line->valid_path);
-		free_all_and_exit(cmd_line, "Error executing child process");
+		free_all_and_exit(cmd_line, "Error executing child process / command not found");
 	}
 	if (cmd_line->child_ids[cmd_line->current_process] > 0 && i != 2)
 		cmd_line->current_pipe++;           

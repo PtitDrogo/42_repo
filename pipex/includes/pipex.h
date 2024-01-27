@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/27 00:23:46 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/27 03:03:09 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_command_line
 	int     status;
 	int     command_number;
 	char    ***commands;
+	int		exit_status;
 	pid_t   *child_ids;
 }	t_command_line;
 
