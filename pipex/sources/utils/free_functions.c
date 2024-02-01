@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/27 05:39:47 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/01 18:55:42 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ void	free_array_from_index(void **array, int j)
 	free(array);
 	return ;
 }
+
 void	*free_all_cmds_n_args(char ***array, int j)
 {
-	int i;
+	int	i;
 
 	while (j > 0)
 	{
@@ -45,11 +46,10 @@ void	*free_all_cmds_n_args(char ***array, int j)
 	return (NULL);
 }
 
-
-void    free_array(void **array)
+void	free_array(void **array)
 {
-	int j;
-	
+	int	j;
+
 	j = 0;
 	while (array[j])
 	{
@@ -60,23 +60,19 @@ void    free_array(void **array)
 	free(array);
 }
 
-void    free_all_init_malloc(t_cmd  *cmd_line)
+void	free_all_init_malloc(t_cmd *cmd_line)
 {
 	free_array_from_index((void **)cmd_line->fd, cmd_line->pipes);
 	free_array((void **)cmd_line->possible_paths);
 	free(cmd_line->child_ids);
 	free_all_cmds_n_args(cmd_line->commands, cmd_line->command_number);
+	if (cmd_line->here_doc)
+	{
+		if (unlink(".heredoc_tmp") == -1)
+			{	
+				perror("failed to unlink heredoc");
+				exit(errno);
+			}
+	}
 	return ;
-}
-
-void    perror_and_exit(char *error_message)
-{
-	perror(error_message);
-	exit(errno);
-}
-
-void    free_all_and_exit(t_cmd  *cmd_line, char *error_message)
-{
-	free_all_init_malloc(cmd_line);
-	perror_and_exit(error_message);
 }

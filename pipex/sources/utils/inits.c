@@ -6,18 +6,17 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 05:48:38 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/27 05:50:36 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:17:34 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-
 pid_t	*init_child_ids(int argc)
 {
 	pid_t	*result;
 
-	result = malloc(sizeof(pid_t) * (argc - 3)); 
+	result = malloc(sizeof(pid_t) * (argc - 3));
 	if (!result)
 		return (NULL);
 	//ASSUMING NO HEREDOC HERE

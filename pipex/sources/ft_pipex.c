@@ -6,18 +6,22 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/27 05:53:33 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/01 18:51:27 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "get_next_line.h"
 #include <stdio.h>
 #include <fcntl.h>
 
-void			close_all_pipes(t_cmd *cmd_line);
-void			secure_dup2(int old_fd, int new_fd, t_cmd *cmd_line);
-void			child_process(int argc, char *argv[], char **envp, t_cmd *cmd_line, int i);
-void			process_behavior(int argc, char *argv[], t_cmd *cmd_line, int position);
+char	**handle_script_case(char	**array);
+int		count_array_size(char **array);
+void	close_all_pipes(t_cmd *cmd_line);
+void	secure_dup2(int old_fd, int new_fd, t_cmd *cmd_line);
+void	child_process(int argc, char *argv[], char **envp, t_cmd *cmd_line, int i);
+void	process_behavior(int argc, char *argv[], t_cmd *cmd_line, int position);
+
 
 int	main(int argc, char *argv[], char **envp)
 {
@@ -40,17 +44,12 @@ int	main(int argc, char *argv[], char **envp)
 	}
 	free_all_init_malloc(&cmd_line);
 	cmd_line.exit_status = cmd_line.status;
-	printf("alooo tu me vois ?? exit status is %i\n", cmd_line.exit_status);
-	printf("errno = %i\n", errno);
-	printf("fancy new macro result is %i\n", WTERMSIG(cmd_line.status));
-	// errno = cmd_line.exit_status;
-	// printf("fancy new macro result is %i\n", WEXITSTATUS(cmd_line.status));
 	return (WEXITSTATUS(cmd_line.status));
-	// return (errno);
 }
 
 t_cmd *init_all(int argc, char *argv[], t_cmd  *cmd_line, char **envp)
 {
+	set_heredoc(argv[1], cmd_line);
 	cmd_line->command_number = argc - 3;
 	cmd_line->infile = 0;
 	cmd_line->outfile = 0;
@@ -59,19 +58,19 @@ t_cmd *init_all(int argc, char *argv[], t_cmd  *cmd_line, char **envp)
 	cmd_line->current_process = 0;
 	cmd_line->possible_paths = ft_split(find_env_variable(envp, "PATH="), ':');
 	if (!cmd_line->possible_paths[0])
-		perror_and_exit("error splitting PATH");
+		perror_and_exit("error splitting PATH", cmd_line);
 	cmd_line->child_ids = init_child_ids(argc);
 	if (!cmd_line->child_ids)
 	{
 		free_array((void **)cmd_line->possible_paths);
-		perror_and_exit("error during child ids malloc");
+		perror_and_exit("error during child ids malloc", cmd_line);
 	}
 	cmd_line->commands = ft_arg_parsing(argc, argv);
 	if (!cmd_line->commands)
 	{
 		free_array((void **)cmd_line->possible_paths);
 		free(cmd_line->child_ids);
-		perror_and_exit("error during parsing of arguments");
+		perror_and_exit("error during parsing of arguments", cmd_line);
 	}
 	cmd_line->fd = init_fds(cmd_line->fd, cmd_line);
 	if (!cmd_line->fd)
@@ -79,7 +78,7 @@ t_cmd *init_all(int argc, char *argv[], t_cmd  *cmd_line, char **envp)
 		free_all_cmds_n_args(cmd_line->commands, cmd_line->command_number);
 		free_array((void **)cmd_line->possible_paths);
 		free(cmd_line->child_ids);
-		perror_and_exit("error during init of fd");
+		perror_and_exit("error during init of fd", cmd_line);
 	}
 	init_pipes(cmd_line);
 	return (cmd_line);
@@ -98,13 +97,6 @@ void	close_all_pipes(t_cmd *cmd_line)
 			free_all_and_exit(cmd_line, "Error closing fd in child");
 		j++;
 	}
-	return ;
-}
-
-void	secure_dup2(int old_fd, int new_fd, t_cmd *cmd_line)
-{
-	if (dup2(old_fd, new_fd) == -1)
-		free_all_and_exit(cmd_line, "Error duplicating file descriptor");
 	return ;
 }
 
@@ -139,7 +131,10 @@ void	process_behavior(int argc, char *argv[], t_cmd *cmd, int position)
 	}
 	else if ((position + 1) == argc - 1)
 	{
-		cmd->outfile = open(argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0777);
+		if (cmd->here_doc)
+			cmd->outfile = open(argv[argc - 1], O_WRONLY | O_APPEND | O_CREAT, 0777);
+		else
+			cmd->outfile = open(argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0777);
 		secure_dup2(cmd->outfile, STDOUT_FILENO, cmd);
 		secure_dup2(cmd->fd[cmd->current_pipe][0], STDIN_FILENO, cmd);
 	}

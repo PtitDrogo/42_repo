@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/27 05:52:30 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/01 18:56:54 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_command_line
 	int     current_process;
 	char    *valid_path;
 	char    **possible_paths;
-	int     **fd;
+	int    	**fd;
 	int     status;
 	int     command_number;
 	char    ***commands;
@@ -41,19 +41,22 @@ typedef struct s_command_line
 	pid_t   *child_ids;
 }	t_cmd;
 
+void			secure_dup2(int old_fd, int new_fd, t_cmd *cmd_line);
 void			init_pipes(t_cmd *cmd_line);
 t_cmd			*init_all(int argc, char *argv[], t_cmd *cmd_line, char **envp);
 pid_t			*init_child_ids(int argc);
 int				**init_fds(int **fds, t_cmd *cmd_line);
 char	        **ft_split(char const *s, char c);
 char            ***ft_arg_parsing(int argc, char *argv[]);
-char            *find_valid_path(t_cmd  *cmd_line);
+char           	*find_valid_path(t_cmd  *cmd_line);
 char	        *find_env_variable(char **envp, char *env_to_find);
 void	        *free_all_cmds_n_args(char ***array, int j);
 void	        free_array_from_index(void **array, int j);
 void            free_array(void **array);
 void    		free_all_init_malloc(t_cmd  *cmd_line);
-void    		perror_and_exit(char *error_message);
+void    		perror_and_exit(char *error_message, t_cmd  *cmd_line);
 void    		free_all_and_exit(t_cmd  *cmd_line, char *error_message);
-
+size_t			ft_strlen(const char *s);
+char			*ft_strdup_secure(const char *src);
+void			set_heredoc(char *arg, t_cmd *cmd_line);
 #endif

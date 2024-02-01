@@ -1,1 +1,11 @@
-yoyoyooyyo
+includes
+Makefile
+out
+pipex
+pipex-tester
+script.sh
+sources
+testalacon
+tester2
+texte1.txt
+texte3.txt

@@ -6,25 +6,22 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 14:55:27 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/27 07:56:55 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:20:42 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "pipex.h"
 
-
-
-static	char	**sep_str(char const *s, char c, char **array, int i);
-static	int	count_words(char const *s, char c);
-static void	*free_all(char **array, int j);
+static	char		**sep_str(char const *s, char c, char **array, int i);
+static	int		count_words(char const *s, char c);
+static void		*free_all(char **array, int j);
 
 char	**ft_split(char const *s, char c)
 {
 	char	**array;	
 	int		str_start;
 
-	// if (!s || !s[0])
-	// 	return NULL;
 	str_start = 0;
 	array = malloc(sizeof(char *) * (count_words(s, c) + 1));
 	if (!array)
@@ -34,11 +31,11 @@ char	**ft_split(char const *s, char c)
 
 static	int	count_words(char const *s, char c)
 {
-	int	i;
+	int	i;	
 	int	size;
 
-	size = 0;
 	i = 0;
+	size = 0;
 	if ((s[i] != c) && s[i])
 	{
 		size++;
