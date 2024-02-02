@@ -1,11 +1,5 @@
-includes
-Makefile
-out
-pipex
-pipex-tester
-script.sh
-sources
-testalacon
-tester2
-texte1.txt
-texte3.txt
+je suis un test
+paco
+chiffre : 5
+super
+FIN

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/01 18:55:42 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/01 20:48:53 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,23 @@ void	free_all_init_malloc(t_cmd *cmd_line)
 	free_array((void **)cmd_line->possible_paths);
 	free(cmd_line->child_ids);
 	free_all_cmds_n_args(cmd_line->commands, cmd_line->command_number);
-	if (cmd_line->here_doc)
+	safe_unlink(cmd_line);
+	return ;
+}
+
+void	safe_unlink(t_cmd *cmd_line)
+{
+	if (access(".ft_heredoc", F_OK) == 0)
 	{
-		if (unlink(".heredoc_tmp") == -1)
-			{	
-				perror("failed to unlink heredoc");
-				exit(errno);
-			}
+		if (cmd_line->here_doc)
+		{
+			write(2, "salut la team on unlink ici normalement\n", 40);
+			if (unlink(".ft_heredoc") == -1)
+				{	
+					perror("failed to unlink heredoc");
+					exit(errno);
+				}
+		}
 	}
 	return ;
 }

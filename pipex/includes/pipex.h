@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/01 18:56:54 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/02 12:53:23 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_cmd			*init_all(int argc, char *argv[], t_cmd *cmd_line, char **envp);
 pid_t			*init_child_ids(int argc);
 int				**init_fds(int **fds, t_cmd *cmd_line);
 char	        **ft_split(char const *s, char c);
-char            ***ft_arg_parsing(int argc, char *argv[]);
+char            ***ft_arg_parsing(int argc, char *argv[], t_cmd *cmd_line);
 char           	*find_valid_path(t_cmd  *cmd_line);
 char	        *find_env_variable(char **envp, char *env_to_find);
 void	        *free_all_cmds_n_args(char ***array, int j);
@@ -59,4 +59,6 @@ void    		free_all_and_exit(t_cmd  *cmd_line, char *error_message);
 size_t			ft_strlen(const char *s);
 char			*ft_strdup_secure(const char *src);
 void			set_heredoc(char *arg, t_cmd *cmd_line);
+void			here_doc(int argc, char *delimiter, t_cmd *cmd_line);
+void			safe_unlink(t_cmd *cmd_line);
 #endif

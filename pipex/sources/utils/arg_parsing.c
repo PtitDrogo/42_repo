@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arg_parsing.c                                   :+:      :+:    :+:   */
+/*   arg_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:59:55 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/29 18:02:55 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/02 12:55:57 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		count_array_size(char **array);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 
-char	***ft_arg_parsing(int argc, char *argv[])
+char	***ft_arg_parsing(int argc, char *argv[], t_cmd *cmd_line)
 {
 	int		i;
 	char	***list_of_commands;
@@ -28,9 +28,9 @@ char	***ft_arg_parsing(int argc, char *argv[])
 	if (!list_of_commands)
 		return (NULL);
 	i = -1;
-	while (++i < argc - 3)
+	while (++i < cmd_line->command_number)
 	{
-		raw_command = argv[i + 2];
+		raw_command = argv[i + 2 + cmd_line->here_doc];
 		if (raw_command[0] == '.' && raw_command[1] == '/')
 		{
 			raw_command = ft_strjoin(scriptprefix,raw_command);
