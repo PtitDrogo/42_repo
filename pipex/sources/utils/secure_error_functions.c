@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:57:17 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/02 14:12:51 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/02 17:25:43 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	secure_dup2(int old_fd, int new_fd, t_cmd *cmd_line)
 {
-	// write(2, "SECURE DUP HERE 1\n", 19);
-	// ft_putnbr_fd(cmd_line->infile, 2);
 	if (dup2(old_fd, new_fd) == -1)
 		free_all_and_exit(cmd_line, "Error duplicating file descriptor");
 	return ;

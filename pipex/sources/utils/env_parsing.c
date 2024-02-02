@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_parsing.c                                   :+:      :+:    :+:   */
+/*   env_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:03:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/01/29 18:10:06 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/02 17:31:15 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len);
-char	*find_env_variable(char **envp, char *env_to_find);
-size_t	ft_strlen(const char *s);
-char	*ft_strjoin_and_add(char const *s1, char const *s2, char c);
-char	*ft_strdup_secure(const char *src);
+static char	*ft_strjoin_and_add(char const *s1, char const *s2, char c);
 
 char	*find_valid_path(t_cmd *cmd)
 {
@@ -66,32 +62,7 @@ char	*find_env_variable(char **envp, char *env_to_find)
 	return (NULL);
 }
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
-{
-	size_t	i;
-	size_t	j;
-
-	j = 0;
-	if (little[0] == '\0')
-		return ((char *)big);
-	while (big[j] != '\0' && j < len)
-	{
-		i = 0;
-		if (big[j] == little[i])
-		{
-			while (big[i + j] == little[i] && big[i + j] && (j + i) < len)
-			{
-				i++;
-			}
-			if (little[i] == '\0')
-				return ((char *)(big + j));
-		}
-		j++;
-	}
-	return (NULL);
-}
-
-char	*ft_strjoin_and_add(char const *s1, char const *s2, char c)
+static char	*ft_strjoin_and_add(char const *s1, char const *s2, char c)
 {
 	char	*joined;
 	size_t	i;
@@ -117,16 +88,4 @@ char	*ft_strjoin_and_add(char const *s1, char const *s2, char c)
 	}
 	joined[i] = '\0';
 	return (joined);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-		i++;
-	return (i);
 }

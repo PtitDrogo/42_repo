@@ -6,25 +6,45 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 05:48:38 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/02 13:35:27 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/02 17:30:33 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-pid_t	*init_child_ids(int argc)
+static void		init_mallocs(t_cmd *cmd_line, char *argv[]);
+static pid_t	*init_child_ids(t_cmd *cmd_line);
+static int		**init_fds(int **fds, t_cmd *cmd_line);
+static void		init_pipes(t_cmd *cmd_line);
+
+t_cmd	*init_all(int argc, char *argv[], t_cmd *cmd_line, char **envp)
+{
+	cmd_line->infile = 0;
+	cmd_line->outfile = 0;
+	set_heredoc(argv[1], cmd_line);
+	if (cmd_line->here_doc)
+		here_doc(argv[2], cmd_line);
+	cmd_line->command_number = argc - 3 - cmd_line->here_doc;
+	cmd_line->pipes = argc - 4 - cmd_line->here_doc;
+	cmd_line->current_pipe = 0;
+	cmd_line->possible_paths = ft_split(find_env_variable(envp, "PATH="), ':');
+	cmd_line->child_ids = init_child_ids(cmd_line);
+	init_mallocs(cmd_line, argv);
+	init_pipes(cmd_line);
+	return (cmd_line);
+}
+
+static pid_t	*init_child_ids(t_cmd *cmd_line)
 {
 	pid_t	*result;
 
-	result = malloc(sizeof(pid_t) * (argc - 3)); // this probably should be my process variable
+	result = malloc(sizeof(pid_t) * cmd_line->command_number);
 	if (!result)
 		return (NULL);
-	//ASSUMING NO HEREDOC HERE
-	//WE WILL COMEBACK HERE
 	return (result);
 }
 
-int	**init_fds(int **fds, t_cmd *cmd_line)
+static int	**init_fds(int **fds, t_cmd *cmd_line)
 {
 	int	i;
 
@@ -45,7 +65,7 @@ int	**init_fds(int **fds, t_cmd *cmd_line)
 	return (fds);
 }
 
-void	init_pipes(t_cmd *cmd_line)
+static void	init_pipes(t_cmd *cmd_line)
 {
 	int	i;
 
@@ -57,4 +77,30 @@ void	init_pipes(t_cmd *cmd_line)
 		i++;
 	}
 	return ;
+}
+
+static void	init_mallocs(t_cmd *cmd_line, char *argv[])
+{
+	if (!cmd_line->possible_paths[0])
+		perror_and_exit("error splitting PATH", cmd_line);
+	if (!cmd_line->child_ids)
+	{
+		free_array((void **)cmd_line->possible_paths);
+		perror_and_exit("error during child ids malloc", cmd_line);
+	}
+	cmd_line->commands = ft_arg_parsing(argv, cmd_line);
+	if (!cmd_line->commands)
+	{
+		free_array((void **)cmd_line->possible_paths);
+		free(cmd_line->child_ids);
+		perror_and_exit("error during parsing of arguments", cmd_line);
+	}
+	cmd_line->fd = init_fds(cmd_line->fd, cmd_line);
+	if (!cmd_line->fd)
+	{
+		free_all_cmds_n_args(cmd_line->commands, cmd_line->command_number);
+		free_array((void **)cmd_line->possible_paths);
+		free(cmd_line->child_ids);
+		perror_and_exit("error during init of fd", cmd_line);
+	}
 }

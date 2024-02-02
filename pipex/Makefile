@@ -5,19 +5,22 @@ HEADER_DIR	=	includes
 SRCS	=	$(SRCS_DIR)/ft_pipex.c \
 			$(SRCS_DIR)/utils/arg_parsing.c \
 			$(SRCS_DIR)/utils/env_parsing.c \
-			$(SRCS_DIR)/utils/splitwesh.c \
 			$(SRCS_DIR)/utils/free_functions.c \
 			$(SRCS_DIR)/utils/inits.c \
 			$(SRCS_DIR)/utils/secure_error_functions.c \
 			$(SRCS_DIR)/utils/here_doc.c \
 			$(SRCS_DIR)/gnl/get_next_line_utils.c \
-			$(SRCS_DIR)/gnl/get_next_line.c
+			$(SRCS_DIR)/gnl/get_next_line.c \
+			$(SRCS_DIR)/libft/ft_strjoin.c \
+			$(SRCS_DIR)/libft/ft_strlen.c \
+			$(SRCS_DIR)/libft/ft_split.c \
+			$(SRCS_DIR)/libft/ft_strnstr.c			
 
 OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-g3
+CFLAGS	=	-Wall -Werror -Wextra -g3
 
 NAME	=	pipex
 

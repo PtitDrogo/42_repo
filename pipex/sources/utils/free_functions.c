@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/01 20:48:53 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/02 17:41:31 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,11 @@ void	safe_unlink(t_cmd *cmd_line)
 	{
 		if (cmd_line->here_doc)
 		{
-			write(2, "salut la team on unlink ici normalement\n", 40);
 			if (unlink(".ft_heredoc") == -1)
-				{	
-					perror("failed to unlink heredoc");
-					exit(errno);
-				}
+			{
+				perror("failed to unlink heredoc");
+				exit(errno);
+			}
 		}
 	}
 	return ;
