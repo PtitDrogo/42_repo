@@ -38,10 +38,3 @@ int	ft_atoi(const char *nptr)
 	}
 	return ((int)(result * sign));
 }
-/*
-int	main(void)
-{
-	char result[] = "2147489999999999999999999999311111";
-	printf("Test result is : %i \n", ft_atoi(result));
-	printf("Test result is : %i \n", atoi(result));
-}*/

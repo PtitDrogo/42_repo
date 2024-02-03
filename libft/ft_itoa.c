@@ -56,10 +56,3 @@ static	int	num_digits(int n)
 	count += (n < 0);
 	return (count);
 }
-/*
-int	main(void)
-{
-	#include <stdio.h>
-	printf("%s\n", ft_itoa(-2147483648));
-	printf("%s\n", ft_itoa(0));
-}*/

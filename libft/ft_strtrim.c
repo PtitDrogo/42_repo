@@ -53,16 +53,3 @@ static int	is_set(char c, const char *set)
 	}
 	return (0);
 }
-
-/*
-int	main(void)
-{
-	#include <stdio.h>
-	printf("%s\n", ft_strtrim("  \t t", " \n\t"));
-	printf("%s\n", ft_strtrim("   \t  \n !", " \n\t"));
-	printf("%s\n", ft_strtrim("aaaa1111aaaa", "aa"));
-	printf("%s\n", ft_strtrim("aaaa1111aaaa", ""));
-        printf("%s\n", ft_strtrim("abaa1111abaa", "aa"));
-        printf("%s\n", ft_strtrim("1111", "aa"));
-        printf("%s\n", ft_strtrim("", "aa"));
-}*/

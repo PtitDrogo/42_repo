@@ -27,19 +27,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (NULL);
 }
-
-/*
-int	main(void)
-{
-	char	*test = "jesuisuntest";
-	int	c = 's';
-	size_t	n = 10;
-
-	#include <stdio.h>
-	#include <unistd.h>
-	char	*ft = (char *)ft_memchr(test, c, n);
-	char    *real = (char *)memchr(test, c, n);
-	
-	printf("%s\n", ft);
-	printf("%s\n", real);
-}*/

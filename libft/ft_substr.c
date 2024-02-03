@@ -39,11 +39,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	result[j] = '\0';
 	return (result);
 }
-/*
-int	main(void)
-{
-	char	*test = "hola";
-	char	*test_result = ft_substr(test, -1, -1);
-	#include <stdio.h>
-	printf("%s\n", test_result);
-}*/

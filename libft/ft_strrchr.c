@@ -27,12 +27,3 @@ char	*ft_strrchr(const char *s, int c)
 		return ((char *) &s[i]);
 	return (NULL);
 }
-/*
-int	main(void)
-{
-	int c = '\0';
-	const char *s = "\0";
-	#include <stdio.h>
-	printf("result = %s\n", ft_strrchr(s, c));
-	printf("result = %s\n", strrchr(s, c));
-}*/

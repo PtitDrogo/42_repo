@@ -24,7 +24,7 @@ char	*ft_strdup(const char *src)
 	{
 		length++;
 	}
-	dest = malloc(length + 1);
+	dest = malloc(sizeof(char) * length + 1);
 	if (!dest)
 		return (NULL);
 	while (i < length)
@@ -35,12 +35,3 @@ char	*ft_strdup(const char *src)
 	dest[length] = '\0';
 	return (dest);
 }
-
-/*
-#include <stdio.h>
-int	main(void)
-{
-	char original[] = "hello";
-	char *copy = ft_strdup(original);
-	printf("%s \n", copy);
-}*/

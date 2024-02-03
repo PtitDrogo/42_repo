@@ -29,15 +29,3 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	}
 	return (0);
 }
-/*
-int	main(void)
-{
-	char	*s1 = "qweZqwe";
-	char	*s2 = NULL;
-
-	#include <stdio.h>
-	printf("%d\n", ft_memcmp(s1, s2, 4));
-	printf("%d\n", memcmp(s1, s2, 4));
-	printf("%d\n", ft_memcmp("Z", "~", 4));
-	printf("%d\n", memcmp("Z", "~", 4));
-}*/

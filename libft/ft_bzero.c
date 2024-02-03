@@ -16,14 +16,3 @@ void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, '\0', n);
 }
-/*
-int	main(void)
-{
-	#include <stdio.h>
-	char	test[] = "jesuisuntest";
-	size_t n = 5;
-	ft_bzero(test, n);
-	//bzero(test, n);
-	printf("%s\n", test);
-	//copy colle dans python tutor ca marche;
-}*/

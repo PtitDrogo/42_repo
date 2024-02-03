@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pipex.c                                         :+:      :+:    :+:   */
+/*   ft_pipex_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/03 18:55:41 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/03 18:55:37 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static void	close_all_pipes(t_cmd *cmd_line);
 static void	child_process(int argc, char *argv[], char **envp, t_cmd *cmd_line);
@@ -21,7 +21,7 @@ int	main(int argc, char *argv[], char **envp)
 	t_cmd		cmd_line;
 	int			i;
 
-	if (argc != 5 || argc == 1 || (ft_strncmp(argv[1], "here_doc", 8) == 0))
+	if (argc == 1 || argc < 5 + (ft_strncmp(argv[1], "here_doc", 8) == 0))
 		return (perror("invalid number of arguments"), 1);
 	init_all(argc, argv, &cmd_line, envp);
 	i = -1;

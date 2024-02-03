@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strnstr_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 13:17:34 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/11/15 16:32:30 by tfreydie         ###   ########.fr       */
+/*   Created: 2024/02/02 16:53:17 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/02/03 18:46:40 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex_bonus.h"
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {

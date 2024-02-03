@@ -27,13 +27,3 @@ char	*ft_strchr(const char *s, int c)
 	}
 	return (NULL);
 }
-/*
-int	main(void)
-{
-	int c = '\0';
-	//int f = 'Z';
-	const char *s = "\0";
-	#include <stdio.h>
-	printf("result = %s\n", ft_strchr(s, c));
-	printf("result = %s\n", strchr(s, c));
-}*/

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 14:55:27 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/11/23 19:35:26 by tfreydie         ###   ########.fr       */
+/*   Created: 2024/02/03 18:46:24 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/02/03 18:46:27 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex_bonus.h"
 
-static	char	**sep_str(char const *s, char c, char **array, int i);
-static	int	count_words(char const *s, char c);
-static void	*free_all(char **array, int j);
+static	char		**sep_str(char const *s, char c, char **array, int i);
+static	int		count_words(char const *s, char c);
+static void		*free_all(char **array, int j);
 
 char	**ft_split(char const *s, char c)
 {
@@ -30,11 +30,11 @@ char	**ft_split(char const *s, char c)
 
 static	int	count_words(char const *s, char c)
 {
-	int	i;
+	int	i;	
 	int	size;
 
-	size = 0;
 	i = 0;
+	size = 0;
 	if ((s[i] != c) && s[i])
 	{
 		size++;

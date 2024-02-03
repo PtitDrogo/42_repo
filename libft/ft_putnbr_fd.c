@@ -38,8 +38,3 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(n % 10, fd);
 	}
 }
-/*
-int	main(void)
-{
-	ft_putnbr_fd(-2147483648LL, 1);
-}*/

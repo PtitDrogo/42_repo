@@ -23,13 +23,3 @@ t_list	*ft_lstnew(void *content)
 	array->next = NULL;
 	return (array);
 }
-
-/*
-#include <stdio.h>
-int	main(void)
-{
-	char *strcontent = "je suis le contenu";
-	t_list	*array;
-	array = ft_lstnew(strcontent);
-	printf("%s", (char *)array->content);
-}*/

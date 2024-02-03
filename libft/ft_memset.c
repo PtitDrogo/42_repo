@@ -26,21 +26,3 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
-
-/*
-int	main(void)
-{
-	#include <unistd.h>
-	#include <stdio.h>
-	int	i = 0;
-	
-	char	pointer[] = "test";
-	ft_memset(pointer, '5', 3);
-	
-	while (pointer[i])
-	{
-		write(1,&pointer[i], 1);
-		i++;
-	}	
-	printf("\n");
-}*/
