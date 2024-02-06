@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 05:48:38 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/03 18:46:51 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/06 20:13:08 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_cmd	*init_all(int argc, char *argv[], t_cmd *cmd_line, char **envp)
 	cmd_line->pipes = argc - 4 - cmd_line->here_doc;
 	cmd_line->current_pipe = 0;
 	cmd_line->possible_paths = ft_split(find_env_variable(envp, "PATH="), ':');
-	cmd_line->child_ids = init_child_ids(cmd_line);
 	init_mallocs(cmd_line, argv);
 	init_pipes(cmd_line);
 	return (cmd_line);
@@ -81,8 +80,9 @@ static void	init_pipes(t_cmd *cmd_line)
 
 static void	init_mallocs(t_cmd *cmd_line, char *argv[])
 {
-	if (!cmd_line->possible_paths[0])
+	if (!cmd_line->possible_paths)
 		perror_and_exit("error splitting PATH", cmd_line);
+	cmd_line->child_ids = init_child_ids(cmd_line);
 	if (!cmd_line->child_ids)
 	{
 		free_array((void **)cmd_line->possible_paths);
