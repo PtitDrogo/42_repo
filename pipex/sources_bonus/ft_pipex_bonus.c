@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/03 18:55:37 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:50:53 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ static void	process_behavior(int argc, char *argv[], t_cmd *cmd, int pos)
 	{
 		out = argc - 1;
 		if (cmd->here_doc)
-			cmd->outfile = open(argv[out], O_WRONLY | O_APPEND | O_CREAT, 0777);
+			cmd->outfile = open(argv[out], O_WRONLY | O_APPEND | O_CREAT, 0644);
 		else
-			cmd->outfile = open(argv[out], O_WRONLY | O_TRUNC | O_CREAT, 0777);
+			cmd->outfile = open(argv[out], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		secure_dup2(cmd->outfile, STDOUT_FILENO, cmd);
 		secure_dup2(cmd->fd[cmd->current_pipe][0], STDIN_FILENO, cmd);
 	}

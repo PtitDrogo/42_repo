@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/03 18:41:48 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:55:06 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ typedef struct s_command_line
 #  define BUFFER_SIZE 42
 # endif
 
-size_t		gnl_strlen(char *str);
-void		*ft_memmove(void *dest, void *src, int n);
-void		*ft_memset(void *s, int c, size_t n);
-void		*free_and_null(char *line);
-char		*final_check(char *line);
-char		*get_next_line(int fd);
+size_t			gnl_strlen(char *str);
+void			*ft_memmove(void *dest, void *src, int n);
+void			*ft_memset(void *s, int c, size_t n);
+void			*free_and_null(char *line);
+char			*final_check(char *line);
+char			*get_next_line(int fd);
 
 char			*ft_strjoin(const char *s1, const char *s2);
 size_t			ft_strlen(const char *s);
@@ -68,4 +68,5 @@ void			set_heredoc(char *arg, t_cmd *cmd_line);
 void			here_doc(char *delimiter, t_cmd *cmd_line);
 void			safe_unlink(t_cmd *cmd_line);
 int				ft_strncmp(char *s1, char *s2, size_t n);
+
 #endif
