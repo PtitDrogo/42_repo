@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/07 19:23:37 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/07 19:27:34 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,6 @@ static void	child_process(int argc, char *argv[], char **envp, t_cmd *cmd)
 	{
 		process_behavior(argc, argv, cmd, cmd->current_process);
 		close_all_pipes(cmd);
-		
-		// WARNING AND TODO - The handling of closing fds is BAD
-		// Maybe i will correct it one day, but if you are theo from
-		// the future and you want to do minishell, remember this
 		// NEW BELOW// I should put this in its own function but its pushed and im lazy
 		if (cmd->current_process == 0)
 		{
