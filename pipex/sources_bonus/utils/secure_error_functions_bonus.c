@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:57:17 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/03 18:46:53 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/07 19:17:51 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	secure_dup2(int old_fd, int new_fd, t_cmd *cmd_line)
 {
 	if (dup2(old_fd, new_fd) == -1)
+	{	
+		close_all_pipes(cmd_line);
 		free_all_and_exit(cmd_line, "Error duplicating file descriptor");
+	}
 	return ;
 }
 

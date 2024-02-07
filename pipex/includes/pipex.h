@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:31:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/06 15:55:06 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/07 19:23:18 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ void			set_heredoc(char *arg, t_cmd *cmd_line);
 void			here_doc(char *delimiter, t_cmd *cmd_line);
 void			safe_unlink(t_cmd *cmd_line);
 int				ft_strncmp(char *s1, char *s2, size_t n);
+void			close_all_pipes(t_cmd *cmd_line);
 
 #endif

@@ -6,13 +6,12 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/07 19:03:15 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/07 19:23:33 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	close_all_pipes(t_cmd *cmd_line);
 static void	child_process(int argc, char *argv[], char **envp, t_cmd *cmd_line);
 static void	process_behavior(int argc, char *argv[], t_cmd *cmd_line, int pos);
 
@@ -112,7 +111,7 @@ static void	process_behavior(int argc, char *argv[], t_cmd *cmd, int pos)
 	return ;
 }
 
-static void	close_all_pipes(t_cmd *cmd_line)
+void	close_all_pipes(t_cmd *cmd_line)
 {
 	int	i;
 
