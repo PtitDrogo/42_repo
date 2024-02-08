@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:40:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/07 19:27:34 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/08 15:13:15 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,6 @@ static void	child_process(int argc, char *argv[], char **envp, t_cmd *cmd)
 		if (cmd->valid_path)
 			execve(cmd->valid_path, cmd->commands[cmd->current_process], envp);
 		free(cmd->valid_path);
-		// NEW BELOW I should put this in its own function but its pushed and im lazy
-		if (close(STDIN_FILENO) == -1)
-				free_all_and_exit(cmd, "Error closing fd in child");
-		if (close(STDOUT_FILENO) == -1)
-				free_all_and_exit(cmd, "Error closing fd in child");
-		// NEW ABOVE^^^^
 		free_all_and_exit(cmd, "Error executing child/command not found");
 	}
 	if (cmd->child_ids[cmd->current_process] > 0 && cmd->current_process != 0)
