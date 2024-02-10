@@ -1,29 +1,22 @@
 OBJS_DIR	=	.objs
 SRCS_DIR	=	sources
 HEADER_DIR	=	includes
-HEADER_FILE = 	pushswap.h \
+HEADER_FILE = 	pushswap.h 
 
-SRCS	=	$(SRCS_DIR)/*.c \
-
-
-# ifeq ($(BONUS),true)
-# SRCS_DIR = sources_bonus
-# SRCS =			$(SRCS_DIR)/ft_pipex_bonus.c \
-# 				$(SRCS_DIR)/utils/arg_parsing_bonus.c \
-# 				$(SRCS_DIR)/utils/env_parsing_bonus.c \
-# 				$(SRCS_DIR)/utils/free_functions_bonus.c \
-# 				$(SRCS_DIR)/utils/inits_bonus.c \
-# 				$(SRCS_DIR)/utils/secure_error_functions_bonus.c \
-# 				$(SRCS_DIR)/utils/here_doc_bonus.c \
-# 				$(SRCS_DIR)/gnl/get_next_line_utils_bonus.c \
-# 				$(SRCS_DIR)/gnl/get_next_line_bonus.c \
-# 				$(SRCS_DIR)/libft/ft_strjoin_bonus.c \
-# 				$(SRCS_DIR)/libft/ft_strlen_bonus.c \
-# 				$(SRCS_DIR)/libft/ft_split_bonus.c \
-# 				$(SRCS_DIR)/libft/ft_strnstr_bonus.c
-# HEADER_DIR = includes_bonus
-# HEADER_FILE = 	pipex_bonus.h
-# endif
+SRCS	=	$(SRCS_DIR)/push_swap.c \
+			$(SRCS_DIR)/instructions.c \
+			$(SRCS_DIR)/libft/ft_strncmp.c \
+			$(SRCS_DIR)/utils/freenerror_functions.c \
+			$(SRCS_DIR)/utils/arg_parsing.c \
+			$(SRCS_DIR)/libft/ft_split.c \
+			$(SRCS_DIR)/utils/algorithm.c
+			
+ifeq ($(BONUS),true)
+SRCS_DIR = sources_bonus
+SRCS =			$(SRCS_DIR)/ft_pipex_bonus.c
+HEADER_DIR = 	includes_bonus
+HEADER_FILE = 	pushswap_bonus.h
+endif
 
 OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 
