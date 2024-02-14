@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/14 19:01:10 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/14 20:25:17 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
 		return(deallocate(roota), 1);
 	arg_parsing(argc, argv, pushswap);
 	push_to_median(&roota, &rootb, pushswap);
+	// nicememes(&rootb, &roota, pushswap, 'a');
 
 	// push(&roota, &rootb, "pb");
 	// push(&roota, &rootb, "pb");
@@ -96,7 +97,7 @@ int main(int argc, char *argv[])
 	print_list(roota);
 	printf("printing stack b\n");
 	print_list(rootb);
-	printf("printing root of b %i \n", (*rootb).number);
+	// printf("printing root of b %i \n", (*rootb).number);
 	deallocate(roota);
 	deallocate(rootb);
 	free(pushswap);

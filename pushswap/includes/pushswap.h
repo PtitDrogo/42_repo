@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/14 18:58:48 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/14 20:25:04 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char	**ft_split(char const *s, char c);
 int     arg_parsing(int argc, char  *argv[], t_list *pushswap);
 int     *sort_array(int *array, int array_size);
 int     push_to_median(t_node **roota, t_node **rootb, t_list *pushswap);
+int     nicememes(t_node **from, t_node **to, t_list *pushswap, int a_or_b);
 
 
 #endif
