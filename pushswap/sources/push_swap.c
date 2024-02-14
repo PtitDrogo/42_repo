@@ -6,19 +6,11 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/10 06:10:20 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:01:10 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
-
-
-// typedef struct s_node
-// {
-// 	int				number;
-// 	struct s_node   *next;
-// 	struct s_node   *prev;
-// } t_node;
 
 int		init_number_list(int argc, char *argv[], t_node **root);
 int		insert_end(t_node **root, int value);
@@ -36,7 +28,7 @@ int		insert_end(t_node **root, int value);
 
 void	print_list(t_node *root)
 {
-	printf("printinf from start to end\n");
+	printf("printing from start (root AKA dernier) to end (AKA SOMMET)\n");
 	if (root != NULL)
 	{
 		while (root->next)
@@ -46,16 +38,16 @@ void	print_list(t_node *root)
 		}
 		printf("%i\n", root->number);
 	}
-	printf("printinf from end to start\n");
-	if (root != NULL)
-	{
-		while (root->prev)
-		{
-			printf("%i\n", root->number);
-			root = root->prev;
-		}
-		printf("%i\n", root->number);
-	}
+	// printf("printing from end (AKA SOMMET) to start(root AKA dernier)\n");
+	// if (root != NULL)
+	// {
+	// 	while (root->prev)
+	// 	{
+	// 		printf("%i\n", root->number);
+	// 		root = root->prev;
+	// 	}
+	// 	printf("%i\n", root->number);
+	// }
 	return ;
 }
 
@@ -64,26 +56,32 @@ int main(int argc, char *argv[])
 	int i;
 	int status;
 	i = 0;
-	t_node *roota;
-	t_node *rootb;
-
+	t_node	*roota;
+	t_node	*rootb;
+	t_list	*pushswap;
 
 	
+	pushswap = malloc (sizeof(t_list));
+	if (!pushswap)
+		return (1);
 	roota = NULL;
 	rootb = NULL;
 	status = init_number_list(argc, argv, &roota);
-	arg_parsing(argc, argv, roota);
 	if (!status)
 		return(deallocate(roota), 1);
-	push_to_median(&roota, &rootb);
+	arg_parsing(argc, argv, pushswap);
+	push_to_median(&roota, &rootb, pushswap);
+
+	// push(&roota, &rootb, "pb");
+	// push(&roota, &rootb, "pb");
+	// push(&roota, &rootb, "pb");
 	// // push(rootb, &roota, "pa");
-	// push(roota, &rootb, "pb");
-	// push(roota, &rootb, "pb");
-	// push(roota, &rootb, "pb");
-	// push(roota, &rootb, "pb");
-	// push(roota, &rootb, "pb");
-	// push(roota, &rootb, "pb");
-	// push(roota, &rootb, "pb");
+	// push(&roota, &rootb, "pb");
+	// push(&roota, &rootb, "pb");
+	// push(&roota, &rootb, "pb");
+	// push(&roota, &rootb, "pb");
+	// push(&roota, &rootb, "pb");
+	// push(&roota, &rootb, "pb");
 	// push(rootb, &roota, "pa");
 	// reverse_rotate(&roota, "rra");
 	// reverse_rotate(&rootb, "rrb");
@@ -98,9 +96,10 @@ int main(int argc, char *argv[])
 	print_list(roota);
 	printf("printing stack b\n");
 	print_list(rootb);
-	
+	printf("printing root of b %i \n", (*rootb).number);
 	deallocate(roota);
 	deallocate(rootb);
+	free(pushswap);
 	return (0);
 }
 

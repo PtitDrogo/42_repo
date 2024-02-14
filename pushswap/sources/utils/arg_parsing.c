@@ -6,18 +6,21 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/10 06:09:17 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:33:25 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-int arg_parsing(int argc, char *argv[], t_node *root)
+int arg_parsing(int argc, char *argv[], t_list  *pushswap)
 {
+    
+    //need to redo this
     char **char_array;
     int *int_array;
     int i;
     
+    char_array = NULL;
     int_array = NULL;
     i = 1;
     if (argc == 1)
@@ -34,14 +37,15 @@ int arg_parsing(int argc, char *argv[], t_node *root)
         }
     }
     int_array = sort_array(int_array, argc - 1);
-    root->median_of_list = int_array[(argc - 1) / 2];
+    pushswap->median = int_array[(argc - 1) / 2];
     i = 0;
     while (i < argc -1)
     {
         printf("%i ", int_array[i]);
         i++;
     }
-    printf("done printing int array, median is %i\n", root->median_of_list);
+    printf("done printing int array, median is %i\n", pushswap->median);
+    free(int_array);
     return 0;
 }
 

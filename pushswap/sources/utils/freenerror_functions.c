@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 00:40:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/10 01:42:16 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:37:19 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ void deallocate(t_node *root)
     return ;
 }
 
-void    free_all_and_exit(t_node *roota, t_node *rootb)
+void    free_all_and_exit(t_node *roota, t_node *rootb, t_list *pushswap)
 {
     deallocate(roota);
     deallocate(rootb);
+    free(pushswap);
     error_message_exit();
 }
 
