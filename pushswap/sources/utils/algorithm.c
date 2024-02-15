@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/15 19:22:25 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:38:04 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,8 @@ int is_sorted(t_node *roota)
     current = roota;
     i = INT_MIN;
     
-    // printf("%i is int min \n", i);
     while (current->next)
     {
-        printf("in loop, checking if %i is < than %i\n", current->number, i);
         if (current->number < i)
             return (0);
         i = current->number;

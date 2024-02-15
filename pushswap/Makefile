@@ -37,7 +37,7 @@ CUT		=	"\033[K"
 
 all: $(NAME)
 
-$(LIBFT):
+$(LIBFT): Makefile 
 	@$(MAKE) --no-print-directory -C ./libft
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
