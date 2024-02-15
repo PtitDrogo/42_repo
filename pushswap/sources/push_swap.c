@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/14 20:25:17 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:22:53 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ int main(int argc, char *argv[])
 	i = 0;
 	t_node	*roota;
 	t_node	*rootb;
-	t_list	*pushswap;
+	t_stacks	*pushswap;
 
 	
-	pushswap = malloc (sizeof(t_list));
+	pushswap = malloc (sizeof(t_stacks));
 	if (!pushswap)
 		return (1);
 	roota = NULL;
@@ -69,8 +69,13 @@ int main(int argc, char *argv[])
 	status = init_number_list(argc, argv, &roota);
 	if (!status)
 		return(deallocate(roota), 1);
-	arg_parsing(argc, argv, pushswap);
-	push_to_median(&roota, &rootb, pushswap);
+	// arg_parsing(argc, argv, pushswap);
+	sort_3(&roota);
+	if (is_sorted(roota))
+		printf("list is sorted\n");
+	else
+		printf("list is not sorted\n");
+	// push_to_median(&roota, &rootb, pushswap);
 	// nicememes(&rootb, &roota, pushswap, 'a');
 
 	// push(&roota, &rootb, "pb");

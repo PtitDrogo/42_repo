@@ -5,11 +5,10 @@ HEADER_FILE = 	pushswap.h
 
 SRCS	=	$(SRCS_DIR)/push_swap.c \
 			$(SRCS_DIR)/instructions.c \
-			$(SRCS_DIR)/libft/ft_strncmp.c \
 			$(SRCS_DIR)/utils/freenerror_functions.c \
 			$(SRCS_DIR)/utils/arg_parsing.c \
-			$(SRCS_DIR)/libft/ft_split.c \
-			$(SRCS_DIR)/utils/algorithm.c
+			$(SRCS_DIR)/utils/algorithm.c \
+			$(SRCS_DIR)/utils/list_parsing.c
 			
 ifeq ($(BONUS),true)
 SRCS_DIR = sources_bonus
@@ -23,6 +22,9 @@ OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 CC		=	cc
 RM		=	rm -f
 CFLAGS	=	-Wall -Werror -Wextra -g3
+LDFLAGS =	-L./libft -lft
+LIBFT	=	compile_libft
+
 
 NAME	=	pushswap
 
@@ -35,15 +37,18 @@ CUT		=	"\033[K"
 
 all: $(NAME)
 
+$(LIBFT):
+	@$(MAKE) --no-print-directory -C ./libft
+
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
 	@mkdir -p $(@D)
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER_DIR)
 	@printf $(UP)$(CUT)
 
-$(NAME): $(OBJS)
+$(NAME): Makefile $(OBJS) | $(LIBFT)
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) -o $@ -I $(HEADER_DIR)
+	@$(CC) $(CFLAGS) $(OBJS) -o $@ -I $(HEADER_DIR) $(LDFLAGS)
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) compiled!$(RESET)"
 
@@ -52,16 +57,19 @@ clean:
 	@$(RM) $(OBJS) rm -rf $(OBJS_DIR)
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) files deleted !$(RESET)"
+	@$(MAKE) --no-print-directory -C ./libft clean
 
 fclean:	clean
 	@echo "$(YELLOW)cleaning files$(RESET)"
 	@$(RM) $(NAME)
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) executable deleted !$(RESET)"
+	@$(RM) ./libft/libft.a
+	@echo "$(GREEN)libft.a executable deleted !$(RESET)"
 
 re:	fclean $(NAME)
 
 bonus: 
 	@$(MAKE) $(NAME) BONUS=true
 	
-.PHONY:	all clean fclean re bonus
+.PHONY:	all clean fclean re bonus compile_libft

@@ -5,61 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/10 05:08:37 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/14 20:42:18 by tfreydie         ###   ########.fr       */
+/*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/02/15 19:22:25 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-// int     nicememes(t_node **from, t_node **to, t_list *pushswap, int a_or_b);
-// t_node *get_to_index(t_node *from, int len);
-int     push_to_median(t_node **from, t_node **to, t_list *pushswap)
-{
-    t_node  *temp;
-    int     median;
-    int     number;
-    int     list_len;
+t_node  *get_to_last_node(t_node *root);
+// int initial_push_to_stackb(&roota, &rootb, pushswap)
+// {
     
-    list_len = listlen(*from);
-    median = pushswap->median;
-    while((*from)->next)
-        (*from) = (*from)->next;
-    while ((*from) && list_len >= 3) //&& list_len > 3 in theory, but it leaks for some reason
+//     return 0;
+// }
+
+void    sort_3(t_node **roota)
+{
+    t_node  *current;
+    int     a;
+    int     b;
+    int     c;
+
+    if (is_sorted(*roota))
+        return ;
+    current = (*roota);
+    a = (current->number);
+    b = (current->next->number);
+    c = (current->next->next->number);
+    if (a < b && b > c && c < a)
+        rotate(roota, "ra");
+    else if (a > b && b < c && c < a)
+        reverse_rotate(roota, "rra");
+    else if (a < b && b > c && c > a)
+        swap(*roota, "sa");
+    else if (a > b)
     {
-        number = (*from)->number;
-        temp = (*from);
-        (*from) = (*from)->prev;
-        push(&temp, to, "pb"); //obviously this is temporary
-        if (number > median) //< or > could be either really
-            rotate(to, "rb");
-        list_len--;
+        swap(*roota, "sa");
+        if (b > c)
+            reverse_rotate(roota, "rra");
+        else if (b < c)
+            rotate(roota, "ra");
     }
-    return 0;
 }
 
-// t_node *get_to_index(t_node *from, int len)
-// {
-//     int i;
+int is_sorted(t_node *roota)
+{
+    int i;
+    t_node  *current;
 
-//     i = 0;
-//     while (i < len)
-//     {
-//         from = from->next;
-//         i++;
-//     }
-//     return (from);
-// }
-// int nicememes(t_node **from, t_node **to, t_list *pushswap, int a_or_b)
-// {
-//     int max_size_list;
-//     t_node  **start = malloc(sizeof(t_node *));
-//     *start = malloc(sizeof(t_node ));
-
-//     max_size_list = listlen(*from);
-//     *start = get_to_index(*from, max_size_list);
-//     push_to_median(start, to, pushswap, *start, a_or_b);
+    current = roota;
+    i = INT_MIN;
     
-//     return (0);
-// }
-
+    // printf("%i is int min \n", i);
+    while (current->next)
+    {
+        printf("in loop, checking if %i is < than %i\n", current->number, i);
+        if (current->number < i)
+            return (0);
+        i = current->number;
+        current = current->next; 
+    }
+    return (1);
+}

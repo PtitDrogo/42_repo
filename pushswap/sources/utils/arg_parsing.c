@@ -6,13 +6,13 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/14 17:33:25 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/15 16:32:46 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-int arg_parsing(int argc, char *argv[], t_list  *pushswap)
+int arg_parsing(int argc, char *argv[], t_stacks *pushswap)
 {
     
     //need to redo this
