@@ -6,11 +6,14 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/15 16:32:46 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/16 20:52:34 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
+
+static int      contains_dupplicate(const int *array, const int array_size);
+static int      *sort_array(int *array, const int array_size);
 
 int arg_parsing(int argc, char *argv[], t_stacks *pushswap)
 {
@@ -20,6 +23,7 @@ int arg_parsing(int argc, char *argv[], t_stacks *pushswap)
     int *int_array;
     int i;
     
+    pushswap = NULL; //TODO REMOVE, this is just to silence a warning
     char_array = NULL;
     int_array = NULL;
     i = 1;
@@ -32,24 +36,48 @@ int arg_parsing(int argc, char *argv[], t_stacks *pushswap)
         int_array = malloc(sizeof(int) * argc - 1);
         while (i < argc)
         {
-            int_array[i - 1] = atoi(argv[i]);
+            int_array[i - 1] = ft_atoi(argv[i]);
             i++;
         }
     }
     int_array = sort_array(int_array, argc - 1);
-    pushswap->median = int_array[(argc - 1) / 2];
+    if (contains_dupplicate(int_array, argc - 1))
+    {
+        printf("list contains dupplicate"); //TODO remove
+        free (char_array);
+        free (int_array);
+        exit(EXIT_FAILURE);
+    }
+    printf("hi\n");
+    // pushswap->median = int_array[(argc - 1) / 2];
     i = 0;
     while (i < argc -1)
     {
         printf("%i ", int_array[i]);
         i++;
     }
-    printf("done printing int array, median is %i\n", pushswap->median);
+    // printf("done printing int array, median is %i\n", pushswap->median);
     free(int_array);
     return 0;
 }
 
-int *sort_array(int *array, int array_size)
+static int contains_dupplicate(const int *array, const int array_size)
+{
+    int i;
+    int limit;
+
+    limit = array_size - 1;
+    i = 0;
+    while (i < limit)
+    {
+        if (array[i] == array[i + 1])
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
+static int *sort_array(int *array, const int array_size)
 {
     int i;
     int j;

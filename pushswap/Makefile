@@ -37,7 +37,7 @@ CUT		=	"\033[K"
 
 all: $(NAME)
 
-$(LIBFT): Makefile 
+$(LIBFT):
 	@$(MAKE) --no-print-directory -C ./libft
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
@@ -46,7 +46,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER_DIR)
 	@printf $(UP)$(CUT)
 
-$(NAME): Makefile $(OBJS) | $(LIBFT)
+$(NAME): $(OBJS) | $(LIBFT)
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJS) -o $@ -I $(HEADER_DIR) $(LDFLAGS)
 	@printf $(UP)$(CUT)
@@ -72,4 +72,4 @@ re:	fclean $(NAME)
 bonus: 
 	@$(MAKE) $(NAME) BONUS=true
 	
-.PHONY:	all clean fclean re bonus compile_libft
+.PHONY:	all clean fclean re bonus
