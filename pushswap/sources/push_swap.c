@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/16 20:53:18 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/17 14:54:59 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ int main(int argc, char *argv[])
 	// 	printf("list is not sorted\n");
 	push(&roota, &rootb, "pb");
 	push(&roota, &rootb, "pb");
-	// push(&roota, &rootb, "pb");
-	// push(&roota, &rootb, "pb");
-	// push(&roota, &rootb, "pb");
-	// push(&roota, &rootb, "pb");
+	push(&roota, &rootb, "pb");
+	push(&roota, &rootb, "pb");
+	push(&roota, &rootb, "pb");
+	push(&roota, &rootb, "pb");
 	// push(&roota, &rootb, "pb");
 	
 	// roota->target_node = find_target_node(roota, rootb);
@@ -127,7 +127,7 @@ int	init_number_list(int argc, char *argv[], t_node **root)
 	i = 1;
 	while (i < argc)
 	{
-		status = insert_end(root, atoi(argv[i])); //undo atoi if needed;
+		status = insert_end(root, ft_atoi(argv[i])); //undo atoi if needed;
 		if (!status)
 			return (0);
 		i++;

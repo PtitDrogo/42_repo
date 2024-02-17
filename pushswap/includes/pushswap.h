@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/16 20:45:21 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:01:15 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,21 @@
 # include <stdio.h>
 # include "../libft/includes/libft.h"
 
+// # define RA 1
+// # define RB 2
+// # define RR 3
+// # define RRA 4
+// # define RRB 5
+// # define RRR 6
+
+# define ROTATE 1
+# define REVERSE_ROTATE 2
+
+
 typedef struct s_node
 {
-	int             number;
-    int             instructions_number;
+	int             instruction;
+    int             number;
     struct s_node	*next;
     struct s_node	*prev;
     struct s_node   *target_node;

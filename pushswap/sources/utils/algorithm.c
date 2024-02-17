@@ -6,13 +6,118 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/16 20:17:37 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/17 18:05:13 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
+t_node	*prepare_instructions(t_node *from, t_node *to, t_node **fromroot, t_node **to_root)
+{
+	// I know this is both correct nodes, so i can just loop and find out
+	// again which it is.
+	int from_instructions_n;
+	int	to_instructions_n;
+	int	synergies;
+	int	i;
+	
+	i = 0;
+	from_instructions_n = node_instructions_processing(from);
+	to_instructions_n = node_instructions_processing(to);
+	
+	if (from->instruction != to->instruction)
+	{
+		while (i < from_instructions_n)
+		{
+			exec_rotate_or_rev_rotate(from->instruction, fromroot);					
+			i++;
+		}
+		i = 0;
+		while (i < to_instructions_n)
+		{
+			exec_rotate_or_rev_rotate(to->instruction, to_root);
+			i++;
+		}
+	}
+	else if (from->instruction == ROTATE)
+	{
+		// I want to execute rr X time then notice which root still has
+		//instructions and execute rotate in that stack this many times
+		
+	}
+	
+// 	else if (from->instruction == to->instruction && from->instruction == REVERSE_ROTATE)
+// 	{
+// 		//do the above thing but with REVERSE_ROTATE;
+// 	}
+// 	else
+// 	{
+// 		//execute command for stack a then stack b;
+// 		if (from->instruction == ROTATE)
+// 		while (i < from_instructions_n)
+// 			{
+// 				rr(fromroot, to_root);
+// 				i++;
+// 			}
+// 	}
+// 	execute_instructions();
+// 	//congratz you have executed all command for that node;
+}
 
+void	exec_with_synergies()
+
+void	exec_rotate_or_rev_rotate(int version, t_node **root)
+{
+	if (version == ROTATE)
+		rotate(root, "ra"); //writing the version doesnt change what happens, it just will print the wrong instruction
+	else if (version == REVERSE_ROTATE)
+		reverse_rotate(root, "rra"); //honestly the print msg logic shouldnt be in the instruction maybe
+	return ;
+}
+void	execute_instructions(t_node *from, t_node *to, t_node **fromroot, t_node **to_root)
+{
+	if (from->instruction == to->instruction)
+	{
+		if (from_instructions_n < to_instructions_n)
+		{
+			while (i < from_instructions_n)
+			{
+				rr(fromroot, to_root);
+				i++;
+			}
+			while (i < to_instructions_n)
+			{
+				rotate(to_root, "ra"); //obviously this isnt dynamic;
+				i++;
+			}
+		}
+		else
+		{
+			//do opposite;
+			...
+		}
+	}
+	//&& from->instruction == ROTATE
+}
+
+int	node_instructions_processing(t_node *node)
+{
+	int rotate;
+	int reverse_rotate;
+	
+	rotate = instruct_rotate(node) 
+	reverse_rotate = instruct_rev_rotate(node);
+	if (rotate >= reverse_rotate)
+	{
+		node->instruction = ROTATE;
+		return (rotate);
+	}
+	else
+	{
+		node->instruction = REVERSE_ROTATE;
+		return (reverse_rotate);
+	}
+}
 t_node	*find_cheapest_node(const t_node *from)
 {
 	t_node	*current;
@@ -69,17 +174,6 @@ int	calculate_mixed_instructions(const t_node *from, const t_node *target_node)
 		return (mix_b);
 }
 
-// int	calculate_with_synergies(int a, int b)
-// {
-// 	int result;
-// 	int synergies;
-
-// 	printf("a = %i and b = %i\n",a ,b);
-// 	synergies = b - a;
-// 	synergies = synergies * ((synergies > 0) - (synergies < 0));
-// 	result = a + synergies;
-// 	return (result);
-// }
 int	calculate_with_synergies(int a, int b)
 {
 	if (a > b)

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/16 20:52:34 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/17 14:50:43 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int arg_parsing(int argc, char *argv[], t_stacks *pushswap)
     }
     // printf("done printing int array, median is %i\n", pushswap->median);
     free(int_array);
+    free(char_array); //this actually doesnt free all need to put function
     return 0;
 }
 
