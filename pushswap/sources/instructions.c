@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:48:31 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/15 19:57:07 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:58:56 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,31 @@ void    swap_int(int *a, int *b)
     return ;
 }
 
-void    swap(t_node *root, char *version)
+int    swap(t_node *root)
 {
     if (!root || listlen(root) < 2)
-        return ;
-    while (root->next)
-        root = root->next;
+        return (0);
+    root = get_to_last_node(root);
     swap_int(&(root->number), &(root->prev->number));
-    printf("%s\n", version);
-    return ;
+    return (1);
 }
-void    ss(t_node *roota, t_node *rootb)
+int    ss(t_node *roota, t_node *rootb)
 {
-    swap(roota, "");
-    swap(rootb, "ss");
-    return ;
+    if (swap(roota) == 0)
+        return (0);
+    if (swap(rootb) == 0)
+        return (0);
+    return (1);
 }
 
-void push(t_node **from, t_node **to, char *version)
+int push(t_node **from, t_node **to)
 {
     t_node *current;
     t_node *node_to_add;
     
     if (!*from)
-        return ;
-    current = *from;
-    while (current->next)
-        current = current->next;
+        return (0);
+    current = get_to_last_node(*from);
     node_to_add = current;
     if (current->prev)
         current->prev->next = NULL;
@@ -59,69 +57,63 @@ void push(t_node **from, t_node **to, char *version)
         *to = node_to_add;
         (*to)->prev = NULL;
         (*to)->next = NULL;
-        printf("%s\n", version);
-        return ;
+        return (1);
     }
-    current = *to;
-    while (current->next)
-        current = current->next;
+    current = get_to_last_node(*to);
     current->next = node_to_add;
     node_to_add->prev = current;
     node_to_add->next = NULL;
-    printf("%s\n", version);
-    return ;
+    return (1);
 }
 
 
-void    rotate(t_node **root, char *version)
+int    rotate(t_node **root)
 {
     t_node *current;
     t_node *new_root;
 
     if (!root || !(*root) || listlen(*root) < 2)
-        return ;
-    current = (*root);
-    while (current->next)
-        current = current->next;
+        return (0);
+    current = get_to_last_node(*root);
     new_root = current;
     current->prev->next = NULL;
     new_root->prev = NULL;
     new_root->next = (*root);
     (*root)->prev = new_root;
     (*root) = new_root;
-    printf("%s\n", version);
-    return ;
+    return (1);
 }
-void    rr(t_node **roota, t_node **rootb)
+int    rr(t_node **roota, t_node **rootb)
 {
-    rotate(roota, "");
-    rotate(rootb, "rr");
-    return ;
+    if (rotate(roota) == 0)
+        return (0);
+    if (rotate(rootb) == 0)
+        return (0);
+    return (1);
 }
 
 
-void    reverse_rotate(t_node **root, char *version)
+int    reverse_rotate(t_node **root)
 {
     t_node *current;
     t_node *new_root;
     
     if (!(*root) || listlen(*root) < 2)
-        return ;
+        return (0);
     (*root)->next->prev = NULL;
     new_root = (*root)->next;
-    current = (*root);
-    while (current->next)
-        current = current->next;
+    current = get_to_last_node(*root);
     current->next = (*root);
     (*root)->prev = current;
     (*root)->next = NULL;
     (*root) = new_root;
-    printf("%s\n", version);
-    return ;
+    return (1);
 }
-void    rrr(t_node **roota, t_node **rootb)
+int    rrr(t_node **roota, t_node **rootb)
 {
-    reverse_rotate(roota, "");
-    reverse_rotate(rootb, "rrr");
-    return ;
+    if (reverse_rotate(roota) == 0)
+        return (0);
+    if (reverse_rotate(rootb) == 0)
+        return (0);
+    return (1);
 }

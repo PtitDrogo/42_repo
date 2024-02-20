@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 03:21:27 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/15 18:11:53 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:56:07 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 t_node  *get_to_last_node(t_node *root)
 {
+    if (!root)
+    {    
+        printf("somehow fed NULL into get to last node\n"); //TODO REMOVE
+        return NULL;
+    }
     while(root->next)
         root = root->next;
     return (root);

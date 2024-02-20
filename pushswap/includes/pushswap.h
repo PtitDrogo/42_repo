@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/17 16:01:15 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:46:03 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,15 @@
 // # define RRB 5
 // # define RRR 6
 
+
 # define ROTATE 1
 # define REVERSE_ROTATE 2
 
 
 typedef struct s_node
 {
-	int             instruction;
+	int             num_of_instructions;
+    int             instruction;
     int             number;
     struct s_node	*next;
     struct s_node	*prev;
@@ -56,18 +58,18 @@ void	print_list(t_node *root);
 
 
 // int     ft_strncmp(char *s1, char *s2, size_t n);
-void    reverse_rotate(t_node **root, char *version);
-void    swap(t_node *list, char *version);
-void    rotate(t_node **root, char *version);
-void    swap_int(int *a, int *b);
-void    ss(t_node *roota, t_node *rootb);
-void    push(t_node **from, t_node **to, char *version);
-void    rr(t_node **roota, t_node **rootb);
+int    reverse_rotate(t_node **root);
+int    swap(t_node *list);
+int    rotate(t_node **root);
+void   swap_int(int *a, int *b);
+int    ss(t_node *roota, t_node *rootb);
+int    push(t_node **from, t_node **to);
+int    rr(t_node **roota, t_node **rootb);
 void    deallocate(t_node *root);
 void    free_all_and_exit(t_node *roota, t_node *rootb, t_stacks *pushswap);
 void    error_message_exit();
 int     listlen(t_node *root);
-void    rrr(t_node **roota, t_node **rootb);
+int    rrr(t_node **roota, t_node **rootb);
 char	**ft_split(char const *s, char c);
 int     arg_parsing(int argc, char  *argv[], t_stacks *pushswap);
 int     push_to_median(t_node **roota, t_node **rootb, t_stacks *pushswap);
@@ -79,8 +81,8 @@ t_node  *find_target_node(const t_node *targetless_node, const t_node *root_targ
 t_node	*find_smallest_number_node(const t_node *root_target_stack);
 void    find_all_target_nodes(t_node *from, t_node *to);
 t_node	*find_cheapest_node(const t_node *from);
-int	    find_instructions_number(const t_node *from, const t_node *target_node);
-int     calculate_mixed_instructions(const t_node *from, const t_node *target_node);
+int	    find_instructions_number(t_node *from, t_node *target_node);
+int     calculate_mixed_instructions(t_node *from, t_node *target_node);
 int     calculate_with_synergies(int a, int b);
 int     instruct_rotate(const t_node *node);
 int     instruct_rev_rotate(const t_node *node);

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/17 14:54:59 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:01:16 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ void	print_list(t_node *root)
 	{
 		while (root->next)
 		{
-			printf("%i\n", root->number);
+			printf("%i ", root->number);
+			printf("instruction is %i (1 = Rot 2 = RevRot) \n", root->instruction);
 			root = root->next;
 		}
-		printf("%i\n", root->number);
+		printf("%i", root->number);
+		printf("instruction is %i (1 = Rot 2 = RevRot) \n", root->instruction);
 	}
 	// printf("printing from end (AKA SOMMET) to start(root AKA dernier)\n");
 	// if (root != NULL)
@@ -56,8 +58,8 @@ int main(int argc, char *argv[])
 	int i;
 	int status;
 	i = 0;
-	t_node	*roota;
-	t_node	*rootb;
+	t_node		*roota;
+	t_node		*rootb;
 	t_stacks	*pushswap;
 
 	
@@ -75,39 +77,24 @@ int main(int argc, char *argv[])
 	// 	printf("list is sorted\n");
 	// else
 	// 	printf("list is not sorted\n");
-	push(&roota, &rootb, "pb");
-	push(&roota, &rootb, "pb");
-	push(&roota, &rootb, "pb");
-	push(&roota, &rootb, "pb");
-	push(&roota, &rootb, "pb");
-	push(&roota, &rootb, "pb");
-	// push(&roota, &rootb, "pb");
+	push(&roota, &rootb);
+	printf("pb");
+	push(&roota, &rootb);
+	printf("pb");
+	push(&roota, &rootb);
+	printf("pb");
+	push(&roota, &rootb);
+	printf("pb");
+	push(&roota, &rootb);
+	printf("pb");
+	push(&roota, &rootb);
+	printf("pb");
 	
-	// roota->target_node = find_target_node(roota, rootb);
 	find_all_target_nodes(roota, rootb); // initialize the cheapest node value
 	t_node *cheapest_node = find_cheapest_node(roota);
 	printf("my cheapest node %p with value %i has target node whose value is %i", cheapest_node, cheapest_node->number, cheapest_node->target_node->number);
 	// printf("from roota with number %i, the closest number in stack b is %i", roota->number, roota->target_node->number);
 
-	// push_to_median(&roota, &rootb, pushswap);
-	// nicememes(&rootb, &roota, pushswap, 'a');
-
-	// // push(rootb, &roota, "pa");
-	// push(&roota, &rootb, "pb");
-	// push(&roota, &rootb, "pb");
-	// push(&roota, &rootb, "pb");
-	// push(&roota, &rootb, "pb");
-	// push(&roota, &rootb, "pb");
-	// push(&roota, &rootb, "pb");
-	// push(rootb, &roota, "pa");
-	// reverse_rotate(&roota, "rra");
-	// reverse_rotate(&rootb, "rrb");
-	// rotate(&roota, "ra");
-	// rotate(&rootb, "rb");
-	// rr(&roota, &rootb);
-	// ss(roota, rootb);
-	// rrr(&roota, &rootb);
-	// swap(roota, "sa");
 
 	printf("printing stack a\n");
 	print_list(roota);
@@ -135,6 +122,9 @@ int	init_number_list(int argc, char *argv[], t_node **root)
 	return (1);
 }
 
+void	init
+
+
 int insert_end(t_node **root, int value)
 {
 	t_node *new_node;
@@ -148,7 +138,10 @@ int insert_end(t_node **root, int value)
 	if ((*root) == NULL)
 	{
 		*root = new_node;
+		new_node->instruction = 0;
 		new_node->prev = NULL;
+		new_node->num_of_instructions = 0;
+		new_node->target_node = NULL;
 		return (1);
 	}    
 	current = *root;
@@ -156,6 +149,9 @@ int insert_end(t_node **root, int value)
 		current = current->next;
 	current->next = new_node;
 	new_node->prev = current;
+	new_node->instruction = 0;
+	new_node->num_of_instructions = 0;
+	new_node->target_node = NULL;
 	return (1);
 }
 
