@@ -8,7 +8,8 @@ SRCS	=	$(SRCS_DIR)/push_swap.c \
 			$(SRCS_DIR)/utils/freenerror_functions.c \
 			$(SRCS_DIR)/utils/arg_parsing.c \
 			$(SRCS_DIR)/utils/algorithm.c \
-			$(SRCS_DIR)/utils/list_parsing.c
+			$(SRCS_DIR)/utils/list_parsing.c \
+			$(SRCS_DIR)/utils/exec_instructions.c
 			
 ifeq ($(BONUS),true)
 SRCS_DIR = sources_bonus

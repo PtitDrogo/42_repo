@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 17:01:16 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:05:17 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,12 @@ int	init_number_list(int argc, char *argv[], t_node **root)
 	return (1);
 }
 
-void	init
+void	init_node(t_node *new_node)
+{
+	new_node->instruction = 0;
+	new_node->num_of_instructions = 0;
+	new_node->target_node = NULL;
+}
 
 
 int insert_end(t_node **root, int value)
@@ -138,10 +143,8 @@ int insert_end(t_node **root, int value)
 	if ((*root) == NULL)
 	{
 		*root = new_node;
-		new_node->instruction = 0;
 		new_node->prev = NULL;
-		new_node->num_of_instructions = 0;
-		new_node->target_node = NULL;
+		init_node(new_node);
 		return (1);
 	}    
 	current = *root;
@@ -149,9 +152,7 @@ int insert_end(t_node **root, int value)
 		current = current->next;
 	current->next = new_node;
 	new_node->prev = current;
-	new_node->instruction = 0;
-	new_node->num_of_instructions = 0;
-	new_node->target_node = NULL;
+	init_node(new_node);
 	return (1);
 }
 

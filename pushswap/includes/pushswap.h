@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 16:46:03 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:32:26 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_list(t_node *root);
 //end debugging functions
 
 
-// int     ft_strncmp(char *s1, char *s2, size_t n);
+
 int    reverse_rotate(t_node **root);
 int    swap(t_node *list);
 int    rotate(t_node **root);
@@ -81,10 +81,14 @@ t_node  *find_target_node(const t_node *targetless_node, const t_node *root_targ
 t_node	*find_smallest_number_node(const t_node *root_target_stack);
 void    find_all_target_nodes(t_node *from, t_node *to);
 t_node	*find_cheapest_node(const t_node *from);
-int	    find_instructions_number(t_node *from, t_node *target_node);
+int	    find_instruc_number_and_direction(t_node *from, t_node *target_node);
 int     calculate_mixed_instructions(t_node *from, t_node *target_node);
 int     calculate_with_synergies(int a, int b);
-int     instruct_rotate(const t_node *node);
-int     instruct_rev_rotate(const t_node *node);
+int     rotate_and_count(const t_node *node);
+int     rev_rotate_and_count(const t_node *node);
+void	prepare_instructions(t_node *from, t_node *to, t_node **fromroot, t_node **to_root);
+void	execute_same_instructions(t_node *from, t_node *to, t_node **fromroot, t_node **to_root);
+void	execute_different_instructions(t_node *from, t_node *to, t_node **fromroot, t_node **to_root);
+void	exec_rotate_or_rev_rotate(int version, t_node **root);
 
 #endif

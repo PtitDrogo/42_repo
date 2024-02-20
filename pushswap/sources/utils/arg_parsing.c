@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 15:05:38 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:12:39 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int arg_parsing(int argc, char *argv[], t_stacks *pushswap)
         int_array = malloc(sizeof(int) * argc - 1);
         while (i < argc)
         {
-            int_array[i - 1] = ft_atoi(argv[i]);
+            int_array[i - 1] = ft_atoi(argv[i]); //need to do a check for non numbers;
             i++;
         }
     }

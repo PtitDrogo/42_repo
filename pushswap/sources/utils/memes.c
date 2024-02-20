@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 05:08:37 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/15 16:52:23 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:19:13 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,27 @@ int     push_to_median(t_node **from, t_node **to, t_stacks *pushswap)
 //     return (0);
 // }
 
+// t_node  *meme_findtarget_node(const t_node *targetless_node, const t_node *root_target_stack)
+// {
+// 	long long	node_number;
+// 	long long	difference;
+// 	long long	tmp_diff;
+// 	t_node		*cursor;
+// 	t_node		*target;
+	
+// 	difference = LONG_MAX;
+// 	node_number = targetless_node->number;
+// 	cursor = (t_node *)root_target_stack;
+// 	while (cursor)
+// 	{
+// 		tmp_diff = (node_number - cursor->number);
+// 		tmp_diff = tmp_diff * ((tmp_diff > 0) - (tmp_diff < 0));
+// 		if (tmp_diff < difference)
+// 		{    
+// 			difference = tmp_diff;
+// 			target = cursor; //maybe we will change the struct directly here well see
+// 		}
+// 		cursor = cursor->next;
+// 	}
+// 	return (target);
+// }
