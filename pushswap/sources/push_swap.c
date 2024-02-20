@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 17:05:17 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 20:37:38 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	print_list(t_node *root)
 	{
 		while (root->next)
 		{
-			printf("%i ", root->number);
-			printf("instruction is %i (1 = Rot 2 = RevRot) \n", root->instruction);
+			printf("%i \n", root->number);
+			// printf("instruction is %i (1 = Rot 2 = RevRot) \n", root->instruction);
 			root = root->next;
 		}
-		printf("%i", root->number);
-		printf("instruction is %i (1 = Rot 2 = RevRot) \n", root->instruction);
+		printf("%i \n", root->number);
+		// printf("instruction is %i (1 = Rot 2 = RevRot) \n", root->instruction);
 	}
 	// printf("printing from end (AKA SOMMET) to start(root AKA dernier)\n");
 	// if (root != NULL)
@@ -61,6 +61,7 @@ int main(int argc, char *argv[])
 	t_node		*roota;
 	t_node		*rootb;
 	t_stacks	*pushswap;
+	t_node *cheapest_node;
 
 	
 	pushswap = malloc (sizeof(t_stacks));
@@ -72,30 +73,38 @@ int main(int argc, char *argv[])
 	if (!status)
 		return(deallocate(roota), 1);
 	arg_parsing(argc, argv, pushswap);
-	// sort_3(&roota);
-	// if (is_sorted(roota))
-	// 	printf("list is sorted\n");
-	// else
-	// 	printf("list is not sorted\n");
+	if (is_sorted(roota))
+		printf("list is sorted\n");
+	else
+		printf("list is not sorted\n");
 	push(&roota, &rootb);
 	printf("pb");
-	push(&roota, &rootb);
-	printf("pb");
-	push(&roota, &rootb);
-	printf("pb");
-	push(&roota, &rootb);
-	printf("pb");
-	push(&roota, &rootb);
-	printf("pb");
-	push(&roota, &rootb);
-	printf("pb");
+	// push(&roota, &rootb);
+	// printf("pb");
+	// push(&roota, &rootb);
+	// printf("pb");
+	// push(&roota, &rootb);
+	// printf("pb");
+	// push(&roota, &rootb);
+	// printf("pb");   
+	// push(&roota, &rootb);
+	// printf("pb"); 
 	
-	find_all_target_nodes(roota, rootb); // initialize the cheapest node value
-	t_node *cheapest_node = find_cheapest_node(roota);
-	printf("my cheapest node %p with value %i has target node whose value is %i", cheapest_node, cheapest_node->number, cheapest_node->target_node->number);
-	// printf("from roota with number %i, the closest number in stack b is %i", roota->number, roota->target_node->number);
-
-
+	while (listlen(roota) > 3)
+	{	
+		printf("printing stack a\n");
+		print_list(roota);
+		printf("printing stack b\n");
+		print_list(rootb);
+		// sleep(10);
+		find_all_target_nodes(roota, rootb);
+		cheapest_node = find_cheapest_node(roota);
+		// printf("my cheapest node %p with value %i has target node whose value is %i", cheapest_node, cheapest_node->number, cheapest_node->target_node->number);
+		prepare_push_protocol(cheapest_node, cheapest_node->target_node, &roota, &rootb);
+		push(&roota, &rootb);
+	}
+	sort_3(&roota);
+	
 	printf("printing stack a\n");
 	print_list(roota);
 	printf("printing stack b\n");

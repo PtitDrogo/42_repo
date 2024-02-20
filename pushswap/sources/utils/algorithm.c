@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 19:31:22 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 20:54:28 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_node	*find_cheapest_node(const t_node *from)
 	current = (t_node *) from;
 	while (current)
 	{
-		printf("current cheapest instruction value is %i\n", cheapest_instructions_value);
+		// printf("current cheapest instruction value is %i\n", cheapest_instructions_value);
 		current_value = find_instruc_number_and_direction(current, current->target_node);
 		if (cheapest_instructions_value > current_value)
 		{	
@@ -53,16 +53,31 @@ int	find_instruc_number_and_direction(t_node *from, t_node *target_node)
 	{	
 		from->instruction = ROTATE;
 		target_node->instruction = ROTATE;
+		set_instructions_numbers(from, target_node);
 		return (full_rotate);
 	}
 	else if (full_reverse_rotate < full_rotate && full_reverse_rotate < mixed)
 	{	
 		from->instruction = REVERSE_ROTATE;
 		target_node->instruction = REVERSE_ROTATE;
+		set_instructions_numbers(from, target_node);
 		return (full_reverse_rotate);
 	}		
 	else
 		return (mixed);
+}
+void	set_instructions_numbers(t_node *a_node, t_node *b_node)
+{
+	if (a_node->instruction == ROTATE)
+		a_node->num_of_instructions = rotate_and_count(a_node);
+	else if (a_node->instruction == REVERSE_ROTATE)
+		a_node->num_of_instructions = rev_rotate_and_count(a_node);
+	if (b_node->instruction == ROTATE)
+		b_node->num_of_instructions = rotate_and_count(b_node);
+	else if (b_node->instruction == REVERSE_ROTATE)
+		b_node->num_of_instructions = rev_rotate_and_count(b_node);
+	
+	return ;
 }
 
 int	calculate_mixed_instructions(t_node *from, t_node *target_node)
@@ -139,6 +154,8 @@ void	find_all_target_nodes(t_node *from, t_node *to)
 
 t_node	*find_smallest_number_node(const t_node *root_target_stack)
 {
+	//this function is only in case we dont have a match so we need the literal smaller number;
+	
 	t_node	*current;
 	t_node	*target;
 	int		smallest_n;
@@ -183,7 +200,6 @@ t_node  *find_target_node(const t_node *targetless_node, const t_node *root_targ
 	}
 	if (closest_number == INT_MIN)
 		target = find_smallest_number_node(root_target_stack);
-	printf("target is %p", target);
 	return (target);
 }
 void    sort_3(t_node **roota)

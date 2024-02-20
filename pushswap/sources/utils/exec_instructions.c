@@ -6,15 +6,18 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:30:00 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 19:34:43 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:52:18 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void	prepare_instructions(t_node *from, t_node *to, t_node **fromroot, t_node **to_root)
+void	prepare_push_protocol(t_node *from, t_node *to, t_node **fromroot, t_node **to_root)
 {
-	if (from->instruction == to->instruction)
+	printf("hi im in exec protocol\n");
+    printf("from->instruction = %i  to->instruction = %i\n", from->instruction, to->instruction);
+    printf("from->num_of_instructions = %i  to->num_of_instructions = %i\n", from->num_of_instructions, to->num_of_instructions);
+    if (from->instruction == to->instruction)
 		execute_same_instructions(from, to, fromroot, to_root);
 	if (from->num_of_instructions || to->num_of_instructions)
 		execute_different_instructions(from, to, fromroot, to_root);
@@ -32,7 +35,7 @@ void	execute_same_instructions(t_node *from, t_node *to, t_node **fromroot, t_no
 		else
 		{
 			rrr(fromroot, to_root);
-			printf("rrr\n");// temp
+			printf("rrr\n"); // temp
 		}
 		(from->num_of_instructions)--;
 		(to->num_of_instructions)--;
