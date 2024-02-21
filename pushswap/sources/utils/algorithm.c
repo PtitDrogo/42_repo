@@ -76,7 +76,6 @@ void	set_instructions_numbers(t_node *a_node, t_node *b_node)
 		b_node->num_of_instructions = rotate_and_count(b_node);
 	else if (b_node->instruction == REVERSE_ROTATE)
 		b_node->num_of_instructions = rev_rotate_and_count(b_node);
-	
 	return ;
 }
 
@@ -93,12 +92,14 @@ int	calculate_mixed_instructions(t_node *from, t_node *target_node)
 		target_node->instruction = REVERSE_ROTATE;
 		return (mix_a);
 	}
-	else
+	else if (mix_b < mix_a)
 	{	
 		from->instruction = REVERSE_ROTATE;
 		target_node->instruction = ROTATE;
 		return (mix_b);
 	}
+	else
+		return (0); //because like, in theory if theyre equal thats rr and rrr;
 }
 
 int	calculate_with_synergies(int a, int b)
@@ -108,7 +109,6 @@ int	calculate_with_synergies(int a, int b)
 	else
 		return (b);
 }
-
 
 int rotate_and_count(const t_node *node)
 {
@@ -131,6 +131,8 @@ int rev_rotate_and_count(const t_node *node)
 	
 	i = 0;
 	current = (t_node *) node;
+	if (node->next == NULL)
+		return (0);
 	while (current)
 	{
 		i++;

@@ -39,6 +39,7 @@ void	execute_same_instructions(t_node *from, t_node *to, t_node **fromroot, t_no
 		}
 		(from->num_of_instructions)--;
 		(to->num_of_instructions)--;
+		printf("on est la est ce que ca decremente ce fdp %i and %i\n", from->num_of_instructions, to->num_of_instructions);
 	}
 	return ;
 }
@@ -50,7 +51,7 @@ void	execute_different_instructions(t_node *from, t_node *to, t_node **fromroot,
 		if (from->instruction == ROTATE)
 			printf("ra\n"); //TEMP
 		else if (from->instruction == REVERSE_ROTATE)
-			printf("rrb\n"); //TEMP
+			printf("rra\n"); //TEMP
 		(from->num_of_instructions)--;
 	}
 	while (to->num_of_instructions > 0)

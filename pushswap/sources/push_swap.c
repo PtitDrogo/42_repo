@@ -55,9 +55,7 @@ void	print_list(t_node *root)
 
 int main(int argc, char *argv[])
 {
-	int i;
 	int status;
-	i = 0;
 	t_node		*roota;
 	t_node		*rootb;
 	t_stacks	*pushswap;
@@ -78,7 +76,7 @@ int main(int argc, char *argv[])
 	else
 		printf("list is not sorted\n");
 	push(&roota, &rootb);
-	printf("pb");
+	printf("pb\n");
 	// push(&roota, &rootb);
 	// printf("pb");
 	// push(&roota, &rootb);
@@ -99,9 +97,10 @@ int main(int argc, char *argv[])
 		// sleep(10);
 		find_all_target_nodes(roota, rootb);
 		cheapest_node = find_cheapest_node(roota);
-		// printf("my cheapest node %p with value %i has target node whose value is %i", cheapest_node, cheapest_node->number, cheapest_node->target_node->number);
+		printf("my cheapest node with value %i has target node whose value is %i", cheapest_node->number, cheapest_node->target_node->number);
 		prepare_push_protocol(cheapest_node, cheapest_node->target_node, &roota, &rootb);
 		push(&roota, &rootb);
+		printf("pb\n");
 	}
 	sort_3(&roota);
 	

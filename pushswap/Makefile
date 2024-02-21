@@ -22,7 +22,7 @@ OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-Wall -Werror -Wextra -g3
+CFLAGS	=	-g3
 LDFLAGS =	-L./libft -lft
 LIBFT	=	compile_libft
 

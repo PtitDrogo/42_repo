@@ -1,0 +1,14 @@
+hello this is 1st column : # include <unistd.h>
+hello this is 1st column : # include <stdlib.h>
+hello this is 1st column : # include <string.h>
+hello this is 1st column : # include <stdbool.h>
+hello this is 1st column : # include <limits.h>
+hello this is 1st column : # include <stdio.h>
+hello this is 1st column : # include "../libft/includes/libft.h"
+hello this is 1st column : 
+hello this is 1st column : // # define RA 1
+hello this is 1st column : // # define RB 2
+hello this is 1st column : // # define RR 3
+hello this is 1st column : // # define RRA 4
+hello this is 1st column : // # define RRB 5
+hello this is 1st column : // # define RRR 6
