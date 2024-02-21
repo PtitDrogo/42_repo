@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 20:11:02 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:09:16 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_node
 
 typedef struct s_stacks
 {
-    int             median;
     t_node          **roota;
     t_node          **rootb;
     
@@ -78,7 +77,7 @@ int     is_sorted(const t_node *roota);
 t_node  *get_to_last_node(t_node *root);
 void    sort_3(t_node **roota);
 t_node  *find_target_node(const t_node *targetless_node, const t_node *root_target_stack);
-t_node	*find_smallest_number_node(const t_node *root_target_stack);
+t_node	*find_biggest_number_node(const t_node *root_target_stack);
 void    find_all_target_nodes(t_node *from, t_node *to);
 t_node	*find_cheapest_node(const t_node *from);
 int	    find_instruc_number_and_direction(t_node *from, t_node *target_node);

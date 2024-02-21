@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 20:37:38 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:12:29 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		init_number_list(int argc, char *argv[], t_node **root);
 int		insert_end(t_node **root, int value);
+void	flush_stacks(t_node *roota, t_node *rootb);
+void	init_node(t_node *new_node);
 
 // void	*my_malloc(size_t size) 
 // {
@@ -77,6 +79,8 @@ int main(int argc, char *argv[])
 		printf("list is not sorted\n");
 	push(&roota, &rootb);
 	printf("pb\n");
+	push(&roota, &rootb);
+	printf("pb\n"); //first two initial push
 	// push(&roota, &rootb);
 	// printf("pb");
 	// push(&roota, &rootb);
@@ -100,6 +104,8 @@ int main(int argc, char *argv[])
 		printf("my cheapest node with value %i has target node whose value is %i", cheapest_node->number, cheapest_node->target_node->number);
 		prepare_push_protocol(cheapest_node, cheapest_node->target_node, &roota, &rootb);
 		push(&roota, &rootb);
+		flush_stacks(roota, rootb);
+		
 		printf("pb\n");
 	}
 	sort_3(&roota);
@@ -114,7 +120,24 @@ int main(int argc, char *argv[])
 	free(pushswap);
 	return (0);
 }
+void	flush_stacks(t_node *roota, t_node *rootb)
+{
+	t_node *current;
 
+	current = roota;
+	while (current)
+	{
+		init_node(current);
+		current = current->next;
+	}
+	current = rootb;
+	while (current)
+	{
+		init_node(current);
+		current = current->next;
+	}
+	return ;
+}
 int	init_number_list(int argc, char *argv[], t_node **root)
 {
 	int i;
