@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/21 19:12:29 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:51:04 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,22 @@ int main(int argc, char *argv[])
 		// sleep(10);
 		find_all_target_nodes(roota, rootb);
 		cheapest_node = find_cheapest_node(roota);
-		printf("my cheapest node with value %i has target node whose value is %i", cheapest_node->number, cheapest_node->target_node->number);
-		prepare_push_protocol(cheapest_node, cheapest_node->target_node, &roota, &rootb);
+		// printf("my cheapest node with value %i has target node whose value is %i", cheapest_node->number, cheapest_node->target_node->number);
+		prepare_push_protocol(cheapest_node, &roota, &rootb, A);
 		push(&roota, &rootb);
-		flush_stacks(roota, rootb);
-		
 		printf("pb\n");
+		flush_stacks(roota, rootb);
 	}
 	sort_3(&roota);
+	while (listlen(rootb) > 0)
+	{
+		find_all_target_nodes(rootb, roota);
+		cheapest_node = find_cheapest_node(rootb);
+		prepare_push_protocol(cheapest_node, &rootb, &roota, A);
+		push(&rootb, &roota);
+		printf("pa\n");
+		flush_stacks(rootb, roota);
+	}
 	
 	printf("printing stack a\n");
 	print_list(roota);

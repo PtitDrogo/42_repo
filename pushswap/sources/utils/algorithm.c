@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/21 19:05:36 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:44:34 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_node	*find_cheapest_node(const t_node *from)
 		}
 		current = current->next;
 	}
-	printf("return value of  %i\n", cheapest_instructions_value);
+	// printf("return value of  %i\n", cheapest_instructions_value);
 	return (cheapest_node);
 }
 
@@ -48,7 +48,7 @@ int	find_instruc_number_and_direction(t_node *from, t_node *target_node)
 	full_rotate = calculate_with_synergies(rotate_and_count(from), rotate_and_count(target_node));
 	full_reverse_rotate = calculate_with_synergies(rev_rotate_and_count(from), rev_rotate_and_count(target_node));
 	mixed = calculate_mixed_instructions(from, target_node);
-	printf("\nHI from n = %i, target_node n = %i, full rotate = %i, full rev rotate = %i, mixed n = %i\n", from->number, target_node->number, full_rotate, full_reverse_rotate, mixed);
+	// printf("\nHI from n = %i, target_node n = %i, full rotate = %i, full rev rotate = %i, mixed n = %i\n", from->number, target_node->number, full_rotate, full_reverse_rotate, mixed);
 	
 	if (full_rotate < full_reverse_rotate && full_rotate < mixed)
 	{	
@@ -80,7 +80,7 @@ void	set_instructions_numbers(t_node *a_node, t_node *b_node)
 		b_node->num_of_instructions = rotate_and_count(b_node);
 	else if (b_node->instruction == REVERSE_ROTATE)
 		b_node->num_of_instructions = rev_rotate_and_count(b_node);
-	printf("\nIN set instructions numbers : a = %i, b = %i\n", a_node->num_of_instructions, b_node->num_of_instructions);
+	// printf("\nIN set instructions numbers : a = %i, b = %i\n", a_node->num_of_instructions, b_node->num_of_instructions);
 	return ;
 }
 
@@ -91,7 +91,7 @@ int	calculate_mixed_instructions(t_node *from, t_node *target_node)
 
 	mix_a = rotate_and_count(from) + rev_rotate_and_count(target_node);
 	mix_b = rev_rotate_and_count(from) + rotate_and_count(target_node);
-	printf("in mixec calc, mix_a = %i and mix_b = %i\n", mix_a, mix_b);
+	// printf("in mixec calc, mix_a = %i and mix_b = %i\n", mix_a, mix_b);
 	if (mix_a < mix_b)
 	{	
 		from->instruction = ROTATE;
@@ -152,7 +152,7 @@ void	find_all_target_nodes(t_node *from, t_node *to)
 	while (from)
 	{
 		from->target_node = find_target_node(from, to);
-		printf("from with number %i has target node = to %i\n", from->number, from->target_node->number);
+		// printf("from with number %i has target node = to %i\n", from->number, from->target_node->number);
 		from = from->next;
 	}
 	return ;

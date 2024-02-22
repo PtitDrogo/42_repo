@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/21 19:09:16 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:15:37 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 // # define RRA 4
 // # define RRB 5
 // # define RRR 6
+
+# define A 1
+# define B 2
+
 
 
 # define ROTATE 1
@@ -85,9 +89,9 @@ int     calculate_mixed_instructions(t_node *from, t_node *target_node);
 int     calculate_with_synergies(int a, int b);
 int     rotate_and_count(const t_node *node);
 int     rev_rotate_and_count(const t_node *node);
-void	prepare_push_protocol(t_node *from, t_node *to, t_node **fromroot, t_node **to_root);
-void	execute_same_instructions(t_node *from, t_node *to, t_node **fromroot, t_node **to_root);
-void	execute_different_instructions(t_node *from, t_node *to, t_node **fromroot, t_node **to_root);
+void	prepare_push_protocol(t_node *from, t_node **fromroot, t_node **to_root, int stack_of_from);
+void	execute_same_instructions(t_node *from, t_node **fromroot, t_node **to_root);
+void	execute_different_instructions(t_node *from, t_node **fromroot, t_node **to_root, int stack_of_from);
 void	exec_rotate_or_rev_rotate(int version, t_node **root);
 void	set_instructions_numbers(t_node *a_node, t_node *b_node);
 
