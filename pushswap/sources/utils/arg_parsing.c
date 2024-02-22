@@ -6,16 +6,16 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 17:12:39 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:58:14 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-static int      contains_dupplicate(const int *array, const int array_size);
-static int      *sort_array(int *array, const int array_size);
+int      contains_dupplicate(const int *array, const int array_size);
+int      *sort_array(int *array, const int array_size);
 
-int arg_parsing(int argc, char *argv[], t_stacks *pushswap)
+int arg_parsing(int argc, char *argv[], int *median)
 {
     
     //need to redo this
@@ -23,7 +23,6 @@ int arg_parsing(int argc, char *argv[], t_stacks *pushswap)
     int *int_array;
     int i;
     
-    pushswap = NULL; //TODO REMOVE, this is just to silence a warning
     char_array = NULL;
     int_array = NULL;
     i = 1;
@@ -49,20 +48,20 @@ int arg_parsing(int argc, char *argv[], t_stacks *pushswap)
         exit(EXIT_FAILURE);
     }
     printf("hi\n");
-    // pushswap->median = int_array[(argc - 1) / 2];
+    *median = int_array[(argc - 1) / 2];
     i = 0;
-    while (i < argc -1)
-    {
-        printf("%i ", int_array[i]);
-        i++;
-    }
+    // while (i < argc -1)
+    // {
+    //     printf("%i ", int_array[i]);
+    //     i++;
+    // } //kinda useless sorted check;
     // printf("done printing int array, median is %i\n", pushswap->median);
     free(int_array);
     free(char_array); //this actually doesnt free all need to put function
     return 0;
 }
 
-static int contains_dupplicate(const int *array, const int array_size)
+int contains_dupplicate(const int *array, const int array_size)
 {
     int i;
     int limit;
@@ -78,7 +77,7 @@ static int contains_dupplicate(const int *array, const int array_size)
     return (0);
 }
 
-static int *sort_array(int *array, const int array_size)
+int *sort_array(int *array, const int array_size)
 {
     int i;
     int j;

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/22 15:44:34 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:27:49 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,26 +217,46 @@ void    sort_3(t_node **roota)
 	int     a;
 	int     b;
 	int     c;
-
+	
+	printf("in sort3\n");
 	if (is_sorted(*roota))
+	{	
+		printf("am i a moron\n");
 		return ;
+	}
 	current = (*roota);
 	a = (current->number);
 	b = (current->next->number);
 	c = (current->next->next->number);
-	if (a < b && b > c && c < a)
+	if (a > b && b < c && c > a)
+	{	
 		rotate(roota);
-	else if (a > b && b < c && c < a)
-		reverse_rotate(roota);
+		printf("ra\n");
+	}
 	else if (a < b && b > c && c > a)
+	{	
+		reverse_rotate(roota);
+		printf("rra\n");
+	}
+	else if (a > b && b < c && c < a)
+	{	
 		swap(*roota);
-	else if (a > b)
+		printf("sa\n");
+	}
+	else if (a < b)
 	{
 		swap(*roota);
-		if (b > c)
+		printf("sa\n");
+		if (b < c)
+		{	
+			printf("rra\n");
 			reverse_rotate(roota);
-		else if (b < c)
+		}
+		else if (b > c)
+		{	
+			printf("ra\n");
 			rotate(roota);
+		}
 	}
 }
 
@@ -246,12 +266,12 @@ int is_sorted(const t_node *roota)
 	t_node  *current;
 
 	current = (t_node *)roota;
-	i = INT_MIN;
+	i = INT_MAX;
 	
 	while (current)
 	{
 		// printf("comparing if %i is smaller than %i\n", current->number, i);
-		if (current->number < i)
+		if (current->number > i)
 		{    
 			// printf("about to return not sorted");
 			return (0);

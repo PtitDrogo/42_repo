@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/22 15:15:37 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:56:13 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_stacks
 {
     t_node          **roota;
     t_node          **rootb;
+    int             median;
     
 } t_stacks;
 
@@ -59,7 +60,9 @@ void	*my_malloc(size_t size);
 void	print_list(t_node *root);
 //end debugging functions
 
-
+//try
+int     push_to_median(t_node **from, t_node **to, int median);
+//try
 
 int    reverse_rotate(t_node **root);
 int    swap(t_node *list);
@@ -74,8 +77,7 @@ void    error_message_exit();
 int     listlen(t_node *root);
 int    rrr(t_node **roota, t_node **rootb);
 char	**ft_split(char const *s, char c);
-int     arg_parsing(int argc, char  *argv[], t_stacks *pushswap);
-int     push_to_median(t_node **roota, t_node **rootb, t_stacks *pushswap);
+int     arg_parsing(int argc, char  *argv[], int *median);
 int     nicememes(t_node **from, t_node **to, t_stacks *pushswap, int a_or_b);
 int     is_sorted(const t_node *roota);
 t_node  *get_to_last_node(t_node *root);

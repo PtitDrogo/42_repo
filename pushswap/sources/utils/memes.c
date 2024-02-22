@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 05:08:37 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 18:19:13 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:37:50 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // int     nicememes(t_node **from, t_node **to, t_list *pushswap, int a_or_b);
 // t_node *get_to_index(t_node *from, int len);
-int     push_to_median(t_node **from, t_node **to, t_stacks *pushswap)
+int     push_to_median(t_node **from, t_node **to, int median)
 {
     t_node  *temp;
     int     median;
@@ -22,7 +22,6 @@ int     push_to_median(t_node **from, t_node **to, t_stacks *pushswap)
     int     list_len;
     
     list_len = listlen(*from);
-    median = pushswap->median;
     while((*from)->next)
         (*from) = (*from)->next;
     while ((*from)) //&& list_len > 3 in theory, but it leaks for some reason
@@ -30,9 +29,13 @@ int     push_to_median(t_node **from, t_node **to, t_stacks *pushswap)
         number = (*from)->number;
         temp = (*from);
         (*from) = (*from)->prev;
-        push(&temp, to, "pb"); //obviously this is temporary
+        push(&temp, to); //obviously this is temporary
+        printf("pb\n");
         if (number > median) //< or > could be either really
-            rotate(to, "rb");
+        {    
+            rotate(to);
+            printf("rb\n");
+        }
         list_len--;
     }
     return 0;
