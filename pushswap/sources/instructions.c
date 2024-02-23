@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:48:31 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/23 17:45:04 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/23 20:11:59 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int    rotate(t_node **head)
 {
     t_node *current;
     t_node *new_head;
-    
+
     if (!(*head) || listlen(*head) < 2)
         return (0);
     (*head)->next->prev = NULL;

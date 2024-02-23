@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/23 16:09:52 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/23 20:31:36 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void    error_message_exit();
 int     listlen(t_node *root);
 int    rrr(t_node **roota, t_node **rootb);
 char	**ft_split(char const *s, char c);
-int     arg_parsing(int argc, char  *argv[], int *median);
+int     arg_parsing(int argc, char  *argv[]);
 int     nicememes(t_node **from, t_node **to, t_stacks *pushswap, int a_or_b);
 int     is_sorted(const t_node *roota);
 t_node  *get_to_last_node(t_node *root);
@@ -94,10 +94,12 @@ int     calculate_mixed_instructions(t_node *from, t_node *target_node);
 int     calculate_with_synergies(int a, int b);
 int     rotate_and_count(const t_node *node);
 int     rev_rotate_and_count(const t_node *node);
-void	prepare_push_protocol(t_node *from, t_node **fromroot, t_node **to_root, int stack_of_from);
+void	prepare_push_protocol(t_node *from, t_node **fromroot, t_node **to_root);
 void	execute_same_instructions(t_node *from, t_node **fromroot, t_node **to_root);
-void	execute_different_instructions(t_node *from, t_node **fromroot, t_node **to_root, int stack_of_from);
+void	execute_different_instructions(t_node *from, t_node **fromroot, t_node **to_root);
 void	exec_rotate_or_rev_rotate(int version, t_node **root);
 void	set_instructions_numbers(t_node *a_node, t_node *b_node);
+void	push_back_to_stack_a(t_node **fromroot, t_node **to_root);
+t_node	*find_smaller_number_node(const t_node *root_target_stack);
 
 #endif

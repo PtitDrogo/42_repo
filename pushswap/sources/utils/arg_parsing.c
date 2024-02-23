@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/22 18:58:14 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/23 19:38:40 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 int      contains_dupplicate(const int *array, const int array_size);
 int      *sort_array(int *array, const int array_size);
 
-int arg_parsing(int argc, char *argv[], int *median)
+int arg_parsing(int argc, char *argv[])
 {
     
     //need to redo this
     char **char_array;
     int *int_array;
     int i;
+    int median;
     
     char_array = NULL;
     int_array = NULL;
@@ -48,7 +49,7 @@ int arg_parsing(int argc, char *argv[], int *median)
         exit(EXIT_FAILURE);
     }
     printf("hi\n");
-    *median = int_array[(argc - 1) / 2];
+    median = int_array[(argc - 1) / 2];
     i = 0;
     // while (i < argc -1)
     // {

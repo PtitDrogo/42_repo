@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:30:00 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/22 15:59:52 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/23 19:11:49 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	smart_print(int instruction, int stack);
 
-void	prepare_push_protocol(t_node *from, t_node **fromroot, t_node **to_root, int stack_of_from)
+void	prepare_push_protocol(t_node *from, t_node **fromroot, t_node **to_root)
 {
 	// printf("hi im in exec protocol\n");
     // printf("from->instruction = %i  to->instruction = %i\n", from->instruction, from->target_node->instruction);
@@ -22,7 +22,7 @@ void	prepare_push_protocol(t_node *from, t_node **fromroot, t_node **to_root, in
     if (from->instruction == from->target_node->instruction)
 		execute_same_instructions(from, fromroot, to_root);
 	if (from->num_of_instructions || from->target_node->num_of_instructions)
-		execute_different_instructions(from, fromroot, to_root, stack_of_from);
+		execute_different_instructions(from, fromroot, to_root);
 	return ;
 }
 void	execute_same_instructions(t_node *from, t_node **fromroot, t_node **to_root)
@@ -46,22 +46,25 @@ void	execute_same_instructions(t_node *from, t_node **fromroot, t_node **to_root
 	}
 	return ;
 }
-void	execute_different_instructions(t_node *from, t_node **fromroot, t_node **to_root, int stack_of_from)
+void	execute_different_instructions(t_node *from, t_node **fromroot, t_node **to_root)
 {
 	while (from->num_of_instructions > 0)
 	{
 		exec_rotate_or_rev_rotate(from->instruction, fromroot);
-		smart_print(from->instruction, stack_of_from);
+		if (from->instruction == ROTATE)
+			printf("ra\n"); //TEMP
+		else if (from->instruction == REVERSE_ROTATE)
+			printf("rra\n"); //TEMP
 		(from->num_of_instructions)--;
 	}
-	if (stack_of_from == A)
-		stack_of_from = B;
-	else
-		stack_of_from = A;
 	while (from->target_node->num_of_instructions > 0)
 	{
 		exec_rotate_or_rev_rotate(from->target_node->instruction, to_root);
-		smart_print(from->instruction, stack_of_from);
+		if (from->target_node->instruction == ROTATE)
+			printf("rb\n"); //TEMP
+		else if (from->target_node->instruction == REVERSE_ROTATE)
+			printf("rrb\n"); //TEMP
+		// printf("from->instruction = %i\n", from->instruction);
 		(from->target_node->num_of_instructions)--;
 	}
 }
@@ -71,24 +74,5 @@ void	exec_rotate_or_rev_rotate(int version, t_node **root)
 		rotate(root);
 	else if (version == REVERSE_ROTATE)
 		reverse_rotate(root);
-	return ;
-}
-
-void	smart_print(int instruction, int stack)
-{
-	if (stack == A)
-	{
-		if (instruction == ROTATE)
-			printf("ra\n"); //TEMP
-		else if (instruction == REVERSE_ROTATE)
-			printf("rra\n"); //TEMP
-	}
-	else if (stack == B)
-	{
-		if (instruction == ROTATE)
-			printf("rb\n"); //TEMP
-		else if (instruction == REVERSE_ROTATE)
-			printf("rrb\n"); //TEMP
-	}
 	return ;
 }

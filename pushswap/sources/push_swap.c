@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/23 17:46:03 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/23 20:40:20 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	print_list(t_node *root)
 	{
 		while (root->next)
 		{
-			sleep(1);
+			// sleep(1);
 			printf("%i \n", root->number);
 			// printf("instruction is %i (1 = Rot 2 = RevRot) \n", root->instruction);
 			root = root->next;
@@ -72,17 +72,17 @@ void	print_list(t_node *root)
 		printf("%i \n", root->number);
 		// printf("instruction is %i (1 = Rot 2 = RevRot) \n", root->instruction);
 	}
-	printf("printing from tail to head/sommet\n");
-	if (root != NULL)
-	{
-		while (root->prev)
-		{
-			sleep(1);
-			printf("%i\n", root->number);
-			root = root->prev;
-		}
-		printf("%i\n", root->number);
-	}
+	// printf("printing from tail to head/sommet\n");
+	// if (root != NULL)
+	// {
+	// 	while (root->prev)
+	// 	{
+	// 		// sleep(1);
+	// 		printf("%i\n", root->number);
+	// 		root = root->prev;
+	// 	}
+	// 	printf("%i\n", root->number);
+	// }
 	return ;
 }
 
@@ -91,19 +91,14 @@ int main(int argc, char *argv[])
 	int status;
 	t_node		*roota;
 	t_node		*rootb;
-	int			*median;
 	t_node *cheapest_node;
 
-	
-	median = malloc (sizeof(int *));
-	if (!median)
-		return (1);
 	roota = NULL;
 	rootb = NULL;
 	status = init_number_list(argc, argv, &roota);
 	if (!status)
 		return(deallocate(roota), 1);
-	arg_parsing(argc, argv, median);
+	arg_parsing(argc, argv);
 	if (is_sorted(roota))
 	{	
 		printf("list is sorted\n");
@@ -127,12 +122,34 @@ int main(int argc, char *argv[])
 		find_all_target_nodes(roota, rootb);
 		cheapest_node = find_cheapest_node(roota);
 		// printf("my cheapest node with value %i has target node whose value is %i\n", cheapest_node->number, cheapest_node->target_node->number);
-		prepare_push_protocol(cheapest_node, &roota, &rootb, A);
+		prepare_push_protocol(cheapest_node, &roota, &rootb);
 		push(&roota, &rootb);
 		printf("pb\n");
 		flush_stacks(roota, rootb);
 	}
 	sort_3(&roota);
+	push_back_to_stack_a(&rootb, &roota);
+	
+	// t_node *final_head = malloc(sizeof(t_node *));
+	t_node *final_head = find_smaller_number_node(roota);
+	printf("smallest number = %i\n", final_head->number);
+	if (final_head && rotate_and_count(final_head) < rev_rotate_and_count(final_head))
+	{
+		while (final_head->prev)
+		{
+			rotate(&roota);
+			printf("ra\n");
+		}
+	}
+	else
+	{
+		while (final_head->prev)
+		{
+			reverse_rotate(&roota);
+			printf("rra\n");
+		}
+	}
+	
 	
 	// //meme attempt;
 	// push_to_median(&roota, &rootb, *median);
@@ -157,7 +174,7 @@ int main(int argc, char *argv[])
 	// printf("printing root of b %i \n", (*rootb).number);
 	deallocate(roota);
 	deallocate(rootb);
-	free(median);
+	// free(final_head);
 	return (0);
 }
 void	flush_stacks(t_node *roota, t_node *rootb)
