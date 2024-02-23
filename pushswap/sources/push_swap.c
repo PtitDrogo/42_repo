@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/22 19:22:53 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:46:03 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,12 @@ int     push_to_median(t_node **from, t_node **to, int median)
 
 void	print_list(t_node *root)
 {
-	printf("printing from start (root AKA dernier) to end (AKA SOMMET)\n");
+	printf("printing from head/sommet to tail\n");
 	if (root != NULL)
 	{
 		while (root->next)
 		{
+			sleep(1);
 			printf("%i \n", root->number);
 			// printf("instruction is %i (1 = Rot 2 = RevRot) \n", root->instruction);
 			root = root->next;
@@ -71,11 +72,12 @@ void	print_list(t_node *root)
 		printf("%i \n", root->number);
 		// printf("instruction is %i (1 = Rot 2 = RevRot) \n", root->instruction);
 	}
-	printf("printing from end (AKA SOMMET) to start(root AKA dernier)\n");
+	printf("printing from tail to head/sommet\n");
 	if (root != NULL)
 	{
 		while (root->prev)
 		{
+			sleep(1);
 			printf("%i\n", root->number);
 			root = root->prev;
 		}
@@ -139,15 +141,15 @@ int main(int argc, char *argv[])
 	// push(&rootb, &roota);
 	// printf("pa\n");
 	
-	while (listlen(rootb) > 0)
-	{
-		find_all_target_nodes(rootb, roota);
-		cheapest_node = find_cheapest_node(rootb);
-		prepare_push_protocol(cheapest_node, &rootb, &roota, A);
-		push(&rootb, &roota);
-		printf("pa\n");
-		flush_stacks(rootb, roota);
-	}
+	// while (listlen(rootb) > 0)
+	// {
+	// 	find_all_target_nodes(rootb, roota);
+	// 	cheapest_node = find_cheapest_node(rootb);
+	// 	prepare_push_protocol(cheapest_node, &rootb, &roota, A);
+	// 	push(&rootb, &roota);
+	// 	printf("pa\n");
+	// 	flush_stacks(rootb, roota);
+	// }
 	printf("printing stack a\n");
 	print_list(roota);
 	printf("printing stack b\n");
@@ -180,13 +182,13 @@ int	init_number_list(int argc, char *argv[], t_node **root)
 {
 	int i;
 	int status;
-	i = argc - 1;
-	while (i > 0)
+	i = 1;
+	while (i < argc)
 	{
 		status = insert_end(root, ft_atoi(argv[i])); //undo atoi if needed;
 		if (!status)
 			return (0);
-		i--;
+		i++;
 	}
 	return (1);
 }

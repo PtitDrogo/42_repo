@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/22 18:56:13 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/23 16:09:52 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ typedef struct s_node
 
 typedef struct s_stacks
 {
-    t_node          **roota;
-    t_node          **rootb;
+    t_node          **heada;
+    t_node          **taila;
+    
+    t_node          **headb;
+    t_node          **tailb;
     int             median;
     
 } t_stacks;
@@ -65,10 +68,10 @@ int     push_to_median(t_node **from, t_node **to, int median);
 //try
 
 int    reverse_rotate(t_node **root);
-int    swap(t_node *list);
+int    swap(t_node **list);
 int    rotate(t_node **root);
 void   swap_int(int *a, int *b);
-int    ss(t_node *roota, t_node *rootb);
+int    ss(t_node **roota, t_node **rootb);
 int    push(t_node **from, t_node **to);
 int    rr(t_node **roota, t_node **rootb);
 void    deallocate(t_node *root);

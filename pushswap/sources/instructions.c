@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:48:31 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/20 14:58:56 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:45:04 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,24 @@ void    swap_int(int *a, int *b)
     return ;
 }
 
-int    swap(t_node *root)
+int    swap(t_node **head)
 {
-    if (!root || listlen(root) < 2)
+    t_node  *new_head_node;
+    t_node  *old_head;
+    if (!head || listlen(*head) < 2)
         return (0);
-    root = get_to_last_node(root);
-    swap_int(&(root->number), &(root->prev->number));
+    new_head_node = (*head)->next;
+    old_head = (*head);
+    old_head->next = new_head_node->next;
+    old_head->prev = new_head_node;
+    new_head_node->next->prev = old_head;
+    new_head_node->next = old_head;
+    new_head_node->prev = NULL;
+    (*head) = new_head_node;
+    
     return (1);
 }
-int    ss(t_node *roota, t_node *rootb)
+int    ss(t_node **roota, t_node **rootb)
 {
     if (swap(roota) == 0)
         return (0);
@@ -41,17 +50,18 @@ int    ss(t_node *roota, t_node *rootb)
 
 int push(t_node **from, t_node **to)
 {
-    t_node *current;
     t_node *node_to_add;
     
-    if (!*from)
+    if (*from == NULL)
         return (0);
-    current = get_to_last_node(*from);
-    node_to_add = current;
-    if (current->prev)
-        current->prev->next = NULL;
-    else if (current == *from)
-        *from = NULL;
+    node_to_add = (*from);
+    if ((*from)->next)
+    {    
+        (*from)->next->prev = NULL;
+        (*from) = (*from)->next;
+    }
+    else
+        (*from) = NULL;
     if ((*to) == NULL)
     {
         *to = node_to_add;
@@ -59,28 +69,25 @@ int push(t_node **from, t_node **to)
         (*to)->next = NULL;
         return (1);
     }
-    current = get_to_last_node(*to);
-    current->next = node_to_add;
-    node_to_add->prev = current;
-    node_to_add->next = NULL;
+    (*to)->prev = node_to_add;
+    node_to_add->next = (*to);
+    node_to_add->prev = NULL;
+    (*to) = node_to_add;
     return (1);
 }
 
-
-int    rotate(t_node **root)
+int    reverse_rotate(t_node **head)
 {
-    t_node *current;
-    t_node *new_root;
+    t_node *new_head;
 
-    if (!root || !(*root) || listlen(*root) < 2)
+    if (!head || !(*head) || listlen(*head) < 2)
         return (0);
-    current = get_to_last_node(*root);
-    new_root = current;
-    current->prev->next = NULL;
-    new_root->prev = NULL;
-    new_root->next = (*root);
-    (*root)->prev = new_root;
-    (*root) = new_root;
+    new_head = get_to_last_node(*head);
+    new_head->prev->next = NULL;
+    new_head->prev = NULL;
+    new_head->next = (*head);
+    (*head)->prev = new_head;
+    (*head) = new_head;
     return (1);
 }
 int    rr(t_node **roota, t_node **rootb)
@@ -93,20 +100,20 @@ int    rr(t_node **roota, t_node **rootb)
 }
 
 
-int    reverse_rotate(t_node **root)
+int    rotate(t_node **head)
 {
     t_node *current;
-    t_node *new_root;
+    t_node *new_head;
     
-    if (!(*root) || listlen(*root) < 2)
+    if (!(*head) || listlen(*head) < 2)
         return (0);
-    (*root)->next->prev = NULL;
-    new_root = (*root)->next;
-    current = get_to_last_node(*root);
-    current->next = (*root);
-    (*root)->prev = current;
-    (*root)->next = NULL;
-    (*root) = new_root;
+    (*head)->next->prev = NULL;
+    new_head = (*head)->next;
+    current = get_to_last_node(*head);
+    current->next = (*head);
+    (*head)->prev = current;
+    (*head)->next = NULL;
+    (*head) = new_head;
     return (1);
 }
 int    rrr(t_node **roota, t_node **rootb)
