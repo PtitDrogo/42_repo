@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/23 20:40:20 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/25 04:43:08 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,29 +88,23 @@ void	print_list(t_node *root)
 
 int main(int argc, char *argv[])
 {
-	int status;
 	t_node		*roota;
 	t_node		*rootb;
 	t_node *cheapest_node;
 
 	roota = NULL;
 	rootb = NULL;
-	status = init_number_list(argc, argv, &roota);
-	if (!status)
-		return(deallocate(roota), 1);
-	arg_parsing(argc, argv);
+	if (init_number_list(argc, argv, &roota) == 0)
+		free_all_and_error_exit(roota, rootb);
+	if (arg_parsing(argc, argv) == 0)
+		free_all_and_error_exit(roota, rootb);
 	if (is_sorted(roota))
 	{	
-		printf("list is sorted\n");
-		//free_all;
-		return (0);
+		free_all_and_error_exit(roota, rootb);
+		return (0); //its this or above;
 	}
-	else
-		printf("list is not sorted\n");
-	push(&roota, &rootb);
-	printf("pb\n");
-	push(&roota, &rootb);
-	printf("pb\n"); //first two initial push
+	safe_exec_two_stack(push, &roota, &rootb, "pb\n");
+	safe_exec_two_stack(push, &roota, &rootb, "pb\n");
 	
 	while (listlen(roota) > 3)
 	{	
@@ -128,27 +122,17 @@ int main(int argc, char *argv[])
 		flush_stacks(roota, rootb);
 	}
 	sort_3(&roota);
-	push_back_to_stack_a(&rootb, &roota);
+	// push_back_to_stack_a(&rootb, &roota);
 	
-	// t_node *final_head = malloc(sizeof(t_node *));
-	t_node *final_head = find_smaller_number_node(roota);
-	printf("smallest number = %i\n", final_head->number);
-	if (final_head && rotate_and_count(final_head) < rev_rotate_and_count(final_head))
-	{
-		while (final_head->prev)
-		{
-			rotate(&roota);
-			printf("ra\n");
-		}
-	}
-	else
-	{
-		while (final_head->prev)
-		{
-			reverse_rotate(&roota);
-			printf("rra\n");
-		}
-	}
+	// // t_node *final_head = malloc(sizeof(t_node *));
+	// t_node *final_head = find_smaller_number_node(roota);
+	// // printf("smallest number = %i\n", final_head->number);
+	// if (final_head && rotate_and_count(final_head) < rev_rotate_and_count(final_head))
+	// 	while (final_head->prev)
+	// 		safe_exec_one_stack(rotate, &roota, &rootb, "ra\n");
+	// else
+	// 	while (final_head->prev)
+	// 		safe_exec_one_stack(reverse_rotate, &roota, &rootb, "rra\n");
 	
 	
 	// //meme attempt;
@@ -167,11 +151,10 @@ int main(int argc, char *argv[])
 	// 	printf("pa\n");
 	// 	flush_stacks(rootb, roota);
 	// }
-	printf("printing stack a\n");
-	print_list(roota);
-	printf("printing stack b\n");
-	print_list(rootb);
-	// printf("printing root of b %i \n", (*rootb).number);
+	// printf("printing stack a\n");
+	// print_list(roota);
+	// printf("printing stack b\n");
+	// print_list(rootb);
 	deallocate(roota);
 	deallocate(rootb);
 	// free(final_head);

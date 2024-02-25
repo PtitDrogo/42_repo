@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/23 20:31:36 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/25 03:23:24 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 # define A 1
 # define B 2
+
 
 
 
@@ -58,6 +59,9 @@ typedef struct s_stacks
     
 } t_stacks;
 
+typedef int (*execfunction_tworoot)(t_node **, t_node**);
+typedef int (*execfunction_oneroot)(t_node **);
+
 //Debugging functions
 void	*my_malloc(size_t size);
 void	print_list(t_node *root);
@@ -75,7 +79,7 @@ int    ss(t_node **roota, t_node **rootb);
 int    push(t_node **from, t_node **to);
 int    rr(t_node **roota, t_node **rootb);
 void    deallocate(t_node *root);
-void    free_all_and_exit(t_node *roota, t_node *rootb, t_stacks *pushswap);
+void    free_all_and_error_exit(t_node *roota, t_node *rootb);
 void    error_message_exit();
 int     listlen(t_node *root);
 int    rrr(t_node **roota, t_node **rootb);
@@ -101,5 +105,8 @@ void	exec_rotate_or_rev_rotate(int version, t_node **root);
 void	set_instructions_numbers(t_node *a_node, t_node *b_node);
 void	push_back_to_stack_a(t_node **fromroot, t_node **to_root);
 t_node	*find_smaller_number_node(const t_node *root_target_stack);
+int    safe_exec_one_stack(execfunction_oneroot instruction, t_node **root, t_node **root_to_free, char *to_print);
+int    safe_exec_two_stack(execfunction_tworoot instruction, t_node ** from_root, t_node **to_root, char *to_print);
+void    free_all_and_exit(t_node *roota, t_node *rootb);
 
 #endif

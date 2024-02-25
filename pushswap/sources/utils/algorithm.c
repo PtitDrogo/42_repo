@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algorithm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/23 20:37:58 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/25 03:48:27 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,17 @@ void	push_back_to_stack_a(t_node **fromroot, t_node **to_root)
 		// printf("node to push number is %i and the first number of stack a is %i\n", node_to_push->number, (*to_root)->number);
 		target = find_target_node_bigger(node_to_push, *to_root);
 		// printf("target is %i\n", target->number);
-		if (target && rotate_and_count(target) < rev_rotate_and_count(target))
-		{
+		if (target && (rotate_and_count(target) < rev_rotate_and_count(target)))
 			while (target->prev)
-			{
-				rotate(to_root);
-				printf("ra\n");
-			}
-		}
+				safe_exec_one_stack(rotate, to_root, fromroot, "ra\n");
 		else if (target)
-		{
 			while (target->prev)
-			{
-				reverse_rotate(to_root);
-				printf("rra\n");
-			}
-		}
+				safe_exec_one_stack(reverse_rotate, to_root, fromroot, "rra\n");
 		push(fromroot, to_root);
 		printf("pa\n");
-	// (*fromroot) = (*fromroot)->next; //since we are pushing this is useless ?
 	}
 	
 }
-
-
 
 
 t_node	*find_cheapest_node(const t_node *from)
@@ -292,12 +279,8 @@ void    sort_3(t_node **roota)
 	int     b;
 	int     c;
 	
-	printf("in sort3\n");
 	if (is_sorted(*roota))
-	{	
-		printf("am i a moron\n");
 		return ;
-	}
 	current = (*roota);
 	a = (current->number);
 	b = (current->next->number);
