@@ -6,7 +6,7 @@
 /*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/25 03:23:24 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/26 01:39:00 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void    error_message_exit();
 int     listlen(t_node *root);
 int    rrr(t_node **roota, t_node **rootb);
 char	**ft_split(char const *s, char c);
-int     arg_parsing(int argc, char  *argv[]);
+int     arg_parsing(int argc, char  *argv[], int *medianpointer);
 int     nicememes(t_node **from, t_node **to, t_stacks *pushswap, int a_or_b);
 int     is_sorted(const t_node *roota);
 t_node  *get_to_last_node(t_node *root);

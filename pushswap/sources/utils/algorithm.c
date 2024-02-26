@@ -6,7 +6,7 @@
 /*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/25 03:48:27 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/26 02:51:41 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	push_back_to_stack_a(t_node **fromroot, t_node **to_root)
 		push(fromroot, to_root);
 		printf("pa\n");
 	}
-	
 }
 
 
@@ -146,7 +145,7 @@ int rev_rotate_and_count(const t_node *node)
 	i = 0;
 	current = (t_node *) node;
 	if (node->prev == NULL)
-		return (0); // doesnt work for mixed i think
+		return (0);
 	while (current)
 	{
 		i++;

@@ -6,7 +6,7 @@
 /*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/25 04:43:08 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/26 03:10:24 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,16 @@ void	init_node(t_node *new_node);
 
 int     push_to_median(t_node **from, t_node **to, int median)
 {
-    t_node  *temp;
-	t_node	*current;
     int     number;
     int     list_len;
 	
-    current = *from;
     list_len = listlen(*from);
-    while((*from)->next)
-        (*from) = (*from)->next;
-    while ((*from)) //&& list_len > 3 in theory, but it leaks for some reason
+    while ((*from) && list_len > 1) //&& list_len > 3 in theory, but it leaks for some reason
     {
         number = (*from)->number;
-        temp = (*from);
-        (*from) = (*from)->prev;
-        push(&temp, to); //obviously this is temporary
-        printf("pb\n");
-        if (number > median) //< or > could be either really
-        {    
-            rotate(to);
-            printf("rb\n");
-        }
+        safe_exec_two_stack(push, from, to, "pb\n");
+        if (number < median) //somehow this is important test for the best
+			safe_exec_one_stack(rotate, to, from, "rb\n");
         list_len--;
     }
     return 0;
@@ -91,38 +80,38 @@ int main(int argc, char *argv[])
 	t_node		*roota;
 	t_node		*rootb;
 	t_node *cheapest_node;
+	int	*median = malloc(sizeof(int));
 
 	roota = NULL;
 	rootb = NULL;
 	if (init_number_list(argc, argv, &roota) == 0)
 		free_all_and_error_exit(roota, rootb);
-	if (arg_parsing(argc, argv) == 0)
+	if (arg_parsing(argc, argv, median) == 0)
 		free_all_and_error_exit(roota, rootb);
 	if (is_sorted(roota))
 	{	
-		free_all_and_error_exit(roota, rootb);
+		deallocate(roota);
+		deallocate(rootb);
 		return (0); //its this or above;
 	}
-	safe_exec_two_stack(push, &roota, &rootb, "pb\n");
-	safe_exec_two_stack(push, &roota, &rootb, "pb\n");
+	// safe_exec_two_stack(push, &roota, &rootb, "pb\n");
+	// safe_exec_two_stack(push, &roota, &rootb, "pb\n");
 	
-	while (listlen(roota) > 3)
-	{	
-		// printf("printing stack a\n");
-		// print_list(roota);
-		// printf("printing stack b\n");
-		// print_list(rootb);
-		// sleep(10);
-		find_all_target_nodes(roota, rootb);
-		cheapest_node = find_cheapest_node(roota);
-		// printf("my cheapest node with value %i has target node whose value is %i\n", cheapest_node->number, cheapest_node->target_node->number);
-		prepare_push_protocol(cheapest_node, &roota, &rootb);
-		push(&roota, &rootb);
-		printf("pb\n");
-		flush_stacks(roota, rootb);
-	}
-	sort_3(&roota);
-	// push_back_to_stack_a(&rootb, &roota);
+	// while (listlen(roota) > 3)
+	// {	
+	// 	// printf("printing stack a\n");
+	// 	// print_list(roota);
+	// 	// printf("printing stack b\n");
+	// 	// print_list(rootb);
+	// 	// sleep(10);
+	// 	find_all_target_nodes(roota, rootb);
+	// 	cheapest_node = find_cheapest_node(roota);
+	// 	// printf("my cheapest node with value %i has target node whose value is %i\n", cheapest_node->number, cheapest_node->target_node->number);
+	// 	prepare_push_protocol(cheapest_node, &roota, &rootb);
+	// 	push(&roota, &rootb);
+	// 	printf("pb\n");
+	// 	flush_stacks(roota, rootb);
+	// }
 	
 	// // t_node *final_head = malloc(sizeof(t_node *));
 	// t_node *final_head = find_smaller_number_node(roota);
@@ -136,7 +125,38 @@ int main(int argc, char *argv[])
 	
 	
 	// //meme attempt;
-	// push_to_median(&roota, &rootb, *median);
+	push_to_median(&roota, &rootb, *median);
+	// sort_3(&roota);
+
+	//////////////////MEDIAN ATTEMPT
+	while ((rootb))
+	{	
+		// printf("printing stack a\n");
+		// print_list(roota);
+		// printf("printing stack b\n");
+		// print_list(rootb);
+		// sleep(10);
+		find_all_target_nodes(rootb, roota);
+		cheapest_node = find_cheapest_node(rootb);
+		// printf("my cheapest node with value %i has target node whose value is %i\n", cheapest_node->number, cheapest_node->target_node->number);
+		prepare_push_protocol(cheapest_node, &rootb, &roota);
+		push(&rootb, &roota);
+		printf("pa\n");
+		flush_stacks(roota, rootb);
+	}
+	t_node *first = find_smaller_number_node(roota);
+	if (rev_rotate_and_count(roota) < rotate_and_count(roota))
+	{
+		while (first != roota)
+			safe_exec_one_stack(rotate, &roota, &rootb, "ra\n");
+	}
+	else
+		while (first != roota)
+			safe_exec_one_stack(reverse_rotate, &roota, &rootb, "rra\n");
+
+	//////////////////////MEDIAN ATTEMPT
+
+	// push_back_to_stack_a(&rootb, &roota);
 	// push(&rootb, &roota);
 	// printf("pa\n");
 	// push(&rootb, &roota);
@@ -157,7 +177,7 @@ int main(int argc, char *argv[])
 	// print_list(rootb);
 	deallocate(roota);
 	deallocate(rootb);
-	// free(final_head);
+	free(median);
 	return (0);
 }
 void	flush_stacks(t_node *roota, t_node *rootb)

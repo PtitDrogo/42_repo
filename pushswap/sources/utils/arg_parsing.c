@@ -6,7 +6,7 @@
 /*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/25 04:42:28 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/26 01:38:43 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int      contains_dupplicate(const int *array, const int array_size);
 int      *sort_array(int *array, const int array_size);
 
-int arg_parsing(int argc, char *argv[])
+int arg_parsing(int argc, char *argv[], int *medianpointer)
 {
     char    **char_array;
     int     *int_array;
@@ -47,6 +47,7 @@ int arg_parsing(int argc, char *argv[])
         return(0);
     }
     median = int_array[(argc - 1) / 2];
+    *medianpointer = median;
     i = 0;
     // while (i < argc -1)
     // {
