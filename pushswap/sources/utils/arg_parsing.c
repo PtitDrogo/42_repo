@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 00:30:13 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:49:48 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	arg_parsing(int argc, char *argv[], int *medianpointer, t_node **roota)
 	int_array = NULL;
 	if (argc == 1)
 		return (0);
+	//I dont really need char_array after i use it;
 	else if (argc == 2)
 	{
 		char_array = ft_split(argv[1], ' ');
 		if (!char_array)
 			return (0);
-		
 		i = 0;
 		while (char_array[i])
 			i++;
@@ -52,24 +52,30 @@ int	arg_parsing(int argc, char *argv[], int *medianpointer, t_node **roota)
 	}
 	else if (argc > 2)
 	{
-		i = 1;
-		int_array = malloc(sizeof(int) * (argc - 1));
-		while (i < argc)
-		{
-			temp = ft_safe_atoi(argv[i]);
-			if (temp == ATOI_ERROR)
-				return (free(int_array), 0);
-			int_array[i - 1] = temp;
-			i++;
-		}
-		size = argc - 1;
-	}
+		int_array = process_numbers_arg(argc, argv, &size);
+		if (int_array == NULL)
+			return(0);
+	}	
+			
+	// {
+	// 	i = 1;
+	// 	int_array = malloc(sizeof(int) * (argc - 1));
+	// 	while (i < argc)
+	// 	{
+	// 		temp = ft_safe_atoi(argv[i]);
+	// 		if (temp == ATOI_ERROR)
+	// 			return (free(int_array), 0);
+	// 		int_array[i - 1] = temp;
+	// 		i++;
+	// 	}
+	// 	size = argc - 1;
+	// }
 	if (init_number_list(size, int_array, roota) == 0)
 		return (free_array((void **)char_array), free (int_array), 0);
 	int_array = sort_array(int_array, size);
+	*medianpointer = int_array[size / 2];
 	if (contains_dupplicate(int_array, size))
 		return (free_array((void **)char_array), free (int_array), 0);
-	*medianpointer = int_array[size / 2];
 	return (free_array((void **)char_array), free (int_array), 1);
 }
 void	free_array(void **array)
@@ -122,4 +128,26 @@ int	*sort_array(int *array, const int array_size)
 		i++;
 	}
 	return (array);
+}
+
+int	*process_numbers_arg(int argc, char *argv[], int *size)
+{
+	int	i;
+	int	*int_array;
+	long	temp;
+	
+	i = 1;
+	int_array = malloc(sizeof(int) * (argc - 1));
+	if (!int_array)
+		return (NULL);
+	while (i < argc)
+	{
+		temp = ft_safe_atoi(argv[i]);
+		if (temp == ATOI_ERROR)
+			return (free(int_array), NULL);
+		int_array[i - 1] = temp;
+		i++;
+	}
+	*size = argc - 1;
+	return (int_array);
 }

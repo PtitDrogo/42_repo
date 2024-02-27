@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 00:11:01 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:39:07 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,5 @@ void    free_all_and_exit(t_node *roota, t_node *rootb);
 int     init_number_list(int size, int *number_array, t_node **root);
 long	ft_safe_atoi(const char *nptr);
 int	    insert_end(t_node **root, int value);
+int     *process_numbers_arg(int argc, char *argv[], int *size);
 #endif
