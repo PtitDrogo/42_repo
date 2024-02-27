@@ -5,12 +5,14 @@ HEADER_FILE = 	pushswap.h
 
 SRCS	=	$(SRCS_DIR)/push_swap.c \
 			$(SRCS_DIR)/instructions.c \
+			$(SRCS_DIR)/instructions_double.c \
 			$(SRCS_DIR)/utils/freenerror_functions.c \
 			$(SRCS_DIR)/utils/arg_parsing.c \
 			$(SRCS_DIR)/utils/algorithm.c \
 			$(SRCS_DIR)/utils/list_parsing.c \
 			$(SRCS_DIR)/utils/exec_instructions.c \
-			$(SRCS_DIR)/utils/safety.c
+			$(SRCS_DIR)/utils/safety.c \
+			$(SRCS_DIR)/utils/inits.c
 			
 ifeq ($(BONUS),true)
 SRCS_DIR = sources_bonus
@@ -28,7 +30,7 @@ LDFLAGS =	-L./libft -lft
 LIBFT	=	compile_libft
 
 
-NAME	=	push_swap
+NAME	=	pushswap
 
 YELLOW	=	\033[1;33m
 GREEN	=	\033[1;32m

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/26 01:39:00 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/28 00:11:01 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define A 1
 # define B 2
 
+# define ATOI_ERROR 3000000000
 
 
 
@@ -59,8 +60,8 @@ typedef struct s_stacks
     
 } t_stacks;
 
-typedef int (*execfunction_tworoot)(t_node **, t_node**);
-typedef int (*execfunction_oneroot)(t_node **);
+typedef int (*f_one)(t_node **, t_node**);
+typedef int (*f_two)(t_node **);
 
 //Debugging functions
 void	*my_malloc(size_t size);
@@ -84,11 +85,11 @@ void    error_message_exit();
 int     listlen(t_node *root);
 int    rrr(t_node **roota, t_node **rootb);
 char	**ft_split(char const *s, char c);
-int     arg_parsing(int argc, char  *argv[], int *medianpointer);
+int     arg_parsing(int argc, char  *argv[], int *medianpointer, t_node **roota);
 int     nicememes(t_node **from, t_node **to, t_stacks *pushswap, int a_or_b);
 int     is_sorted(const t_node *roota);
 t_node  *get_to_last_node(t_node *root);
-void    sort_3(t_node **roota);
+void    sort_3(t_node **roota, t_node **rootb);
 t_node  *find_target_node(const t_node *targetless_node, const t_node *root_target_stack);
 t_node	*find_biggest_number_node(const t_node *root_target_stack);
 void    find_all_target_nodes(t_node *from, t_node *to);
@@ -99,14 +100,16 @@ int     calculate_with_synergies(int a, int b);
 int     rotate_and_count(const t_node *node);
 int     rev_rotate_and_count(const t_node *node);
 void	prepare_push_protocol(t_node *from, t_node **fromroot, t_node **to_root);
-void	execute_same_instructions(t_node *from, t_node **fromroot, t_node **to_root);
-void	execute_different_instructions(t_node *from, t_node **fromroot, t_node **to_root);
+void	exec_same_instruct(t_node *from, t_node **fromroot, t_node **to_root);
+void	exec_diff_instruct(t_node *from, t_node **fromroot, t_node **to_root);
 void	exec_rotate_or_rev_rotate(int version, t_node **root);
 void	set_instructions_numbers(t_node *a_node, t_node *b_node);
 void	push_back_to_stack_a(t_node **fromroot, t_node **to_root);
 t_node	*find_smaller_number_node(const t_node *root_target_stack);
-int    safe_exec_one_stack(execfunction_oneroot instruction, t_node **root, t_node **root_to_free, char *to_print);
-int    safe_exec_two_stack(execfunction_tworoot instruction, t_node ** from_root, t_node **to_root, char *to_print);
+int    exec_one(f_two instruction, t_node **root, t_node **root_to_free, char *to_print);
+int    exec_two(f_one instruction, t_node ** from_root, t_node **to_root, char *to_print);
 void    free_all_and_exit(t_node *roota, t_node *rootb);
-
+int     init_number_list(int size, int *number_array, t_node **root);
+long	ft_safe_atoi(const char *nptr);
+int	    insert_end(t_node **root, int value);
 #endif

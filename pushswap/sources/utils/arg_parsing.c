@@ -3,95 +3,123 @@
 /*                                                        :::      ::::::::   */
 /*   arg_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/26 01:38:43 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/28 00:30:13 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-int      contains_dupplicate(const int *array, const int array_size);
-int      *sort_array(int *array, const int array_size);
+int		contains_dupplicate(const int *array, const int array_size);
+int		*sort_array(int *array, const int array_size);
+void	free_array(void **array);
 
-int arg_parsing(int argc, char *argv[], int *medianpointer)
+int	arg_parsing(int argc, char *argv[], int *medianpointer, t_node **roota)
 {
-    char    **char_array;
-    int     *int_array;
-    int     i;
-    int     median;
-    
-    char_array = NULL;
-    int_array = NULL;
-    i = 1;
-    if (argc == 1)
+	char	**char_array;
+	int		*int_array;
+	int		i;
+	int		j;
+	int		size;
+	long	temp;
+
+	char_array = NULL;
+	int_array = NULL;
+	if (argc == 1)
 		return (0);
-    else if (argc == 2)
-        char_array = ft_split(argv[1], ' '); //need to atoi this later;
-    else if (argc > 2)
-    {
-        int_array = malloc(sizeof(int) * argc - 1);
-        while (i < argc)
-        {
-            int_array[i - 1] = ft_atoi(argv[i]); //need to do a check for non numbers;
-            i++;
-        }
-    }
-    int_array = sort_array(int_array, argc - 1);
-    if (contains_dupplicate(int_array, argc - 1))
-    {
-        printf("list contains dupplicate"); //TODO remove
-        free (char_array);
-        free (int_array);
-        return(0);
-    }
-    median = int_array[(argc - 1) / 2];
-    *medianpointer = median;
-    i = 0;
-    // while (i < argc -1)
-    // {
-    //     printf("%i ", int_array[i]);
-    //     i++;
-    // } //kinda useless sorted check;
-    // printf("done printing int array, median is %i\n", pushswap->median);
-    free(int_array);
-    free(char_array); //this actually doesnt free all need to put function
-    return (1);
+	else if (argc == 2)
+	{
+		char_array = ft_split(argv[1], ' ');
+		if (!char_array)
+			return (0);
+		
+		i = 0;
+		while (char_array[i])
+			i++;
+		int_array = malloc(sizeof(int) * i);
+		j = 0;
+		while (j < i)
+		{
+			temp = ft_safe_atoi(char_array[j]);
+			if (temp == ATOI_ERROR)
+				return (free_array((void **)char_array), free (int_array), 0);
+			int_array[j] = (int)temp;
+			j++;
+		}
+		size = i;
+	}
+	else if (argc > 2)
+	{
+		i = 1;
+		int_array = malloc(sizeof(int) * (argc - 1));
+		while (i < argc)
+		{
+			temp = ft_safe_atoi(argv[i]);
+			if (temp == ATOI_ERROR)
+				return (free(int_array), 0);
+			int_array[i - 1] = temp;
+			i++;
+		}
+		size = argc - 1;
+	}
+	if (init_number_list(size, int_array, roota) == 0)
+		return (free_array((void **)char_array), free (int_array), 0);
+	int_array = sort_array(int_array, size);
+	if (contains_dupplicate(int_array, size))
+		return (free_array((void **)char_array), free (int_array), 0);
+	*medianpointer = int_array[size / 2];
+	return (free_array((void **)char_array), free (int_array), 1);
+}
+void	free_array(void **array)
+{
+	int	j;
+
+	j = 0;
+	if (array)
+	{
+		while (array[j])
+		{
+			free(array[j]);
+			j++;
+		}
+	}
+	free(array);
 }
 
-int contains_dupplicate(const int *array, const int array_size)
+int	contains_dupplicate(const int *array, const int array_size)
 {
-    int i;
-    int limit;
+	int	i;
+	int	limit;
 
-    limit = array_size - 1;
-    i = 0;
-    while (i < limit)
-    {
-        if (array[i] == array[i + 1])
-            return (1);
-        i++;
-    }
-    return (0);
+	limit = array_size - 1;
+	i = 0;
+	while (i < limit)
+	{
+		if (array[i] == array[i + 1])
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-int *sort_array(int *array, const int array_size)
+int	*sort_array(int *array, const int array_size)
 {
-    int i;
-    int j;
-    
-    i = 0;
-    while (i < array_size)
-    {
-        j = i;
-        while (j < array_size)
-        {
-            if (array[i] > array[j])
-                swap_int(&array[i], &array[j]);
-            j++;
-        }
-        i++;
-    }
-    return (array);
+	int	i;
+	int	j;
+	
+	i = 0;
+	while (i < array_size)
+	{
+		j = i;
+		while (j < array_size)
+		{
+			if (array[i] > array[j])
+				swap_int(&array[i], &array[j]);
+			j++;
+		}
+		i++;
+	}
+	return (array);
 }

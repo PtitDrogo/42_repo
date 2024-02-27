@@ -6,121 +6,87 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:48:31 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/23 20:11:59 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:34:28 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void    swap_int(int *a, int *b)
+int	swap(t_node **head)
 {
-    int temp;
+	t_node	*new_head_node;
+	t_node	*old_head;
 
-    temp = *a;
-    *a = *b;
-    *b = temp;
-    return ;
+	if (!head || listlen(*head) < 2)
+		return (0);
+	new_head_node = (*head)->next;
+	old_head = (*head);
+	old_head->next = new_head_node->next;
+	old_head->prev = new_head_node;
+	if (new_head_node->next)
+		new_head_node->next->prev = old_head;
+	new_head_node->next = old_head;
+	new_head_node->prev = NULL;
+	(*head) = new_head_node;
+	return (1);
 }
 
-int    swap(t_node **head)
+int	push(t_node **from, t_node **to)
 {
-    t_node  *new_head_node;
-    t_node  *old_head;
-    if (!head || listlen(*head) < 2)
-        return (0);
-    new_head_node = (*head)->next;
-    old_head = (*head);
-    old_head->next = new_head_node->next;
-    old_head->prev = new_head_node;
-    new_head_node->next->prev = old_head;
-    new_head_node->next = old_head;
-    new_head_node->prev = NULL;
-    (*head) = new_head_node;
-    
-    return (1);
-}
-int    ss(t_node **roota, t_node **rootb)
-{
-    if (swap(roota) == 0)
-        return (0);
-    if (swap(rootb) == 0)
-        return (0);
-    return (1);
-}
+	t_node	*node_to_add;
 
-int push(t_node **from, t_node **to)
-{
-    t_node *node_to_add;
-    
-    if (*from == NULL)
-        return (0);
-    node_to_add = (*from);
-    if ((*from)->next)
-    {    
-        (*from)->next->prev = NULL;
-        (*from) = (*from)->next;
-    }
-    else
-        (*from) = NULL;
-    if ((*to) == NULL)
-    {
-        *to = node_to_add;
-        (*to)->prev = NULL;
-        (*to)->next = NULL;
-        return (1);
-    }
-    (*to)->prev = node_to_add;
-    node_to_add->next = (*to);
-    node_to_add->prev = NULL;
-    (*to) = node_to_add;
-    return (1);
+	if (*from == NULL)
+		return (0);
+	node_to_add = (*from);
+	if ((*from)->next)
+	{
+		(*from)->next->prev = NULL;
+		(*from) = (*from)->next;
+	}
+	else
+		(*from) = NULL;
+	if ((*to) == NULL)
+	{
+		*to = node_to_add;
+		(*to)->prev = NULL;
+		(*to)->next = NULL;
+		return (1);
+	}
+	(*to)->prev = node_to_add;
+	node_to_add->next = (*to);
+	node_to_add->prev = NULL;
+	(*to) = node_to_add;
+	return (1);
 }
 
-int    reverse_rotate(t_node **head)
+int	reverse_rotate(t_node **head)
 {
-    t_node *new_head;
+	t_node	*new_head;
 
-    if (!head || !(*head) || listlen(*head) < 2)
-        return (0);
-    new_head = get_to_last_node(*head);
-    new_head->prev->next = NULL;
-    new_head->prev = NULL;
-    new_head->next = (*head);
-    (*head)->prev = new_head;
-    (*head) = new_head;
-    return (1);
-}
-int    rr(t_node **roota, t_node **rootb)
-{
-    if (rotate(roota) == 0)
-        return (0);
-    if (rotate(rootb) == 0)
-        return (0);
-    return (1);
+	if (!head || !(*head) || listlen(*head) < 2)
+		return (0);
+	new_head = get_to_last_node(*head);
+	new_head->prev->next = NULL;
+	new_head->prev = NULL;
+	new_head->next = (*head);
+	(*head)->prev = new_head;
+	(*head) = new_head;
+	return (1);
 }
 
-
-int    rotate(t_node **head)
+int	rotate(t_node **head)
 {
-    t_node *current;
-    t_node *new_head;
+	t_node	*current;
+	t_node	*new_head;
 
-    if (!(*head) || listlen(*head) < 2)
-        return (0);
-    (*head)->next->prev = NULL;
-    new_head = (*head)->next;
-    current = get_to_last_node(*head);
-    current->next = (*head);
-    (*head)->prev = current;
-    (*head)->next = NULL;
-    (*head) = new_head;
-    return (1);
-}
-int    rrr(t_node **roota, t_node **rootb)
-{
-    if (reverse_rotate(roota) == 0)
-        return (0);
-    if (reverse_rotate(rootb) == 0)
-        return (0);
-    return (1);
+	if (!(*head) || listlen(*head) < 2)
+		return (0);
+	(*head)->next->prev = NULL;
+	new_head = (*head)->next;
+	current = get_to_last_node(*head);
+	current->next = (*head);
+	(*head)->prev = current;
+	(*head)->next = NULL;
+	(*head) = new_head;
+	return (1);
 }

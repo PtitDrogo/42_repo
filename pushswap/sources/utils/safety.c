@@ -3,38 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   safety.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 02:59:58 by ptitdrogo         #+#    #+#             */
-/*   Updated: 2024/02/25 02:15:56 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/28 00:18:38 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-// typedef void (*execfunction_tworoot)(t_node **, t_node**);
-// typedef void (*execfunction_oneroot)(t_node **);
-
-int    safe_exec_two_stack(execfunction_tworoot instruction, t_node ** from_root, t_node **to_root, char *to_print)
+int	exec_two(f_one instruction, t_node **from, t_node **to, char *str)
 {
-    instruction(from_root, to_root);
-    if (write(1, to_print, ft_strlen(to_print)) == -1)
-    {
-        deallocate(*from_root);
-        deallocate(*to_root);
-        exit(EXIT_FAILURE);
-    }
-    return (1);
+	int	status;
+
+	status = instruction(from, to);
+	if (status)
+	{
+		if (write(1, str, ft_strlen(str)) == -1)
+		{
+			deallocate(*from);
+			deallocate(*to);
+			exit(EXIT_FAILURE);
+		}
+	}
+	return (1);
 }
 
-int    safe_exec_one_stack(execfunction_oneroot instruction, t_node **root, t_node **root_to_free, char *to_print)
+int	exec_one(f_two instruction, t_node **root, t_node **to_free, char *str)
 {
-    instruction(root);
-    if (write(1, to_print, ft_strlen(to_print)) == -1)
-    {
-        deallocate(*root);
-        deallocate(*root_to_free);
-        exit(EXIT_FAILURE);
-    }
-    return (1);
+	int	status;
+
+	status = instruction(root);
+	if (status)
+	{
+		if (write(1, str, ft_strlen(str)) == -1)
+		{
+			deallocate(*root);
+			deallocate(*to_free);
+			exit(EXIT_FAILURE);
+		}
+	}
+	return (1);
+}
+
+long	ft_safe_atoi(const char *nptr)
+{
+	int		i;
+	int		sign;
+	long	result;
+
+	result = 0;
+	i = 0;
+	sign = 1;
+	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == ' ')
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+		if (nptr[i++] == '-')
+			sign = sign * -1;
+	while (ft_isdigit(nptr[i]) && nptr[i])
+	{
+		result = (result * 10) + (nptr[i++] - '0');
+		if ((result * sign) > INT_MAX || (result * sign) < INT_MIN)
+			return (ATOI_ERROR);
+	}
+	if (nptr[i] && ft_isdigit(nptr[i]) == 0)
+		return (ATOI_ERROR);
+	return ((long)(result * sign));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freenerror_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 00:40:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/25 02:59:32 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/27 23:35:39 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,3 @@ void    error_message_exit()
     exit(EXIT_FAILURE);
 }
 
-int listlen(t_node *root)
-{
-    int i;
-    
-    i = 0;
-    while (root)
-    {
-        root = root->next;
-        i++;
-    }
-    return (i);
-}

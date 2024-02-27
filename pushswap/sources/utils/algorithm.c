@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algorithm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/27 02:40:23 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/28 00:10:56 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,13 @@ void	push_back_to_stack_a(t_node **fromroot, t_node **to_root)
 	while((*fromroot))
 	{
 		node_to_push = *fromroot;
-		// printf("node to push number is %i and the first number of stack a is %i\n", node_to_push->number, (*to_root)->number);
 		target = find_target_node_bigger(node_to_push, *to_root);
-		// printf("target is %i\n", target->number);
 		if (target && (rotate_and_count(target) < rev_rotate_and_count(target)))
 			while (target->prev)
-				safe_exec_one_stack(rotate, to_root, fromroot, "ra\n");
+				exec_one(rotate, to_root, fromroot, "ra\n");
 		else if (target)
 			while (target->prev)
-				safe_exec_one_stack(reverse_rotate, to_root, fromroot, "rra\n");
+				exec_one(reverse_rotate, to_root, fromroot, "rra\n");
 		push(fromroot, to_root);
 		printf("pa\n");
 	}
@@ -49,7 +47,6 @@ t_node	*find_cheapest_node(const t_node *from)
 	current = (t_node *) from;
 	while (current)
 	{
-		// printf("current cheapest instruction value is %i\n", cheapest_instructions_value);
 		current_value = find_instruc_number_and_direction(current, current->target_node);
 		if (cheapest_instructions_value > current_value)
 		{	
@@ -58,7 +55,6 @@ t_node	*find_cheapest_node(const t_node *from)
 		}
 		current = current->next;
 	}
-	// printf("return value of  %i\n", cheapest_instructions_value);
 	return (cheapest_node);
 }
 
@@ -70,9 +66,7 @@ int	find_instruc_number_and_direction(t_node *from, t_node *target_node)
 	
 	full_rotate = calculate_with_synergies(rotate_and_count(from), rotate_and_count(target_node));
 	full_reverse_rotate = calculate_with_synergies(rev_rotate_and_count(from), rev_rotate_and_count(target_node));
-	mixed = calculate_mixed_instructions(from, target_node);
-	// printf("\nHI from n = %i, target_node n = %i, full rotate = %i, full rev rotate = %i, mixed n = %i\n", from->number, target_node->number, full_rotate, full_reverse_rotate, mixed);
-		
+	mixed = calculate_mixed_instructions(from, target_node);	
 	if (full_rotate < full_reverse_rotate && full_rotate < mixed)
 	{	
 		from->instruction = ROTATE;
@@ -87,11 +81,8 @@ int	find_instruc_number_and_direction(t_node *from, t_node *target_node)
 		set_instructions_numbers(from, target_node);
 		return (full_reverse_rotate);
 	}		
-	else
-	{	
-		set_instructions_numbers(from, target_node);
-		return (mixed);
-	}
+	else	
+		return(set_instructions_numbers(from, target_node), mixed);
 }
 void	set_instructions_numbers(t_node *a_node, t_node *b_node)
 {
@@ -103,7 +94,6 @@ void	set_instructions_numbers(t_node *a_node, t_node *b_node)
 		b_node->num_of_instructions = rotate_and_count(b_node);
 	else if (b_node->instruction == REVERSE_ROTATE)
 		b_node->num_of_instructions = rev_rotate_and_count(b_node);
-	// printf("\nIN set instructions numbers : a = %i, b = %i\n", a_node->num_of_instructions, b_node->num_of_instructions);
 	return ;
 }
 
@@ -114,7 +104,6 @@ int	calculate_mixed_instructions(t_node *from, t_node *target_node)
 
 	mix_a = rotate_and_count(from) + rev_rotate_and_count(target_node);
 	mix_b = rev_rotate_and_count(from) + rotate_and_count(target_node);
-	// printf("in mixec calc, mix_a = %i and mix_b = %i\n", mix_a, mix_b);
 	if (mix_a < mix_b)
 	{	
 		from->instruction = ROTATE;
@@ -160,8 +149,6 @@ int rotate_and_count(const t_node *node)
 	
 	i = 0;
 	current = (t_node *) node;
-	// if (node->prev == NULL)
-	// 	return (0); //gonna need two different functions/condition heres.
 	while (current->prev)
 	{
 		i++;
@@ -170,14 +157,11 @@ int rotate_and_count(const t_node *node)
 	return (i);
 }
 
-
-
 void	find_all_target_nodes(t_node *from, t_node *to)
 {
 	while (from)
 	{
 		from->target_node = find_target_node_bigger(from, to);
-		// printf("from with number %i has target node = to %i\n", from->number, from->target_node->number);
 		from = from->next;
 	}
 	return ;
@@ -235,7 +219,6 @@ t_node  *find_target_node(const t_node *targetless_node, const t_node *root_targ
 	current = (t_node *) root_target_stack;
 	while (current)
 	{
-		printf("current num is %i and targetless_node->number is %i and closest number is %i\n", current->number, targetless_node->number, closest_number);
 		if (current->number < targetless_node->number && current->number > closest_number)
 		{	
 			closest_number = current->number;
@@ -259,7 +242,6 @@ t_node  *find_target_node_bigger(const t_node *targetless_node, const t_node *ro
 	current = (t_node *) root_target_stack;
 	while (current)
 	{
-		// printf("current num is %i and targetless_node->number is %i and closest number is %i\n", current->number, targetless_node->number, closest_number);
 		if (current->number > targetless_node->number && current->number < closest_number)
 		{	
 			closest_number = current->number;
@@ -271,7 +253,7 @@ t_node  *find_target_node_bigger(const t_node *targetless_node, const t_node *ro
 		target = find_smaller_number_node(root_target_stack);
 	return (target);
 }
-void    sort_3(t_node **roota)
+void    sort_3(t_node **roota, t_node **rootb)
 {
 	t_node  *current;
 	int     a;
@@ -285,47 +267,18 @@ void    sort_3(t_node **roota)
 	b = (current->next->number);
 	c = (current->next->next->number);
 	if (a > b && b < c && c < a)
-	{	
-		rotate(roota);
-		printf("ra\n");
-	}
+		exec_one(rotate, roota, rootb, "ra\n");
 	else if (a < b && b > c && c < a)
-	{	
-		reverse_rotate(roota);
-		printf("rra\n");
-	}
+		exec_one(reverse_rotate, roota, rootb, "rra\n");
 	else
 	{
-		swap(roota);
-		printf("sa\n");
+		exec_one(swap, roota, rootb, "sa\n");
 		if (a < b && b > c && c > a)
-		{	
-			printf("ra\n");
-			rotate(roota);
-		}
+			exec_one(rotate, roota, rootb, "ra\n");
 		else if (a > b && b > c && c < a)
-		{	
-			printf("rra\n");
-			reverse_rotate(roota);
-		}
+			exec_one(reverse_rotate, roota, rootb, "rra\n");
 	}
 }
 
-int is_sorted(const t_node *heada)
-{
-	int i;
-	t_node  *current;
 
-	current = (t_node *)heada;
-	i = INT_MIN;
-	
-	while (current)
-	{
-		if (current->number < i)
-			return (0);
-		i = current->number;
-		current = current->next; 
-	}
-	return (1);
-}
 
