@@ -6,7 +6,7 @@
 /*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/26 02:51:41 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/27 02:40:23 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	find_instruc_number_and_direction(t_node *from, t_node *target_node)
 	full_reverse_rotate = calculate_with_synergies(rev_rotate_and_count(from), rev_rotate_and_count(target_node));
 	mixed = calculate_mixed_instructions(from, target_node);
 	// printf("\nHI from n = %i, target_node n = %i, full rotate = %i, full rev rotate = %i, mixed n = %i\n", from->number, target_node->number, full_rotate, full_reverse_rotate, mixed);
-	
+		
 	if (full_rotate < full_reverse_rotate && full_rotate < mixed)
 	{	
 		from->instruction = ROTATE;
@@ -176,7 +176,7 @@ void	find_all_target_nodes(t_node *from, t_node *to)
 {
 	while (from)
 	{
-		from->target_node = find_target_node(from, to);
+		from->target_node = find_target_node_bigger(from, to);
 		// printf("from with number %i has target node = to %i\n", from->number, from->target_node->number);
 		from = from->next;
 	}
@@ -235,7 +235,7 @@ t_node  *find_target_node(const t_node *targetless_node, const t_node *root_targ
 	current = (t_node *) root_target_stack;
 	while (current)
 	{
-		// printf("current num is %i and targetless_node->number is %i and closest number is %i\n", current->number, targetless_node->number, closest_number);
+		printf("current num is %i and targetless_node->number is %i and closest number is %i\n", current->number, targetless_node->number, closest_number);
 		if (current->number < targetless_node->number && current->number > closest_number)
 		{	
 			closest_number = current->number;

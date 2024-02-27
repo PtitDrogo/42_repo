@@ -28,7 +28,7 @@ LDFLAGS =	-L./libft -lft
 LIBFT	=	compile_libft
 
 
-NAME	=	pushswap
+NAME	=	push_swap
 
 YELLOW	=	\033[1;33m
 GREEN	=	\033[1;32m

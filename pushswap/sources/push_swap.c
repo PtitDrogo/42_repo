@@ -6,7 +6,7 @@
 /*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/26 03:10:24 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/02/27 00:52:30 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int     push_to_median(t_node **from, t_node **to, int median)
     int     list_len;
 	
     list_len = listlen(*from);
-    while ((*from) && list_len > 1) //&& list_len > 3 in theory, but it leaks for some reason
+    while ((*from) && list_len > 3) //&& list_len > 3 in theory, but it leaks for some reason
     {
         number = (*from)->number;
         safe_exec_two_stack(push, from, to, "pb\n");
@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
 	
 	// //meme attempt;
 	push_to_median(&roota, &rootb, *median);
-	// sort_3(&roota);
+	sort_3(&roota);
 
 	//////////////////MEDIAN ATTEMPT
 	while ((rootb))

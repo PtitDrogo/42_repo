@@ -2,6 +2,8 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "pushswap.h": "c",
-        "stdio.h": "c"
-    }
+        "stdio.h": "c",
+        "functional": "c"
+    },
+    "cmake.configureOnOpen": false
 }
