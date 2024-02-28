@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 00:40:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 20:01:47 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:47:30 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	deallocate(t_node *root)
 {
 	t_node	*memory_to_free;
 
+	if (root)
+	{
+		while (root->prev)
+			root = root->prev;
+	}
 	while (root)
 	{
 		memory_to_free = root;

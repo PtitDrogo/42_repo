@@ -6,13 +6,13 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 20:03:55 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:46:54 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-static void	final_sort(t_node *stack_a, t_node *stack_b);
+static void	final_sort(t_node **stack_a, t_node **stack_b);
 static void	flush_stacks(t_node *roota, t_node *rootb);
 static void	early_exit(int argc, char *argv[], t_node *stacka, t_node *stackb);
 static int	push_to_median(t_node **from, t_node **to, int median);
@@ -39,7 +39,7 @@ int	main(int argc, char *argv[])
 		exec_two(push, &stack_b, &stack_a, "pa\n");
 		flush_stacks(stack_a, stack_b);
 	}
-	final_sort(stack_a, stack_b);
+	final_sort(&stack_a, &stack_b);
 	free_all_and_exit(stack_a, stack_b);
 }
 
@@ -90,19 +90,19 @@ static int	push_to_median(t_node **from, t_node **to, int median)
 	return (0);
 }
 
-static void	final_sort(t_node *stack_a, t_node *stack_b)
+static void	final_sort(t_node **stack_a, t_node **stack_b)
 {
 	t_node	*first;
 
-	first = find_smaller_number_node(stack_a);
+	first = find_smaller_number_node(*stack_a);
 	if (revr_count(first) > r_count(first))
 	{
-		while (first != stack_a)
-			exec_one(rotate, &stack_a, &stack_b, "ra\n");
+		while (first != (*stack_a))
+			exec_one(rotate, stack_a, stack_b, "ra\n");
 	}
 	else
 	{
-		while (first != stack_a)
-			exec_one(reverse_rotate, &stack_a, &stack_b, "rra\n");
+		while (first != (*stack_a))
+			exec_one(reverse_rotate, stack_a, stack_b, "rra\n");
 	}
 }

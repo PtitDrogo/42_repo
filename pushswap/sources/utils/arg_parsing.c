@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 19:59:58 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:47:16 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static int	*process_two_args_case(int argc, char *argv[], int *size)
 		i++;
 	int_array = malloc(sizeof(int) * i);
 	if (!int_array)
-		return (NULL);
+		return (free_array((void **)char_array), NULL);
 	j = -1;
 	while (++j < i)
 	{
