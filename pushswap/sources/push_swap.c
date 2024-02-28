@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 00:11:01 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:59:38 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ int main(int argc, char *argv[])
 	}
 	///FUNCTION
 	t_node *first = find_smaller_number_node(roota);
+	printf("rev rotate = %i\n", rev_rotate_and_count(roota));
+	printf("rotate = %i\n", rotate_and_count(roota));
+	//THIS WILL ALWAYS = 0 WTF ????
 	if (rev_rotate_and_count(roota) < rotate_and_count(roota))
 	{
 		while (first != roota)
