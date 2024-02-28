@@ -6,22 +6,25 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:30:00 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 00:11:01 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:15:21 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
+static void	same_instruct(t_node *from, t_node **fromroot, t_node **to_root);
+static void	diff_instruct(t_node *from, t_node **fromroot, t_node **to_root);
+
 void	prepare_push_protocol(t_node *from, t_node **fromroot, t_node **to_root)
 {
 	if (from->instruction == from->target_node->instruction)
-		exec_same_instruct(from, fromroot, to_root);
+		same_instruct(from, fromroot, to_root);
 	if (from->num_of_instructions || from->target_node->num_of_instructions)
-		exec_diff_instruct(from, fromroot, to_root);
+		diff_instruct(from, fromroot, to_root);
 	return ;
 }
 
-void	exec_same_instruct(t_node *from, t_node **fromroot, t_node **to_root)
+static void	same_instruct(t_node *from, t_node **fromroot, t_node **to_root)
 {
 	t_node	*target;
 
@@ -38,7 +41,7 @@ void	exec_same_instruct(t_node *from, t_node **fromroot, t_node **to_root)
 	return ;
 }
 
-void	exec_diff_instruct(t_node *from, t_node **fromroot, t_node **to_root)
+static void	diff_instruct(t_node *from, t_node **fromroot, t_node **to_root)
 {
 	while (from->num_of_instructions > 0)
 	{
@@ -56,13 +59,4 @@ void	exec_diff_instruct(t_node *from, t_node **fromroot, t_node **to_root)
 			exec_one(reverse_rotate, to_root, fromroot, "rra\n");
 		(from->target_node->num_of_instructions)--;
 	}
-}
-
-void	exec_rotate_or_rev_rotate(int version, t_node **root)
-{
-	if (version == ROTATE)
-		rotate(root);
-	else if (version == REVERSE_ROTATE)
-		reverse_rotate(root);
-	return ;
 }

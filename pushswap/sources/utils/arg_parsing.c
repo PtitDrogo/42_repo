@@ -6,95 +6,47 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 00:49:48 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:59:58 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-int		contains_dupplicate(const int *array, const int array_size);
-int		*sort_array(int *array, const int array_size);
-void	free_array(void **array);
+static int		contains_dupplicate(const int *array, const int array_size);
+static int		*sort_array(int *array, const int array_size);
+static int		*process_two_args_case(int argc, char *argv[], int *size);
+static int		*process_numbers_arg(int argc, char *argv[], int *size);
 
 int	arg_parsing(int argc, char *argv[], int *medianpointer, t_node **roota)
 {
-	char	**char_array;
 	int		*int_array;
-	int		i;
-	int		j;
 	int		size;
-	long	temp;
 
-	char_array = NULL;
 	int_array = NULL;
 	if (argc == 1)
 		return (0);
-	//I dont really need char_array after i use it;
 	else if (argc == 2)
 	{
-		char_array = ft_split(argv[1], ' ');
-		if (!char_array)
+		int_array = process_two_args_case(argc, argv, &size);
+		if (int_array == NULL)
 			return (0);
-		i = 0;
-		while (char_array[i])
-			i++;
-		int_array = malloc(sizeof(int) * i);
-		j = 0;
-		while (j < i)
-		{
-			temp = ft_safe_atoi(char_array[j]);
-			if (temp == ATOI_ERROR)
-				return (free_array((void **)char_array), free (int_array), 0);
-			int_array[j] = (int)temp;
-			j++;
-		}
-		size = i;
 	}
 	else if (argc > 2)
 	{
 		int_array = process_numbers_arg(argc, argv, &size);
 		if (int_array == NULL)
-			return(0);
-	}	
-			
-	// {
-	// 	i = 1;
-	// 	int_array = malloc(sizeof(int) * (argc - 1));
-	// 	while (i < argc)
-	// 	{
-	// 		temp = ft_safe_atoi(argv[i]);
-	// 		if (temp == ATOI_ERROR)
-	// 			return (free(int_array), 0);
-	// 		int_array[i - 1] = temp;
-	// 		i++;
-	// 	}
-	// 	size = argc - 1;
-	// }
+			return (0);
+	}
 	if (init_number_list(size, int_array, roota) == 0)
-		return (free_array((void **)char_array), free (int_array), 0);
+		return (free (int_array), 0);
 	int_array = sort_array(int_array, size);
 	*medianpointer = int_array[size / 2];
 	if (contains_dupplicate(int_array, size))
-		return (free_array((void **)char_array), free (int_array), 0);
-	return (free_array((void **)char_array), free (int_array), 1);
-}
-void	free_array(void **array)
-{
-	int	j;
-
-	j = 0;
-	if (array)
-	{
-		while (array[j])
-		{
-			free(array[j]);
-			j++;
-		}
-	}
-	free(array);
+		return (free (int_array), 0);
+	return (free (int_array), 1);
 }
 
-int	contains_dupplicate(const int *array, const int array_size)
+static int	contains_dupplicate(const int *array, const int array_size)
 {
 	int	i;
 	int	limit;
@@ -110,11 +62,11 @@ int	contains_dupplicate(const int *array, const int array_size)
 	return (0);
 }
 
-int	*sort_array(int *array, const int array_size)
+static int	*sort_array(int *array, const int array_size)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
 	while (i < array_size)
 	{
@@ -130,12 +82,12 @@ int	*sort_array(int *array, const int array_size)
 	return (array);
 }
 
-int	*process_numbers_arg(int argc, char *argv[], int *size)
+static int	*process_numbers_arg(int argc, char *argv[], int *size)
 {
-	int	i;
-	int	*int_array;
+	int		i;
+	int		*int_array;
 	long	temp;
-	
+
 	i = 1;
 	int_array = malloc(sizeof(int) * (argc - 1));
 	if (!int_array)
@@ -150,4 +102,33 @@ int	*process_numbers_arg(int argc, char *argv[], int *size)
 	}
 	*size = argc - 1;
 	return (int_array);
+}
+
+static int	*process_two_args_case(int argc, char *argv[], int *size)
+{
+	int		i;
+	int		j;
+	long	temp;
+	char	**char_array;
+	int		*int_array;
+
+	char_array = ft_split(argv[1], ' ');
+	if (!char_array)
+		return (0);
+	i = 0;
+	while (char_array[i])
+		i++;
+	int_array = malloc(sizeof(int) * i);
+	if (!int_array)
+		return (NULL);
+	j = -1;
+	while (++j < i)
+	{
+		temp = ft_safe_atoi(char_array[j]);
+		if (temp == ATOI_ERROR)
+			return (free_array((void **)char_array), free (int_array), NULL);
+		int_array[j] = (int)temp;
+	}
+	*size = i;
+	return (free_array((void **)char_array), int_array);
 }

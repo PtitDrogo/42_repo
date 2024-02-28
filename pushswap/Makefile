@@ -8,11 +8,13 @@ SRCS	=	$(SRCS_DIR)/push_swap.c \
 			$(SRCS_DIR)/instructions_double.c \
 			$(SRCS_DIR)/utils/freenerror_functions.c \
 			$(SRCS_DIR)/utils/arg_parsing.c \
-			$(SRCS_DIR)/utils/algorithm.c \
+			$(SRCS_DIR)/utils/find_cheapest.c \
 			$(SRCS_DIR)/utils/list_parsing.c \
 			$(SRCS_DIR)/utils/exec_instructions.c \
 			$(SRCS_DIR)/utils/safety.c \
-			$(SRCS_DIR)/utils/inits.c
+			$(SRCS_DIR)/utils/inits.c \
+			$(SRCS_DIR)/utils/find_all_target.c \
+			$(SRCS_DIR)/utils/utils.c
 			
 ifeq ($(BONUS),true)
 SRCS_DIR = sources_bonus
@@ -27,7 +29,7 @@ CC		=	cc
 RM		=	rm -f
 CFLAGS	=	-g3
 LDFLAGS =	-L./libft -lft
-LIBFT	=	compile_libft
+LIBFT	=	./libft/libft.a
 
 
 NAME	=	push_swap
@@ -41,8 +43,10 @@ CUT		=	"\033[K"
 
 all: $(NAME)
 
-$(LIBFT):
+$(LIBFT): FORCE
 	@$(MAKE) --no-print-directory -C ./libft
+
+FORCE:
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
 	@mkdir -p $(@D)
@@ -50,7 +54,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER_DIR)
 	@printf $(UP)$(CUT)
 
-$(NAME): $(OBJS) | $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT)
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJS) -o $@ -I $(HEADER_DIR) $(LDFLAGS)
 	@printf $(UP)$(CUT)

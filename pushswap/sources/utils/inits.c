@@ -6,18 +6,13 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 23:49:34 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/27 23:54:46 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:16:18 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void	init_node(t_node *new_node)
-{
-	new_node->instruction = 0;
-	new_node->num_of_instructions = 0;
-	new_node->target_node = NULL;
-}
+static int	insert_end(t_node **root, int value);
 
 int	init_number_list(int size, int *number_array, t_node **root)
 {
@@ -35,7 +30,7 @@ int	init_number_list(int size, int *number_array, t_node **root)
 	return (1);
 }
 
-int	insert_end(t_node **root, int value)
+static int	insert_end(t_node **root, int value)
 {
 	t_node	*new_node;
 	t_node	*current;
@@ -59,4 +54,11 @@ int	insert_end(t_node **root, int value)
 	new_node->prev = current;
 	init_node(new_node);
 	return (1);
+}
+
+void	init_node(t_node *new_node)
+{
+	new_node->instruction = 0;
+	new_node->num_of_instructions = 0;
+	new_node->target_node = NULL;
 }

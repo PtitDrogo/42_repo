@@ -6,44 +6,57 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 00:40:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 00:50:05 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:01:47 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void deallocate(t_node *root)
+void	deallocate(t_node *root)
 {
-    t_node *memory_to_free;
-    
-    while (root)
-    {
-        memory_to_free = root;
-        root = root->next;
-        free(memory_to_free);
-    }
-    return ;
+	t_node	*memory_to_free;
+
+	while (root)
+	{
+		memory_to_free = root;
+		root = root->next;
+		free(memory_to_free);
+	}
+	return ;
 }
 
-void    free_all_and_exit(t_node *roota, t_node *rootb)
+void	free_all_and_exit(t_node *roota, t_node *rootb)
 {
-    deallocate(roota);
-    deallocate(rootb);
-    exit(EXIT_SUCCESS);
+	deallocate(roota);
+	deallocate(rootb);
+	exit(EXIT_SUCCESS);
 }
 
-
-void    free_all_and_error_exit(t_node *roota, t_node *rootb)
+void	free_all_and_error_exit(t_node *roota, t_node *rootb)
 {
-    deallocate(roota);
-    deallocate(rootb);
-    error_message_exit();
+	deallocate(roota);
+	deallocate(rootb);
+	error_message_exit();
 }
 
-void    error_message_exit()
+void	error_message_exit(void)
 {
-    write(2, "Error\n", 6);
-    // this write can fail, but considering the very next thing we do is exit, its like, whatever lol;
-    exit(EXIT_FAILURE);
+	write(2, "Error\n", 6);
+	exit(EXIT_FAILURE);
 }
 
+void	free_array(void **array)
+{
+	int	j;
+
+	j = 0;
+	if (array)
+	{
+		while (array[j])
+		{
+			free(array[j]);
+			j++;
+		}
+	}
+	free(array);
+}
