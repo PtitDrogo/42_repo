@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 00:59:38 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/02/28 01:58:52 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int main(int argc, char *argv[])
 	}
 	///FUNCTION
 	t_node *first = find_smaller_number_node(roota);
-	printf("rev rotate = %i\n", rev_rotate_and_count(roota));
-	printf("rotate = %i\n", rotate_and_count(roota));
+	// printf("rev rotate = %i\n", rev_rotate_and_count(first));
+	// printf("rotate = %i\n", rotate_and_count(first));
 	//THIS WILL ALWAYS = 0 WTF ????
-	if (rev_rotate_and_count(roota) < rotate_and_count(roota))
+	if (rev_rotate_and_count(first) > rotate_and_count(first))
 	{
 		while (first != roota)
 			exec_one(rotate, &roota, &rootb, "ra\n");

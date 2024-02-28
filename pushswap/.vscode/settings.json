@@ -3,7 +3,8 @@
     "files.associations": {
         "pushswap.h": "c",
         "stdio.h": "c",
-        "functional": "c"
+        "functional": "c",
+        "type_traits": "c"
     },
     "cmake.configureOnOpen": false
 }
