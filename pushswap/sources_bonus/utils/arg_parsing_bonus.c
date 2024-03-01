@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arg_parsing.c                                      :+:      :+:    :+:   */
+/*   arg_parsing_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/10 04:05:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/01 20:58:00 by tfreydie         ###   ########.fr       */
+/*   Created: 2024/03/01 15:20:27 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/03/01 17:41:19 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pushswap.h"
+#include "pushswap_bonus.h"
 
 static int		contains_dupplicate(const int *array, const int array_size);
 static int		*sort_array(int *array, const int array_size);
-static int		*process_two_args(char *argv[], int *size, int i);
+static int		*process_two_args(int argc, char *argv[], int *size, int i);
 static int		*process_numbers_arg(int argc, char *argv[], int *size);
 
 int	arg_parsing(int argc, char *argv[], int *medianpointer, t_node **roota)
@@ -28,7 +28,7 @@ int	arg_parsing(int argc, char *argv[], int *medianpointer, t_node **roota)
 	if (argc == 1)
 		return (0);
 	else if (argc == 2)
-		int_array = process_two_args(argv, &size, i);
+		int_array = process_two_args(argc, argv, &size, i);
 	else if (argc > 2)
 		int_array = process_numbers_arg(argc, argv, &size);
 	if (int_array == NULL)
@@ -100,7 +100,7 @@ static int	*process_numbers_arg(int argc, char *argv[], int *size)
 	return (int_array);
 }
 
-static int	*process_two_args(char *argv[], int *size, int i)
+static int	*process_two_args(int argc, char *argv[], int *size, int i)
 {
 	int		j;
 	long	temp;

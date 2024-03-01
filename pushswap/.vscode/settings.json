@@ -4,7 +4,10 @@
         "pushswap.h": "c",
         "stdio.h": "c",
         "functional": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "libft.h": "c",
+        "unistd.h": "c",
+        "pushswap_bonus.h": "c"
     },
     "cmake.configureOnOpen": false
 }

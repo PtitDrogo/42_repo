@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safety.c                                           :+:      :+:    :+:   */
+/*   safety_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 02:59:58 by ptitdrogo         #+#    #+#             */
-/*   Updated: 2024/03/01 17:38:10 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:42:17 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pushswap.h"
+#include "pushswap_bonus.h"
 
 int	exec_two(f_one instruction, t_node **from, t_node **to, char *str)
 {

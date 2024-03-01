@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:29:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 20:52:35 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:38:42 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_node
 
 typedef int (*f_one)(t_node **, t_node**);
 typedef int (*f_two)(t_node **);
-
 
 int	reverse_rotate(t_node **root);
 int	swap(t_node **list);

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 20:46:54 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/01 20:57:04 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	final_sort(t_node **stack_a, t_node **stack_b);
 static void	flush_stacks(t_node *roota, t_node *rootb);
-static void	early_exit(int argc, char *argv[], t_node *stacka, t_node *stackb);
+static void	early_exit(t_node *stacka, t_node *stackb);
 static int	push_to_median(t_node **from, t_node **to, int median);
 
 int	main(int argc, char *argv[])
@@ -28,7 +28,7 @@ int	main(int argc, char *argv[])
 	stack_b = NULL;
 	if (arg_parsing(argc, argv, &median, &stack_a) == 0)
 		free_all_and_error_exit(stack_a, stack_b);
-	early_exit(argc, argv, stack_a, stack_b);
+	early_exit(stack_a, stack_b);
 	push_to_median(&stack_a, &stack_b, median);
 	sort_3(&stack_a, &stack_b);
 	while (stack_b)
@@ -62,7 +62,7 @@ static void	flush_stacks(t_node *roota, t_node *rootb)
 	return ;
 }
 
-static void	early_exit(int argc, char *argv[], t_node *stack_a, t_node *stack_b)
+static void	early_exit(t_node *stack_a, t_node *stack_b)
 {
 	if (is_sorted(stack_a))
 		free_all_and_exit(stack_a, stack_b);
