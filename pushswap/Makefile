@@ -28,7 +28,9 @@ SRCS 		=	$(SRCS_DIR)/utils/arg_parsing_bonus.c \
 				$(SRCS_DIR)/utils/instructions_double_bonus.c \
 				$(SRCS_DIR)/utils/safety_bonus.c \
 				$(SRCS_DIR)/gnl/get_next_line.c \
-				$(SRCS_DIR)/gnl/get_next_line_utils.c
+				$(SRCS_DIR)/gnl/get_next_line_utils.c \
+				$(SRCS_DIR)/utils/inits_bonus.c \
+				$(SRCS_DIR)/utils/utils_bonus.c
 
 HEADER_DIR 	= 	includes_bonus
 HEADER_FILE = 	pushswap_bonus.h
@@ -59,7 +61,6 @@ $(LIBFT): FORCE
 FORCE:
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
-	@echo "Compiling with headers from $(HEADER_DIR)"
 	@mkdir -p $(@D)
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER_DIR)
@@ -89,10 +90,9 @@ fclean:	clean
 
 re:	fclean $(NAME)
 
+rebonus: fclean bonus
+
 bonus: 
 	@BONUS=true $(MAKE) 
 
-bclean:
-	rm -rf .objs_bonus
-	@$(MAKE) --no-print-directory -C ./libft clean
-.PHONY:	all clean fclean re bonus
+.PHONY:	all clean fclean re bonus rebonus FORCE

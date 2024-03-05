@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:09:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/05 13:39:33 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:40:04 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ int main(int argc, char *argv[])
 	stack_b = NULL;
 	if (arg_parsing(argc, argv, &median, &stack_a) == 0)
 		free_all_and_error_exit(stack_a, stack_b);
-    while (input)
+	input = get_next_line(0);
+	while (input)
 	{
-		input = get_next_line(0);
 		valid_input = verify_input(input, valid);
 		if (valid_input == -1)
-			free_all_and_error_exit(stack_a, stack_b);
-		if (execute_instructions(valid_input, &stack_a, &stack_b) == 0)
-			free_all_and_error_exit(stack_a, stack_b);
+			free_input_and_error_exit(stack_a, stack_b, input);
+		execute_instructions(valid_input, &stack_a, &stack_b);
 		free(input);
+		input = get_next_line(0);
 	}
 	if (end_checking(stack_a, stack_b) == 0)
 		free_all_KO_KO(stack_a, stack_b, "KO\n");
@@ -48,29 +48,28 @@ int main(int argc, char *argv[])
 
 static int	execute_instructions(int valid_input, t_node **stack_a, t_node **stack_b)
 {
-	//dans les exec rajouter le fait de se casser si un fail;
 	if (valid_input == 1)
-		return(exec_one(swap, stack_a, stack_b, "sa\n"));
+		swap(stack_a);
 	if (valid_input == 2)
-		return(exec_one(swap, stack_b, stack_a, "sb\n"));
+		swap(stack_b);
 	if (valid_input == 3)
-		return(exec_two(ss, stack_a, stack_b, "ss\n"));
+		ss(stack_a, stack_b);
 	if (valid_input == 4)
-		return(exec_one(rotate, stack_a, stack_b, "ra\n"));
+		rotate(stack_a);
 	if (valid_input == 5)
-		return(exec_one(rotate, stack_b, stack_a, "rb\n"));
+		rotate(stack_b);
 	if (valid_input == 6)
-		return(exec_two(rr, stack_a, stack_b, "rr\n"));
+		rr(stack_a, stack_b);
 	if (valid_input == 7)
-		return(exec_one(reverse_rotate, stack_a, stack_b, "rra\n"));
+		reverse_rotate(stack_a);
 	if (valid_input == 8)
-		return(exec_one(reverse_rotate, stack_b, stack_a, "rrb\n"));
+		reverse_rotate(stack_b);
 	if (valid_input == 9)
-		return(exec_one(reverse_rotate, stack_a, stack_b, "rrr\n"));
+		rrr(stack_a, stack_b);
 	if (valid_input == 10)
-		return(exec_two(push, stack_b, stack_a, "pa\n"));
+		push(stack_b, stack_a);
 	if (valid_input == 11)
-		return(exec_two(push, stack_a, stack_b, "pb\n"));
+		push(stack_a, stack_b);
 	return (0);
 }
 
@@ -81,6 +80,8 @@ static int	verify_input(char *input, char **valid)
 	size_t	input_len;
 	
 	i = 0;
+	if (!input)
+		return (-1);
 	while (valid[i])
 	{
 		input_len = ft_strlen(input);

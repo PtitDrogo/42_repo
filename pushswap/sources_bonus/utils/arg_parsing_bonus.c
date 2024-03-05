@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:20:27 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/05 13:38:31 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:24:48 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	arg_parsing(int argc, char **argv, int *medianpointer, t_node **roota)
 	i = 0;
 	int_array = NULL;
 	if (argc == 1)
-		return (0);
+		exit(EXIT_SUCCESS);
 	else if (argc == 2)
 		int_array = process_two_args(argv, &size, i);
 	else if (argc > 2)

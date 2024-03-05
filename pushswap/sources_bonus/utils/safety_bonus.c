@@ -6,45 +6,11 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 02:59:58 by ptitdrogo         #+#    #+#             */
-/*   Updated: 2024/03/01 17:42:17 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:39:25 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap_bonus.h"
-
-int	exec_two(f_one instruction, t_node **from, t_node **to, char *str)
-{
-	int	status;
-
-	status = instruction(from, to);
-	if (status)
-	{
-		if (write(1, str, ft_strlen(str)) == -1)
-		{
-			deallocate(*from);
-			deallocate(*to);
-			exit(EXIT_FAILURE);
-		}
-	}
-	return (1);
-}
-
-int	exec_one(f_two instruction, t_node **root, t_node **to_free, char *str)
-{
-	int	status;
-
-	status = instruction(root);
-	if (status)
-	{
-		if (write(1, str, ft_strlen(str)) == -1)
-		{
-			deallocate(*root);
-			deallocate(*to_free);
-			exit(EXIT_FAILURE);
-		}
-	}
-	return (1);
-}
 
 long	ft_safe_atoi(const char *nptr)
 {
@@ -72,3 +38,11 @@ long	ft_safe_atoi(const char *nptr)
 		return (ATOI_ERROR);
 	return ((long)(result * sign));
 }
+void	free_input_and_error_exit(t_node *roota, t_node *rootb, char *input)
+{
+	free(input);
+	deallocate(roota);
+	deallocate(rootb);
+	error_message_exit();
+}
+

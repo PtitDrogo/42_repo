@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:09:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/05 13:25:37 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:39:33 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,6 @@ typedef struct s_node
 	struct s_node   *target_node;
 }	t_node;
 
-typedef int (*f_one)(t_node **, t_node**);
-typedef int (*f_two)(t_node **);
-
-int		exec_one(f_two instruction, t_node **root, t_node **to_free, char *str);
-int		exec_two(f_one instruction, t_node **from, t_node **to, char *str);
 void	swap_int(int *a, int *b);
 void	init_node(t_node *new_node);
 int		init_number_list(int size, int *number_array, t_node **root);
@@ -82,4 +77,5 @@ int		rotate(t_node **head);
 int		is_sorted(const t_node *heada);
 int		listlen(t_node *root);
 t_node	*get_to_last_node(t_node *root);
+void	free_input_and_error_exit(t_node *roota, t_node *rootb, char *input);
 #endif
