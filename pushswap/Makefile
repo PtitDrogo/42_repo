@@ -74,7 +74,7 @@ $(NAME): $(OBJS) $(LIBFT) Makefile
 
 clean:
 	@echo "$(YELLOW)cleaning files$(RESET)"
-	@rm -rf .objs_bonus
+	@$(RM) -rf .objs_bonus
 	@$(RM) $(OBJS) rm -rf $(OBJS_DIR)
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) files deleted !$(RESET)"
@@ -83,6 +83,7 @@ clean:
 fclean:	clean
 	@echo "$(YELLOW)cleaning files$(RESET)"
 	@$(RM) $(NAME)
+	@$(RM) checker
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) executable deleted !$(RESET)"
 	@$(RM) ./libft/libft.a

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:20:27 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/05 14:24:48 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:20:56 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int		*sort_array(int *array, const int array_size);
 static int		*process_two_args(char *argv[], int *size, int i);
 static int		*process_numbers_arg(int argc, char *argv[], int *size);
 
-int	arg_parsing(int argc, char **argv, int *medianpointer, t_node **roota)
+int	arg_parsing(int argc, char **argv, t_node **roota)
 {
 	int		*int_array;
 	int		size;
@@ -36,7 +36,6 @@ int	arg_parsing(int argc, char **argv, int *medianpointer, t_node **roota)
 	if (init_number_list(size, int_array, roota) == 0)
 		return (free (int_array), 0);
 	int_array = sort_array(int_array, size);
-	*medianpointer = int_array[size / 2];
 	if (contains_dupplicate(int_array, size))
 		return (free (int_array), 0);
 	return (free (int_array), 1);

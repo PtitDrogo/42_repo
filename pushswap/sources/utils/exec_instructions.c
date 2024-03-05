@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:30:00 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 20:15:21 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:43:08 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	same_instruct(t_node *from, t_node **fromroot, t_node **to_root);
 static void	diff_instruct(t_node *from, t_node **fromroot, t_node **to_root);
 
-void	prepare_push_protocol(t_node *from, t_node **fromroot, t_node **to_root)
+void	prepare_push(t_node *from, t_node **fromroot, t_node **to_root)
 {
 	if (from->instruction == from->target_node->instruction)
 		same_instruct(from, fromroot, to_root);

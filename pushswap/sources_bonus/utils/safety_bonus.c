@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 02:59:58 by ptitdrogo         #+#    #+#             */
-/*   Updated: 2024/03/05 14:39:25 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:17:45 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ long	ft_safe_atoi(const char *nptr)
 		return (ATOI_ERROR);
 	return ((long)(result * sign));
 }
+
 void	free_input_and_error_exit(t_node *roota, t_node *rootb, char *input)
 {
 	free(input);
@@ -45,4 +46,3 @@ void	free_input_and_error_exit(t_node *roota, t_node *rootb, char *input)
 	deallocate(rootb);
 	error_message_exit();
 }
-

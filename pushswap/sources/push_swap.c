@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:24:46 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/01 20:57:04 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:43:06 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char *argv[])
 	{
 		find_all_target_nodes(stack_b, stack_a);
 		cheapest_node = find_cheapest_node(stack_b);
-		prepare_push_protocol(cheapest_node, &stack_b, &stack_a);
+		prepare_push(cheapest_node, &stack_b, &stack_a);
 		exec_two(push, &stack_b, &stack_a, "pa\n");
 		flush_stacks(stack_a, stack_b);
 	}

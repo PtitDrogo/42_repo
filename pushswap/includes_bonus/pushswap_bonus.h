@@ -6,12 +6,12 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:09:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/05 14:39:33 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:35:58 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSHSWAP_H
-# define PUSHSWAP_H
+#ifndef PUSHSWAP_BONUS_H
+# define PUSHSWAP_BONUS_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -34,9 +34,7 @@ char	*line_check(char *line, char *buffer, int *line_status);
 void	*secure_init(int *line_status, int fd);
 char	*final_check(char *line);
 
-
 # define ATOI_ERROR 3000000000
-
 # define SA 1
 # define SB 2
 # define SS 3
@@ -46,21 +44,23 @@ char	*final_check(char *line);
 # define RRA 7
 # define RRB 8
 # define RRR 9
+# define PA 10
+# define PB 11
 
 typedef struct s_node
 {
-	int             num_of_instructions;
-	int             instruction;
-	int             number;
+	int				num_of_instructions;
+	int				instruction;
+	int				number;
 	struct s_node	*next;
 	struct s_node	*prev;
-	struct s_node   *target_node;
+	struct s_node	*target_node;
 }	t_node;
 
 void	swap_int(int *a, int *b);
 void	init_node(t_node *new_node);
 int		init_number_list(int size, int *number_array, t_node **root);
-int		arg_parsing(int argc, char **argv, int *medianpointer, t_node **roota);
+int		arg_parsing(int argc, char **argv, t_node **roota);
 long	ft_safe_atoi(const char *nptr);
 void	deallocate(t_node *root);
 void	free_all_and_exit(t_node *roota, t_node *rootb);
