@@ -39,7 +39,7 @@ OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-g3
+CFLAGS	=	-Wall -Werror -Wextra -g3
 LDFLAGS =	-L./libft -lft
 LIBFT	=	./libft/libft.a
 
@@ -50,7 +50,7 @@ UP		=	"\033[A"
 CUT		=	"\033[K"
 
 
-all: $(NAME)
+all: $(NAME) 
 
 
 $(LIBFT): FORCE
@@ -59,6 +59,7 @@ $(LIBFT): FORCE
 FORCE:
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
+	@echo "Compiling with headers from $(HEADER_DIR)"
 	@mkdir -p $(@D)
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER_DIR)

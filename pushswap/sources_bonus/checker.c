@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:09:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/05 13:26:16 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:39:33 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 	{
 		input = get_next_line(0);
 		valid_input = verify_input(input, valid);
-		if (valid_input == -1);
+		if (valid_input == -1)
 			free_all_and_error_exit(stack_a, stack_b);
 		if (execute_instructions(valid_input, &stack_a, &stack_b) == 0)
 			free_all_and_error_exit(stack_a, stack_b);
@@ -108,7 +108,7 @@ static int	free_all_KO_KO(t_node *stack_a, t_node *stack_b, char *toprint)
 {
 	deallocate(stack_a);
 	deallocate(stack_b);
-	if (write(1, toprint, ft_strlen(toprint) == -1))
+	if (write(1, toprint, ft_strlen(toprint)) == -1)
 		error_message_exit();
 	exit(EXIT_SUCCESS);
 	
