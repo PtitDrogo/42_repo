@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 12:50:55 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/05 13:00:40 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:25:29 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,12 @@ int	listlen(t_node *root)
 		i++;
 	}
 	return (i);
+}
+t_node	*get_to_last_node(t_node *root)
+{
+	if (!root)
+		return (NULL);
+	while (root->next)
+		root = root->next;
+	return (root);
 }

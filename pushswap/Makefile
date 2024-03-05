@@ -39,7 +39,7 @@ OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-Wall -Werror -Wextra -g3
+CFLAGS	=	-g3
 LDFLAGS =	-L./libft -lft
 LIBFT	=	./libft/libft.a
 
@@ -72,6 +72,7 @@ $(NAME): $(OBJS) $(LIBFT) Makefile
 
 clean:
 	@echo "$(YELLOW)cleaning files$(RESET)"
+	@rm -rf .objs_bonus
 	@$(RM) $(OBJS) rm -rf $(OBJS_DIR)
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) files deleted !$(RESET)"
@@ -88,10 +89,9 @@ fclean:	clean
 re:	fclean $(NAME)
 
 bonus: 
-	@$(MAKE) BONUS=true 
+	@BONUS=true $(MAKE) 
 
-# bclean:
-# 	$(MAKE) BONUS=true $(clean)
-
-	
+bclean:
+	rm -rf .objs_bonus
+	@$(MAKE) --no-print-directory -C ./libft clean
 .PHONY:	all clean fclean re bonus

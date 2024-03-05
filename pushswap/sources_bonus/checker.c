@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:09:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/05 12:57:14 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:26:16 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	execute_instructions(int valid_input, t_node **stack_a, t_node **stac
 	if (valid_input == 8)
 		return(exec_one(reverse_rotate, stack_b, stack_a, "rrb\n"));
 	if (valid_input == 9)
-		return(exec_two(reverse_rotate, stack_a, stack_b, "rrr\n"));
+		return(exec_one(reverse_rotate, stack_a, stack_b, "rrr\n"));
 	if (valid_input == 10)
 		return(exec_two(push, stack_b, stack_a, "pa\n"));
 	if (valid_input == 11)

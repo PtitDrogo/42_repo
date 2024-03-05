@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:09:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/05 12:56:24 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:25:37 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,6 @@ int		push(t_node **from, t_node **to);
 int		reverse_rotate(t_node **head);
 int		rotate(t_node **head);
 int		is_sorted(const t_node *heada);
+int		listlen(t_node *root);
+t_node	*get_to_last_node(t_node *root);
 #endif
