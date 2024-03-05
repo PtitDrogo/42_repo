@@ -52,6 +52,7 @@ CUT		=	"\033[K"
 
 all: $(NAME)
 
+
 $(LIBFT): FORCE
 	@$(MAKE) --no-print-directory -C ./libft
 
@@ -87,6 +88,10 @@ fclean:	clean
 re:	fclean $(NAME)
 
 bonus: 
-	@BONUS=true $(MAKE)
+	@$(MAKE) BONUS=true 
+
+# bclean:
+# 	$(MAKE) BONUS=true $(clean)
+
 	
 .PHONY:	all clean fclean re bonus

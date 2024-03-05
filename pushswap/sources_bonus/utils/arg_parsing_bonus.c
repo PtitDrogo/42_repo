@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:20:27 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/01 17:41:19 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:45:39 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int		*sort_array(int *array, const int array_size);
 static int		*process_two_args(int argc, char *argv[], int *size, int i);
 static int		*process_numbers_arg(int argc, char *argv[], int *size);
 
-int	arg_parsing(int argc, char *argv[], int *medianpointer, t_node **roota)
+int	arg_parsing(int argc, char **argv, int *medianpointer, t_node **roota)
 {
 	int		*int_array;
 	int		size;

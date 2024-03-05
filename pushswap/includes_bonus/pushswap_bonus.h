@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:09:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/01 20:06:20 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:56:24 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 # endif
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(char *str);
-void	*ft_memmove(void *dest, void *src, int n);
 char	*join_and_free(char *line, char *buffer);
 void	*ft_memset(void *s, int c, size_t n);
 int		safe_read(char *line, char *buffer, int fd);
@@ -62,7 +60,12 @@ typedef struct s_node
 typedef int (*f_one)(t_node **, t_node**);
 typedef int (*f_two)(t_node **);
 
-int		arg_parsing(int argc, char *argv[], int *medianpointer, t_node **roota);
+int		exec_one(f_two instruction, t_node **root, t_node **to_free, char *str);
+int		exec_two(f_one instruction, t_node **from, t_node **to, char *str);
+void	swap_int(int *a, int *b);
+void	init_node(t_node *new_node);
+int		init_number_list(int size, int *number_array, t_node **root);
+int		arg_parsing(int argc, char **argv, int *medianpointer, t_node **roota);
 long	ft_safe_atoi(const char *nptr);
 void	deallocate(t_node *root);
 void	free_all_and_exit(t_node *roota, t_node *rootb);
@@ -75,5 +78,6 @@ int		rrr(t_node **roota, t_node **rootb);
 int		swap(t_node **head);
 int		push(t_node **from, t_node **to);
 int		reverse_rotate(t_node **head);
-
+int		rotate(t_node **head);
+int		is_sorted(const t_node *heada);
 #endif

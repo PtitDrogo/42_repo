@@ -1,26 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/09 19:01:49 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/05 12:59:03 by tfreydie         ###   ########.fr       */
+/*   Created: 2024/03/05 12:50:55 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/03/05 13:00:40 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap_bonus.h"
 
-void	*free_and_null(char *line)
+int	is_sorted(const t_node *heada)
 {
-	free(line);
-	return (NULL);
+	int		i;
+	t_node	*current;
+
+	current = (t_node *)heada;
+	i = INT_MIN;
+	while (current)
+	{
+		if (current->number < i)
+			return (0);
+		i = current->number;
+		current = current->next;
+	}
+	return (1);
 }
 
-char	*final_check(char *line)
+void	swap_int(int *a, int *b)
 {
-	if (line[0])
-		return (line);
-	return (free_and_null(line));
+	int	temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+	return ;
+}
+
+int	listlen(t_node *root)
+{
+	int	i;
+
+	i = 0;
+	while (root)
+	{
+		root = root->next;
+		i++;
+	}
+	return (i);
 }
