@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:50:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/28 20:16:39 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:55:55 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_node	*find_target(const t_node *targetless, const t_node *to)
 	curr = (t_node *) to;
 	while (curr)
 	{
-		if (curr->number > targetless->number && curr->number < closest_number)
+		if (curr->number > targetless->number && curr->number <= closest_number)
 		{
 			closest_number = curr->number;
 			target = curr;
