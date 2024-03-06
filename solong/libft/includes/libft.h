@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:11:39 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/27 19:00:10 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/06 16:27:00 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+# include <string.h>
+# include <stdbool.h>
+# include <limits.h>
+# include <stdio.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
+char	*final_check(char *line);
+void	*free_and_null(char *line);
+char	*get_next_line(int fd);
 int		ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);

@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/06 11:19:34 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/06 16:06:19 by tfreydie         ###   ########.fr       */
+/*   Created: 2023/12/09 19:01:49 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/03/06 16:24:43 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#include "libft.h"
 
-# include "mlx.h"
-# include <X11/X.h>
-# include <X11/keysym.h>
-# include <fcntl.h>
-# include <stdbool.h>
+void	*free_and_null(char *line)
+{
+	free(line);
+	return (NULL);
+}
 
-
-
-
-
-#endif
+char	*final_check(char *line)
+{
+	if (line[0])
+		return (line);
+	return (free_and_null(line));
+}

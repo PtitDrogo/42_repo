@@ -1,63 +1,79 @@
-OBJS_DIR	=	.objs
-SRCS_DIR	=	sources
-HEADER_DIR	=	includes
-HEADER_FILE = 	so_long.h 
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/02/14 16:22:44 by mbernard          #+#    #+#              #
+#    Updated: 2024/03/06 15:10:09 by tfreydie         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRCS	=	$(SRCS_DIR)/so_long.c \
+CC = cc
+NAME = so_long
+FLAGS = -lX11 -lXext -lz
+CFLAGS = -MMD -MP -g3
+MKDIR = mkdir -p
+RMDIR = rm -rf
 
-OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
+# ---------------------------------- Sources --------------------------------- #
+vpath %c sources
 
-CC		=	cc
-RM		=	rm -f
-CFLAGS	=	-Wall -Werror -Wextra -g3
-LDFLAGS =	-L./libft -lft
-LIBXFLAGS = -I minilibx-linux -O3
-LIBXFLAGSASSEMBLY = -L mlx_linux -lmlx_Linux -lXext -lX11 
+SRCS =	so_long
+	
+# ---------------------------------- Repertories ----------------------------- #
+HEADER_DIR = includes/
+OBJS_DIR = .objs/
+HEADER = $(addprefix ${HEADER_DIR}, so_long.h)
+OBJS = $(addprefix ${OBJS_DIR}, $(addsuffix .o, ${SRCS}))
+DEPS = ${OBJS:.o=.d}
 
-NAME	=	so_long
+# ---------------------------------- LibX Gestion ----------------------------- #
+LIBX_DIR = minilibx-linux/
+LINK_LIBX = -L ${LIBX_DIR} -lmlx_Linux
+LINK_LIBFT = -L ${LIBFT_DIR} -lft
+LIBFT_DIR = libft/
+LIBX = $(addprefix ${LIBX_DIR}, libmlx_Linux.a)
+LIBFT = $(addprefix ${LIBFT_DIR}, libft.a)
+INCLUDES = -I ${LIBX_DIR} -I ${HEADER_DIR} -I ${LIBFT_DIR}
+LIBS = ${LINK_LIBX} ${LINK_LIBFT}
 
-YELLOW	=	\033[1;33m
-GREEN	=	\033[1;32m
-RESET	=	\033[0m
-UP		=	"\033[A"
-CUT		=	"\033[K"
-LIBFT	=	./libft/libft.a
+# ---------------------------------- Compilation ----------------------------- #
+all: ${NAME}
 
+${NAME}: ${OBJS} ${LIBX} ${LIBFT}
+	${CC} ${CFLAGS} ${OBJS} ${INCLUDES} ${LIBS} ${FLAGS} -o $@
 
-all: $(NAME)
+${OBJS_DIR}%.o: %.c ${HEADER} | ${OBJS_DIR}
+	${CC} ${CFLAGS} ${INCLUDES} -O3 -c $< -o $@
 
-$(LIBFT): FORCE
-	@$(MAKE) --no-print-directory -C ./libft
+${LIBX}: FORCE
+	make -C ${LIBX_DIR}
+
+${LIBFT}: FORCE
+	$(MAKE) -C ${LIBFT_DIR}
+
+-include ${DEPS}
+# ---------------------------------- Create Repertory ---------------------- #
+${OBJS_DIR}:
+			${MKDIR} ${OBJS_DIR}
+
+## ---------------------------------- Clean ----------------------------------- #
+clean:  ${OBJS_DIR}
+	${RMDIR} ${OBJS_DIR}
+	${MAKE} clean -C $(LIBX_DIR)
+	${MAKE} clean -C $(LIBFT_DIR)
+
+fclean: clean
+	${RM} ${NAME}
+	${RM} ${LIBX}
+	${RM} ${LIBFT}
+
+re:    fclean
+	${MAKE} ${NAME}
 
 FORCE:
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
-	@mkdir -p $(@D)
-	@echo "$(YELLOW)Compiling [$<]$(RESET)"
-	@$(CC) $(CFLAGS) $(LIBXFLAGS) $(LIBXFLAGSASSEMBLY) -c $< -o $@ -I $(HEADER_DIR) 
-	@printf $(UP)$(CUT)
-
-$(NAME): $(OBJS) $(LIBFT) Makefile
-	@echo "$(YELLOW)Compiling [$<]$(RESET)"
-	@$(CC) $(CFLAGS) $(LIBXFLAGS) $(OBJS) -o $@ -I $(HEADER_DIR) $(LDFLAGS)
-	@printf $(UP)$(CUT)
-	@echo "$(GREEN)$(NAME) compiled!$(RESET)"
-
-clean:
-	@echo "$(YELLOW)cleaning files$(RESET)"
-	@$(RM) $(OBJS) rm -rf $(OBJS_DIR)
-	@printf $(UP)$(CUT)
-	@echo "$(GREEN)$(NAME) files deleted !$(RESET)"
-	@$(MAKE) --no-print-directory -C ./libft clean
-
-fclean:	clean
-	@echo "$(YELLOW)cleaning files$(RESET)"
-	@$(RM) $(NAME)
-	@printf $(UP)$(CUT)
-	@echo "$(GREEN)$(NAME) executable deleted !$(RESET)"
-	@$(RM) ./libft/libft.a
-	@echo "$(GREEN)libft.a executable deleted !$(RESET)"
-
-re:	fclean $(NAME)
-
-.PHONY:	all clean fclean re bonus FORCE
+# ---------------------------------- Phony ----------------------------------- #
+.PHONY: all clean fclean re FORCE
