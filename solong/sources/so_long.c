@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 11:19:05 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/07 14:42:43 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/07 14:57:28 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ int	main(int argc, char *argv[])
 	    perror_and_exit("unvalid number of arguments");
 	mlx = mlx_init();
 	init_all(&game, argv, &mlx);
-	// parse_map(&game, mlx_win, mlx);
-	printf("map = \n%s\n", game.map);
 	mlx_win = mlx_new_window(mlx, 3000, 2000, "Hello world!"); // to define dynamically in initall
+	parse_map(&game, mlx_win, &mlx);
+	printf("map = \n%s\n", game.map);
+	if (!mlx_win)
+		perror_and_exit("window failed to create"); // need to free stuff
 	mlx_put_image_to_window(mlx, mlx_win, game.coins, 64, 64);
 	mlx_loop(mlx);
 	free(game.map);
