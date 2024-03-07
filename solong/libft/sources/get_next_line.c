@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/06 16:29:03 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/07 10:59:44 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	*secure_init(int *line_status, int fd);
 static char	*line_check(char *line, char *buffer, int *line_status);
-static int		safe_read(char *line, char *buffer, int fd);
+static int	safe_read(char *line, char *buffer, int fd);
 static char	*join_and_free(char *line, char *buffer);
 
 char	*get_next_line(int fd)
