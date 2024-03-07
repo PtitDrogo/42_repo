@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 11:19:34 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/07 14:36:54 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/07 15:18:12 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef struct	s_game
 	int     height;
     int     width;
     char    *map;
+    int     map_height;
+    int     map_width;
 }   t_game;
-
 
 #endif
