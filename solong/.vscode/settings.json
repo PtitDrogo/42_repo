@@ -2,6 +2,8 @@
     "files.associations": {
         "mlx_int.h": "c",
         "mlx.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "keysym.h": "c",
+        "x.h": "c"
     }
 }
