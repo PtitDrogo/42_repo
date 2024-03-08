@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 11:19:05 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/08 18:39:01 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/09 00:57:31 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,18 @@ char	*get_map_array(char *mapname, t_game *game);
 void	generate_map(t_game *game, void *mlx_win, void *mlx);
 void	init_all(t_game *game, char **argv, void *mlx);
 int		exit_game(int keycode, t_game *game);
-void	move_player(t_game *game, void	*mlx_win, void	*mlx, int keycode);
-void	execute_move(t_game *game, void	*mlx_win, void	*mlx, t_xy to);
-void	move_player(t_game *game, void	*mlx_win, void	*mlx, int direction);
-int		is_valid_square(t_game *game, int direction);
 void	swap_char(char *hero, char *square);
 int		is_valid_move(int keycode);
 int		click_cross(t_game *game);
+void	get_map_grid(char **argv, t_game *game);
+char	*get_map_array(char *mapname, t_game *game);
 
 
 int	main(int argc, char *argv[])
 {
 	t_game	game;
 
+	//probably reading the map and making sure its good is the best and logical thing to do first;
 	if (argc != 2)
 	    perror_and_exit("unvalid number of arguments\n");
 	game.mlx = mlx_init();
@@ -139,7 +138,6 @@ int	exit_game(int keycode, t_game *game)
 }
 void	swap_char(char *hero, char *square)
 {
-
 	*square = *hero;
 	*hero = '0';
 	return ;
@@ -210,24 +208,25 @@ void	generate_map(t_game *game, void *mlx_win, void *mlx)
 
 void	init_all(t_game *game, char **argv, void *mlx)
 {
-	char *map_array;
 	
-	
-	/////REDO THIS///
-	map_array = get_map_array(argv[1], game);
-	if (!map_array)
-		exit (EXIT_FAILURE);
-	game->map = ft_split(map_array, '\n');
-	if (!game->map)
-		exit (EXIT_FAILURE); // TODO CHANGE, AND SEE IF "" breaks the code;
-	free(map_array);
-	/////
+	get_map_grid(argv, game);
 	game->wall = mlx_xpm_file_to_image(mlx, "./wall.xpm", &(game->img_width), &(game->img_height));
     //check if fail AND check if it exists before destroy
 	game->coin = mlx_xpm_file_to_image(mlx, "./coin.xpm", &(game->img_width), &(game->img_height));
 	game->floor = mlx_xpm_file_to_image(mlx, "./floor.xpm", &(game->img_width), &(game->img_height));
 	game->hero = mlx_xpm_file_to_image(mlx, "./hero.xpm", &(game->img_width), &(game->img_height));
     game->exit = mlx_xpm_file_to_image(mlx, "./end.xpm", &(game->img_width), &(game->img_height));
+}
+void	get_map_grid(char **argv, t_game *game)
+{
+	char *map_array;
+	
+	map_array = get_map_array(argv[1], game); // the function exits itself if theres a failure;
+	game->map = ft_split(map_array, '\n');
+	if (!game->map)
+		exit (EXIT_FAILURE); // TODO CHANGE, AND SEE IF "" breaks the code;
+	free(map_array);
+	return ;
 }
 
 char	*get_map_array(char *mapname, t_game *game)
@@ -252,6 +251,7 @@ char	*get_map_array(char *mapname, t_game *game)
 		new_line = get_next_line(mapfd);
 		(game->map_height)++;
 	}
+	close(mapfd); // do i protect close i forgot
 	return (map);
 }
 
@@ -261,7 +261,7 @@ char	*empty_malloc(void)
 
 	empty_malloc = malloc(sizeof(char));
 	if (!empty_malloc)
-		perror_and_exit("malloc failed");
+		perror_and_exit("malloc failed");// gotta update this !
 	empty_malloc[0] = '\0';
 	return (empty_malloc);
 }
