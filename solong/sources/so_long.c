@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 11:19:05 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/09 00:57:31 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/03/09 14:43:24 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	perror_and_exit(char *error_message);
 void	free_two_and_exit(void *tofree_1, void *tofree_2, char *error_message);
 char	*get_map_array(char *mapname, t_game *game);
 void	generate_map(t_game *game, void *mlx_win, void *mlx);
-void	init_all(t_game *game, char **argv, void *mlx);
+void	init_all(t_game *game, char **argv);
 int		exit_game(int keycode, t_game *game);
 void	swap_char(char *hero, char *square);
 int		is_valid_move(int keycode);
@@ -38,14 +38,9 @@ int	main(int argc, char *argv[])
 	//probably reading the map and making sure its good is the best and logical thing to do first;
 	if (argc != 2)
 	    perror_and_exit("unvalid number of arguments\n");
-	game.mlx = mlx_init();
 	// if (!mlx_win)
 	// 	perror_and_exit("failed to connect to graphical system\n");
-	init_all(&game, argv, game.mlx);
-	game.mlx_win = mlx_new_window(game.mlx, game.map_width * game.img_width, game.map_height * game.img_height, "Hello world!"); // to define dynamically in initall
-	if (!game.mlx_win)
-		perror_and_exit("window failed to create\n"); // need to free stuff
-
+	init_all(&game, argv);
 	generate_map(&game, game.mlx_win, game.mlx);
 	//mlx_key_hook (game.mlx_win, exit_game, (void *)&game);
 	mlx_hook(game.mlx_win, KeyPress, KeyPressMask, exit_game, (void *)&game);
@@ -53,8 +48,8 @@ int	main(int argc, char *argv[])
 	mlx_loop(game.mlx);
 	// free(game.map);
 	
-	//PROTOCOL TO FREE
-	//ON DETRUIT TOUTE LES IMAGES
+	// PROTOCOL TO FREE
+	// ON DETRUIT TOUTE LES IMAGES
 	// DETRUIT WINDOW
 	// DETRUIT MLX ?
 	// FREE MES MALLOCS
@@ -206,16 +201,19 @@ void	generate_map(t_game *game, void *mlx_win, void *mlx)
 	return ;
 }
 
-void	init_all(t_game *game, char **argv, void *mlx)
+void	init_all(t_game *game, char **argv)
 {
-	
 	get_map_grid(argv, game);
-	game->wall = mlx_xpm_file_to_image(mlx, "./wall.xpm", &(game->img_width), &(game->img_height));
+	game->mlx = mlx_init();
+	game->wall = mlx_xpm_file_to_image(game->mlx, "./wall.xpm", &(game->img_width), &(game->img_height));
     //check if fail AND check if it exists before destroy
-	game->coin = mlx_xpm_file_to_image(mlx, "./coin.xpm", &(game->img_width), &(game->img_height));
-	game->floor = mlx_xpm_file_to_image(mlx, "./floor.xpm", &(game->img_width), &(game->img_height));
-	game->hero = mlx_xpm_file_to_image(mlx, "./hero.xpm", &(game->img_width), &(game->img_height));
-    game->exit = mlx_xpm_file_to_image(mlx, "./end.xpm", &(game->img_width), &(game->img_height));
+	game->coin = mlx_xpm_file_to_image(game->mlx, "./coin.xpm", &(game->img_width), &(game->img_height));
+	game->floor = mlx_xpm_file_to_image(game->mlx, "./floor.xpm", &(game->img_width), &(game->img_height));
+	game->hero = mlx_xpm_file_to_image(game->mlx, "./hero.xpm", &(game->img_width), &(game->img_height));
+    game->exit = mlx_xpm_file_to_image(game->mlx, "./end.xpm", &(game->img_width), &(game->img_height));
+	game->mlx_win = mlx_new_window(game->mlx, game->map_width * game->img_width, game->map_height * game->img_height, "Hello world!"); // to define dynamically in initall
+	if (!game->mlx_win)
+		perror_and_exit("window failed to create\n"); // need to free stuff
 }
 void	get_map_grid(char **argv, t_game *game)
 {

@@ -49,7 +49,9 @@ SRCS	=	$(SRCS_DIR)/ft_isalnum.c \
 			$(SRCS_DIR)/get_next_line.c \
 			$(SRCS_DIR)/get_next_line_utils.c \
 			$(SRCS_DIR)/ft_strjoin_free_s1.c \
-			$(SRCS_DIR)/ft_free_array.c
+			$(SRCS_DIR)/ft_free_array.c \
+			$(SRCS_DIR)/gnl_exit.c \
+			$(SRCS_DIR)/gnl_utils_exit.c 
 
 
 OBJS			=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))

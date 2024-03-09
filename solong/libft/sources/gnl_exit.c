@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   gnl_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/07 10:59:44 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/09 13:53:12 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_next_line(int fd)
 
 	line = secure_init(&line_status, fd);
 	if (!line)
-		return (free_and_null(line));
+		return (free_and_exit(line));
 	if (buffer[0])
 	{
 		line = line_check(line, buffer, &line_status);
@@ -37,13 +37,13 @@ char	*get_next_line(int fd)
 	while (bytes_read)
 	{
 		if (bytes_read < 0)
-			return (NULL);
+			exit(EXIT_FAILURE);
 		line = line_check(line, buffer, &line_status);
 		if (line_status)
 			return (line);
 		bytes_read = safe_read(line, buffer, fd);
 	}
-	return (final_check(line));
+	return (final_check_exit(line));
 }
 
 static void	*secure_init(int *line_status, int fd)
@@ -51,13 +51,13 @@ static void	*secure_init(int *line_status, int fd)
 	char	*line;
 
 	if (fd < 0)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	*line_status = 1;
 	if (BUFFER_SIZE + 1 <= 0)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	line = malloc(1);
 	if (!line)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	line[0] = '\0';
 	return (line);
 }
@@ -92,7 +92,7 @@ static int	safe_read(char *line, char *buffer, int fd)
 	{
 		ft_memset(buffer, 0, BUFFER_SIZE);
 		free(line);
-		return (-1);
+		exit (EXIT_FAILURE);
 	}
 	buffer[bytes_read] = '\0';
 	return (bytes_read);
@@ -113,7 +113,7 @@ static char	*join_and_free(char *line, char *buffer)
 	linelen = ft_strlen(line);
 	new_line = malloc(sizeof(char) * (linelen + effective_bufferlen + 1));
 	if (!new_line)
-		return (free_and_null(line));
+		return (free_and_exit(line));
 	new_line[linelen + effective_bufferlen] = '\0';
 	i = -1;
 	while (++i < linelen)
