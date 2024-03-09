@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:27:36 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/09 13:53:12 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:34:15 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*line_check(char *line, char *buffer, int *line_status);
 static int	safe_read(char *line, char *buffer, int fd);
 static char	*join_and_free(char *line, char *buffer);
 
-char	*get_next_line(int fd)
+char	*get_next_line_exit(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
 	char		*line;

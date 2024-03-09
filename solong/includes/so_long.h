@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 11:19:34 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/08 18:36:07 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/09 18:12:34 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <X11/keysym.h>
 # include <fcntl.h>
 # include <stdbool.h>
-# include "../libft/includes/libft.h"
 
 
 typedef struct s_xy
@@ -37,15 +36,27 @@ typedef struct	s_game
 	char	**map;
 	int		img_height;
 	int		img_width;
-	int		map_height;
-	int		map_width;
+	size_t	map_height;
+	size_t	map_width;
 	void	*mlx_win;
 	void	*mlx;
 	t_xy	player_xy;
+	int		move_count;
 }   t_game;
 
 # define UP 	1
 # define DOWN 	2
 # define LEFT 	3
 # define RIGHT 	4
+
+///////////LIBFT/////////
+void	ft_free_array(void **array);
+char	**ft_split(char const *s, char c);
+char	*get_next_line(int fd);
+size_t	ft_strlen(const char *s);
+char	*ft_strjoin_free_s1(char *s1, char const *s2);
+void	ft_putnbr_fd(int n, int fd);
+////////////////////////////
+
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:11:39 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/09 13:34:30 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:35:28 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_list
 #  define BUFFER_SIZE 10
 # endif
 
+void	ft_free_array(void **array);
+char	*get_next_line_exit(int fd);
 void	*free_and_exit(char *line);
 char	*final_check_exit(char *line);
 char	*final_check(char *line);
