@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 18:32:26 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/08 18:32:55 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/09 18:54:25 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_free_array(void **array)
 	int	j;
 
 	j = 0;
+	if (!array)
+		return ;
 	while (array[j])
 	{
 		if (array[j])
@@ -24,4 +26,5 @@ void	ft_free_array(void **array)
 		j++;
 	}
 	free(array);
+	return ;
 }

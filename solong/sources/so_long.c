@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 11:19:05 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/09 18:30:08 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/09 19:05:06 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*get_map_array(char *mapname, t_game *game);
 int		exit_game_protocol(t_game *game);
 int		is_map_coinless(char **map);
 void	handle_move_key(int keycode, int *x, int *y);
+void	generate_square(t_game *game, void *mlx_win, void *mlx,int x, int y);
 
 int	is_map_valid(char **map);
 int	map_items_check(char **map);
@@ -318,20 +319,7 @@ void	generate_map(t_game *game, void *mlx_win, void *mlx)
 		x = 0;
 		while (game->map[y][x])
 		{
-			if (game->map[y][x] == '1')
-				mlx_put_image_to_window(mlx, mlx_win, game->wall, game->img_width * x, game->img_height * y);
-			if (game->map[y][x] == '0')
-				mlx_put_image_to_window(mlx, mlx_win, game->floor, game->img_width * x, game->img_height * y);
-			else if (game->map[y][x] == 'C')
-				mlx_put_image_to_window(mlx, mlx_win, game->coin, game->img_width * x, game->img_height * y);
-			else if (game->map[y][x] == 'E')
-				mlx_put_image_to_window(mlx, mlx_win, game->exit, game->img_width * x, game->img_height * y);
-			else if (game->map[y][x] == 'P')
-			{	
-				mlx_put_image_to_window(mlx, mlx_win, game->hero, game->img_width * x, game->img_height * y);
-				game->player_xy.x = x;
-				game->player_xy.y = y;
-			}
+			generate_square(game, mlx_win, mlx, x, y);
 			x++;
 		}
 		y++;
@@ -339,24 +327,39 @@ void	generate_map(t_game *game, void *mlx_win, void *mlx)
 	return ;
 }
 
-// void	generate_square(t_game game, void *mlx_win, void *mlx)
-// {
-	
-// }
+void	generate_square(t_game *game, void *mlx_win, void *mlx,int x, int y)
+{
+	if (game->map[y][x] == '1')
+		mlx_put_image_to_window(mlx, mlx_win, game->wall, game->img_width * x, game->img_height * y);
+	if (game->map[y][x] == '0')
+		mlx_put_image_to_window(mlx, mlx_win, game->floor, game->img_width * x, game->img_height * y);
+	else if (game->map[y][x] == 'C')
+		mlx_put_image_to_window(mlx, mlx_win, game->coin, game->img_width * x, game->img_height * y);
+	else if (game->map[y][x] == 'E')
+		mlx_put_image_to_window(mlx, mlx_win, game->exit, game->img_width * x, game->img_height * y);
+	else if (game->map[y][x] == 'P')
+	{	
+		mlx_put_image_to_window(mlx, mlx_win, game->hero, game->img_width * x, game->img_height * y);
+		game->player_xy.x = x;
+		game->player_xy.y = y;
+	}
+}
 
 void	init_all(t_game *game, char **argv)
 {
 	get_map_grid(argv, game);
 	if (is_map_valid(game->map) == 0)
 	{
-		printf("map is not valid\n");
 		ft_free_array((void **)game->map);
-		exit(EXIT_FAILURE);
+		perror_and_exit("map is not valid");
 	}
 	game->move_count = 0;
 	game->mlx = mlx_init();
 	if (!game->mlx)
-		perror_and_exit("failed to connect to graphical system\n"); // TODO MODIFY
+	{
+		ft_free_array((void **)game->map);
+		perror_and_exit("failed to connect to graphical system\n");
+	}	
 	game->wall = mlx_xpm_file_to_image(game->mlx, "./wall.xpm", &(game->img_width), &(game->img_height));
     //check if fail AND check if it exists before destroy
 	game->coin = mlx_xpm_file_to_image(game->mlx, "./coin.xpm", &(game->img_width), &(game->img_height));
@@ -365,17 +368,37 @@ void	init_all(t_game *game, char **argv)
     game->exit = mlx_xpm_file_to_image(game->mlx, "./end.xpm", &(game->img_width), &(game->img_height));
 	game->mlx_win = mlx_new_window(game->mlx, game->map_width * game->img_width, game->map_height * game->img_height, "Hello world!"); // to define dynamically in initall
 	if (!game->mlx_win)
-		perror_and_exit("window failed to create\n"); // need to free stuff
+		perror_and_exit("window failed to create"); // need to free stuff
 }
+void	init_images(t_game *game)
+{
+	game->wall = NULL;
+	game->coin = NULL;
+	game->floor = NULL;
+	game->hero = NULL;
+    game->exit = NULL;
+	
+	game->wall = mlx_xpm_file_to_image(game->mlx, "./wall.xpm", &(game->img_width), &(game->img_height));
+	game->coin = mlx_xpm_file_to_image(game->mlx, "./coin.xpm", &(game->img_width), &(game->img_height));
+	game->floor = mlx_xpm_file_to_image(game->mlx, "./floor.xpm", &(game->img_width), &(game->img_height));
+	game->hero = mlx_xpm_file_to_image(game->mlx, "./hero.xpm", &(game->img_width), &(game->img_height));
+    game->exit = mlx_xpm_file_to_image(game->mlx, "./end.xpm", &(game->img_width), &(game->img_height));
+}
+
+int	safe_xpm_to_img(t_game *game, xpm_to_img func)
+{
+	
+}
+
 void	get_map_grid(char **argv, t_game *game)
 {
 	char *map_array;
 	
-	map_array = get_map_array(argv[1], game); // the function exits itself if theres a failure;
+	map_array = get_map_array(argv[1], game); //this is safe
 	game->map = ft_split(map_array, '\n');
-	if (!game->map)
-		exit (EXIT_FAILURE); // TODO CHANGE, AND SEE IF "" breaks the code;
 	free(map_array);
+	if (!game->map)
+		perror_and_exit("split failed"); // should be all done and safe
 	return ;
 }
 
@@ -387,7 +410,7 @@ char	*get_map_array(char *mapname, t_game *game)
 	
 	mapfd = open(mapname, O_RDONLY);
 	if (mapfd == -1)
-		exit(EXIT_FAILURE); //need to update after i know how to mlx destroy;
+		perror_and_exit("failed to open map fd"); //need to update after i know how to mlx destroy;
 	map = empty_malloc();
 	new_line = get_next_line(mapfd);
 	if (new_line)
@@ -397,12 +420,13 @@ char	*get_map_array(char *mapname, t_game *game)
 	{
 		map = ft_strjoin_free_s1(map, new_line);
 		if (!map)
-			free_two_and_exit((void *)map, (void *)new_line, "malloc failed");
+			free_two_and_exit((void *)map, (void *)new_line, "malloc failed while reading map");
 		free(new_line);
 		new_line = get_next_line(mapfd);
 		(game->map_height)++;
 	}
-	close(mapfd); // do i protect close i forgot
+	if (close(mapfd) == -1)
+		free_two_and_exit((void *)map, (void *)new_line, "close failed");
 	return (map);
 }
 
@@ -412,7 +436,7 @@ char	*empty_malloc(void)
 
 	empty_malloc = malloc(sizeof(char));
 	if (!empty_malloc)
-		perror_and_exit("malloc failed");// gotta update this !
+		perror_and_exit("empty malloc failed");
 	empty_malloc[0] = '\0';
 	return (empty_malloc);
 }
