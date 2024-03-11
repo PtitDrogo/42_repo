@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:02:44 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/07 11:30:36 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/11 15:41:38 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strjoin_free_s1(char *s1, char const *s2)
 	j = 0;
 	joined = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!joined)
-		return (NULL);
+		return (free(s1), NULL);
 	while (i < ft_strlen(s1))
 	{
 		joined[i] = s1[i];

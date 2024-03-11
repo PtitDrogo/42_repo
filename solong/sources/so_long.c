@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 11:19:05 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/09 19:05:06 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:34:13 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,20 @@ int		exit_game_protocol(t_game *game);
 int		is_map_coinless(char **map);
 void	handle_move_key(int keycode, int *x, int *y);
 void	generate_square(t_game *game, void *mlx_win, void *mlx,int x, int y);
+int		game_img_check(t_game *game);
+void	init_images(t_game *game);
 
-int	is_map_valid(char **map);
+int	is_map_valid(t_game *game);
 int	map_items_check(char **map);
 void	process_char(char c, int items[3]);
 int	map_rectangle_check(char **map);
 int	map_walls_check(char **map);
 int	is_char_correct(char c);
 int	map_char_check(char **map);
+
+int floodfill(char **map, int x, int y);
+int check_floodfill(char **map);
+int check_exit(char **map, int y, int x);
 
 int	main(int argc, char *argv[])
 {
@@ -60,28 +66,110 @@ int	main(int argc, char *argv[])
 	// DETRUIT MLX ?
 	// FREE MES MALLOCS
 }
-
-int	is_map_valid(char **map)
+int floodfill(char **map, int x, int y)
 {
-	if (!map)
+	if (map[y][x] == 'F' || map[y][x] == '1' || map[y][x] == 'E')
+        return (0);
+    else
+        map[y][x] = 'F';
+    floodfill(map, y, x + 1);
+    floodfill(map, y, x - 1);
+    floodfill(map, y + 1, x);
+    floodfill(map, y - 1, x);
+}
+
+int check_floodfill(char **map)
+{
+    int y;
+    int x;
+	int	status;
+
+    y = 0;
+    while (map[y])
+    {
+        x = 0;
+        while (map[y][x])
+        {
+            printf("char is : %c\n",map[y][x] );
+            if (map[y][x] == 'C' || map[y][x] == 'P')
+            {    
+                printf("return 0 here 1");
+                return (0);
+            }
+            if (map[y][x] == 'E')
+				status = check_exit(map, y, x);
+            x++;
+        }
+        y++;
+    }
+    return (status);
+}
+void	get_P_xy(t_game *game)
+{
+	int y;
+	int x;
+	
+	y = 0;
+	while (game->map[y])
+	{
+		x = 0;
+		while(game->map[y][x])
+		{
+			if (game->map[y][x] == 'P')
+			{
+				game->player_xy.x = x;
+				game->player_xy.y = y;
+			}
+			x++;
+		}
+		y++;
+	}
+	return ;
+}
+int	path_check(t_game *game)
+{	
+	floodfill(game->map_double, game->player_xy.x, game->player_xy.y);
+	return (check_floodfill(game->map_double));
+}	
+
+int check_exit(char **map, int y, int x)
+{
+    int status;
+
+    if (map[y + 1] && map[y + 1][x] == 'F')
+        return (1);
+    if (y >= 1 && map[y - 1][x] == 'F')
+        return (1);
+    if (map[y][x + 1] == 'F')
+        return (1);
+    if (x >= 1 && map[y][x - 1] == 'F')
+        return (1);
+    return (0);
+}
+
+
+int	is_map_valid(t_game *game)
+{
+	if (!(game->map))
 		return (0);
 	printf("got there\n");
-	if (!(map[0]))
+	if (!(game->map[0]))
 		return (0);
 	printf("got there\n");
-	if (map_items_check(map) == 0)
+	if (map_items_check(game->map) == 0)
 		return (0);
 	printf("got there\n");
-	if (map_rectangle_check(map) == 0)
+	if (map_rectangle_check(game->map) == 0)
 		return (0);
 	printf("got there\n");
-	if (map_walls_check(map) == 0)
+	if (map_walls_check(game->map) == 0)
 		return (0);
 	printf("got there\n");
-	if (map_char_check(map) == 0)
+	if (map_char_check(game->map) == 0)
 		return (0);
 	printf("got there\n");
-	//floodfill
+	if (path_check(game) == 0)
+		return (0);
 	return (1);
 }
 
@@ -285,9 +373,12 @@ int	exit_game_protocol(t_game *game)
 		mlx_destroy_image (game->mlx, game->exit);
 	if (game->floor)
 		mlx_destroy_image (game->mlx, game->floor);
-	mlx_destroy_window(game->mlx, game->mlx_win);
-	mlx_destroy_display(game->mlx);
+	if (game->mlx_win)
+		mlx_destroy_window(game->mlx, game->mlx_win);
+	if (game->mlx)
+		mlx_destroy_display(game->mlx);
 	ft_free_array((void **)game->map);
+	ft_free_array((void **)game->map_double);
 	free(game->mlx);
 	exit(EXIT_SUCCESS);
 }
@@ -338,19 +429,32 @@ void	generate_square(t_game *game, void *mlx_win, void *mlx,int x, int y)
 	else if (game->map[y][x] == 'E')
 		mlx_put_image_to_window(mlx, mlx_win, game->exit, game->img_width * x, game->img_height * y);
 	else if (game->map[y][x] == 'P')
-	{	
 		mlx_put_image_to_window(mlx, mlx_win, game->hero, game->img_width * x, game->img_height * y);
-		game->player_xy.x = x;
-		game->player_xy.y = y;
-	}
+}
+
+void	bzero_struct(t_game *game)
+{
+	game->wall = NULL;
+	game->coin = NULL;
+	game->floor = NULL;
+	game->hero = NULL;
+	game->exit = NULL;
+	game->map = NULL;
+	game->mlx_win = NULL;
+	game->mlx = NULL;
+	game->map_double = NULL;
+	return ;
 }
 
 void	init_all(t_game *game, char **argv)
 {
+	bzero_struct(game);
 	get_map_grid(argv, game);
-	if (is_map_valid(game->map) == 0)
+	get_P_xy(game);
+	if (is_map_valid(game) == 0)
 	{
 		ft_free_array((void **)game->map);
+		ft_free_array((void **)game->map_double);
 		perror_and_exit("map is not valid");
 	}
 	game->move_count = 0;
@@ -358,36 +462,46 @@ void	init_all(t_game *game, char **argv)
 	if (!game->mlx)
 	{
 		ft_free_array((void **)game->map);
+		ft_free_array((void **)game->map_double);
 		perror_and_exit("failed to connect to graphical system\n");
-	}	
-	game->wall = mlx_xpm_file_to_image(game->mlx, "./wall.xpm", &(game->img_width), &(game->img_height));
-    //check if fail AND check if it exists before destroy
-	game->coin = mlx_xpm_file_to_image(game->mlx, "./coin.xpm", &(game->img_width), &(game->img_height));
-	game->floor = mlx_xpm_file_to_image(game->mlx, "./floor.xpm", &(game->img_width), &(game->img_height));
-	game->hero = mlx_xpm_file_to_image(game->mlx, "./hero.xpm", &(game->img_width), &(game->img_height));
-    game->exit = mlx_xpm_file_to_image(game->mlx, "./end.xpm", &(game->img_width), &(game->img_height));
+	}
+	game->mlx_win = NULL;
+	init_images(game);
 	game->mlx_win = mlx_new_window(game->mlx, game->map_width * game->img_width, game->map_height * game->img_height, "Hello world!"); // to define dynamically in initall
 	if (!game->mlx_win)
-		perror_and_exit("window failed to create"); // need to free stuff
+	{	
+		exit_game_protocol(game); // need to have something printing;
+	}
 }
 void	init_images(t_game *game)
 {
-	game->wall = NULL;
-	game->coin = NULL;
-	game->floor = NULL;
-	game->hero = NULL;
-    game->exit = NULL;
-	
 	game->wall = mlx_xpm_file_to_image(game->mlx, "./wall.xpm", &(game->img_width), &(game->img_height));
 	game->coin = mlx_xpm_file_to_image(game->mlx, "./coin.xpm", &(game->img_width), &(game->img_height));
 	game->floor = mlx_xpm_file_to_image(game->mlx, "./floor.xpm", &(game->img_width), &(game->img_height));
 	game->hero = mlx_xpm_file_to_image(game->mlx, "./hero.xpm", &(game->img_width), &(game->img_height));
     game->exit = mlx_xpm_file_to_image(game->mlx, "./end.xpm", &(game->img_width), &(game->img_height));
+	if (game_img_check(game) == 0)
+	{	
+		perror("failed to load img");
+		exit_game_protocol(game);
+	}	
 }
-
-int	safe_xpm_to_img(t_game *game, xpm_to_img func)
+int	game_img_check(t_game *game)
 {
-	
+	int err_status;
+
+	err_status = 1;
+	if (!(game->wall))
+		err_status = 0;
+	if (!(game->coin))
+		err_status = 0;
+	if (!(game->floor))
+		err_status = 0;
+	if (!(game->hero))
+		err_status = 0;
+	if (!(game->exit))
+		err_status = 0;
+	return (err_status);
 }
 
 void	get_map_grid(char **argv, t_game *game)
@@ -395,10 +509,13 @@ void	get_map_grid(char **argv, t_game *game)
 	char *map_array;
 	
 	map_array = get_map_array(argv[1], game); //this is safe
+	if (!map_array)
+		perror_and_exit("failed to get map");
 	game->map = ft_split(map_array, '\n');
+	game->map_double = ft_split(map_array, '\n');
 	free(map_array);
-	if (!game->map)
-		perror_and_exit("split failed"); // should be all done and safe
+	if (!game->map || !game->map_double )
+		perror_and_exit("split failed"); // TODO, use omega good freeing function;
 	return ;
 }
 
