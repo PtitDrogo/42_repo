@@ -6,7 +6,7 @@
 #    By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/14 16:22:44 by mbernard          #+#    #+#              #
-#    Updated: 2024/03/12 16:38:14 by tfreydie         ###   ########.fr        #
+#    Updated: 2024/03/12 17:54:36 by tfreydie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ RMDIR = rm -rf
 # ---------------------------------- Sources --------------------------------- #
 vpath %c sources
 
-SRCS =	so_long floodfill map_check utils get_map key_pressed
+SRCS =	so_long floodfill map_check utils get_map 			\
+			key_pressed	generate_map init exit_game
 	
 # ---------------------------------- Repertories ----------------------------- #
 HEADER_DIR = includes/

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 11:19:34 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/12 16:27:47 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:01:19 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include "mlx_int.h"
-
-
-
 
 typedef struct s_xy
 {
@@ -63,23 +60,26 @@ char	*ft_strjoin_free_s1(char *s1, char const *s2);
 void	ft_putnbr_fd(int n, int fd);
 ////////////////////////////
 
-//////MAP//////
-int	path_check(t_game *game);
-int	is_map_valid(t_game *game);
-
-
-/////utils/////
+//////MAP-CHECK//////
+int		path_check(t_game *game);
+int		is_map_valid(t_game *game);
 int		is_char_correct(char c);
 void	process_char(char c, int items[3]);
-void	get_P_xy(t_game *game);
 
 ///exit///
 void	perror_and_exit(char *error_message);
 int		exit_game_protocol(t_game *game);
-void	cleanup(t_game *game);
 
 //MAPGEN//
 void	get_map_grid(char **argv, t_game *game);
 void	generate_map(t_game *game, void *mlx_win, void *mlx);
+
+///INIT///
+void	init_all(t_game *game, char **argv);
+
+//GAME//
+int		key_pressed(int keycode, t_game *game);
+
+
 
 #endif
