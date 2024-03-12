@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 11:19:34 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/11 16:54:01 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:27:47 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <X11/keysym.h>
 # include <fcntl.h>
 # include <stdbool.h>
+# include "mlx_int.h"
+
+
 
 
 typedef struct s_xy
@@ -43,6 +46,7 @@ typedef struct	s_game
 	void	*mlx;
 	t_xy	player_xy;
 	int		move_count;
+	char	*error_message;
 }   t_game;
 
 # define UP 	1
@@ -59,7 +63,23 @@ char	*ft_strjoin_free_s1(char *s1, char const *s2);
 void	ft_putnbr_fd(int n, int fd);
 ////////////////////////////
 
-typedef void *(*xpm_to_img) (void *mlx, char *file, int *width, int *height);
+//////MAP//////
+int	path_check(t_game *game);
+int	is_map_valid(t_game *game);
 
+
+/////utils/////
+int		is_char_correct(char c);
+void	process_char(char c, int items[3]);
+void	get_P_xy(t_game *game);
+
+///exit///
+void	perror_and_exit(char *error_message);
+int		exit_game_protocol(t_game *game);
+void	cleanup(t_game *game);
+
+//MAPGEN//
+void	get_map_grid(char **argv, t_game *game);
+void	generate_map(t_game *game, void *mlx_win, void *mlx);
 
 #endif

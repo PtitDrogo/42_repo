@@ -6,6 +6,7 @@
         "keysym.h": "c",
         "x.h": "c",
         "stdbool.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "so_long.h": "c"
     }
 }
