@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:43:39 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/12 18:05:58 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 14:08:00 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ void	process_char(char c, int items[3])
 	return ;
 }
 
-
 void	perror_and_exit(char *error_message)
 {
 	perror(error_message);
 	exit(EXIT_FAILURE);
 }
-

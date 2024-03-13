@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:26:01 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/12 15:48:00 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:33:00 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	is_map_valid(t_game *game)
 		return (0);
 	return (1);
 }
+
 static int	map_rectangle_check(char **map)
 {
 	int	i;
@@ -49,13 +50,12 @@ static int	map_rectangle_check(char **map)
 		i++;
 	}
 	return (1);
-	
 }
 
 static int	map_walls_check(char **map)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -83,10 +83,10 @@ static int	map_char_check(char **map)
 	int	j;
 
 	i = 0;
-	while(map[i])
+	while (map[i])
 	{
 		j = 0;
-		while(map[i][j])
+		while (map[i][j])
 		{
 			if (is_char_correct(map[i][j]) == 0)
 				return (0);
@@ -107,10 +107,10 @@ static int	map_items_check(char **map)
 	items[0] = 0;
 	items[1] = 0;
 	items[2] = 0;
-	while(map[i])
+	while (map[i])
 	{
 		j = 0;
-		while(map[i][j])
+		while (map[i][j])
 		{
 			process_char(map[i][j], items);
 			j++;

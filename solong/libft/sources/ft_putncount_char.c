@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   ft_putncount_char.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/06 11:19:05 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/13 15:30:15 by tfreydie         ###   ########.fr       */
+/*   Created: 2023/11/28 20:15:58 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/03/13 13:41:59 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "libft.h"
 
-int	main(int argc, char *argv[])
+void	ft_putncount_char(char c, int *size)
 {
-	t_game	game;
-
-	if (argc != 2)
-		perror_and_exit("unvalid number of arguments");
-	init_all(&game, argv);
-	generate_map(&game);
-	mlx_hook(game.mlx_win, KeyPress, KeyPressMask, key_pressed, (void *)&game);
-	mlx_hook(game.mlx_win, DestroyNotify, 1L << 17, exit_game, (void *)&game);
-	mlx_loop(game.mlx);
+	if (write(1, &c, 1) == -1)
+		*size = -1;
+	else
+		*size += 1;
 }

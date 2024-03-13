@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:02:44 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/11 15:41:38 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 13:58:44 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ char	*ft_strjoin_free_s1(char *s1, char const *s2)
 		joined[i++] = s2[j++];
 	}
 	joined[i] = '\0';
-    free(s1);
+	free(s1);
 	return (joined);
 }

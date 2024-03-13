@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 17:54:02 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/12 18:08:09 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 14:08:49 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	cleanup(t_game *game);
 
-int	exit_game_protocol(t_game *game)
+int	exit_game(t_game *game)
 {
 	cleanup(game);
 	if (game->error_message)

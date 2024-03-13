@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:07:35 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/12 16:14:29 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:16:03 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	key_pressed(int keycode, t_game *game)
 	char	*target;
 	int		x;
 	int		y;
-	
+
 	if (keycode == XK_Escape)
-		exit_game_protocol(game);	
+		exit_game(game);
 	if (is_move(keycode))
 	{
 		x = game->player_xy.x;
@@ -39,16 +39,17 @@ int	key_pressed(int keycode, t_game *game)
 			{
 				game->player_xy.x = x;
 				game->player_xy.y = y;
-				generate_map(game, game->mlx_win, game->mlx);
+				generate_map(game);
 			}
 		}
 	}
 	return (0);
 }
+
 static void	handle_move_key(int keycode, int *x, int *y)
 {
 	if (keycode == XK_w || keycode == XK_W)
-			(*y)--;
+		(*y)--;
 	else if (keycode == XK_s || keycode == XK_S)
 		(*y)++;
 	else if (keycode == XK_a || keycode == XK_A)
@@ -63,17 +64,15 @@ static int	swap_char(char *hero, char *square, t_game *game)
 	if (*square == 'E')
 	{
 		if (is_map_coinless(game->map))
-			exit_game_protocol(game);
+			exit_game(game);
 		else
-			return(0);
+			return (0);
 	}
 	(game->move_count)++;
-	write(1, "move : ", 7);
-	ft_putnbr_fd(game->move_count, 1);
-	write(1, "\n", 1); // should be printf i for sure, also we protect write in this house
+	if (printf("move : %i\n", game->move_count) == -1)
+		exit_game(game);
 	*square = *hero;
 	*hero = '0';
-	
 	return (1);
 }
 
@@ -99,13 +98,13 @@ static int	is_map_coinless(char **map)
 
 static int	is_move(int keycode)
 {
-	static int valid_moves_keycode[] = {XK_a, XK_A, XK_w, XK_W, XK_s, XK_S, XK_d, XK_D, 0};
-	int	i;
+	static int	valid[] = {XK_a, XK_A, XK_w, XK_W, XK_s, XK_S, XK_d, XK_D, 0};
+	int			i;
 
 	i = 0;
-	while (valid_moves_keycode[i] != 0)
+	while (valid[i] != 0)
 	{
-		if (keycode == valid_moves_keycode[i])
+		if (keycode == valid[i])
 			return (1);
 		i++;
 	}

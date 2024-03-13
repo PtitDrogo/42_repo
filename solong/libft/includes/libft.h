@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:11:39 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/09 15:35:28 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 13:34:14 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include <limits.h>
 # include <stdio.h>
 
+# include <stdarg.h>
+# include <stddef.h>
+
 typedef struct s_list
 {
 	void			*content;
@@ -31,13 +34,20 @@ typedef struct s_list
 #  define BUFFER_SIZE 10
 # endif
 
+///gnl///
 void	ft_free_array(void **array);
-char	*get_next_line_exit(int fd);
-void	*free_and_exit(char *line);
-char	*final_check_exit(char *line);
 char	*final_check(char *line);
 void	*free_and_null(char *line);
 char	*get_next_line(int fd);
+///printf///
+void	ft_putncount_str(char *str, int *size);
+void	ft_putncount_char(char c, int *size);
+void	ft_putnbr(int nbr, int *size);
+void	ft_putunsign(unsigned int nbr, char *base, int *size);
+void	ft_print_ptr(unsigned long long ptr, int *size);
+int		ft_printf(const char *text, ...);
+
+//libft//
 int		ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);

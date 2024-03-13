@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 11:19:34 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/12 18:01:19 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:01:36 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ typedef struct s_xy
 {
 	int	x;
 	int	y;
-} t_xy;
+}	t_xy;
 
-typedef struct	s_game 
+typedef struct s_game
 {
 	void	*wall;
 	void	*coin;
@@ -44,7 +44,7 @@ typedef struct	s_game
 	t_xy	player_xy;
 	int		move_count;
 	char	*error_message;
-}   t_game;
+}	t_game;
 
 # define UP 	1
 # define DOWN 	2
@@ -57,7 +57,7 @@ char	**ft_split(char const *s, char c);
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin_free_s1(char *s1, char const *s2);
-void	ft_putnbr_fd(int n, int fd);
+int		ft_printf(const char *text, ...);
 ////////////////////////////
 
 //////MAP-CHECK//////
@@ -68,18 +68,16 @@ void	process_char(char c, int items[3]);
 
 ///exit///
 void	perror_and_exit(char *error_message);
-int		exit_game_protocol(t_game *game);
+int		exit_game(t_game *game);
 
 //MAPGEN//
 void	get_map_grid(char **argv, t_game *game);
-void	generate_map(t_game *game, void *mlx_win, void *mlx);
+void	generate_map(t_game *game);
 
 ///INIT///
 void	init_all(t_game *game, char **argv);
 
 //GAME//
 int		key_pressed(int keycode, t_game *game);
-
-
 
 #endif
