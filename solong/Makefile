@@ -1,80 +1,86 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/14 16:22:44 by mbernard          #+#    #+#              #
-#    Updated: 2024/03/13 15:33:12 by tfreydie         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+#---------------------------------Variables---------------------------------#
 
-CC = cc
-NAME = so_long
-FLAGS = -lX11 -lXext -lz
-CFLAGS = -MMD -MP -g3
-MKDIR = mkdir -p
-RMDIR = rm -rf
+OBJS_DIR	=	.objs
+SRCS_DIR	=	sources
+HEADER_DIR	=	includes
+HEADER_FILE = 	so_long.h
+LIBFT		=	./libft/libft.a
+MINIBILX	=	./minilibx-linux/libmlx_Linux.a
+NAME		=	so_long
+OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
+#------------------------------------------------------------------------#
 
-# ---------------------------------- Sources --------------------------------- #
-vpath %c sources
+#---------------------------------Sources---------------------------------#
+SRCS =		$(SRCS_DIR)/so_long.c \
+			$(SRCS_DIR)/floodfill.c \
+			$(SRCS_DIR)/map_check.c \
+			$(SRCS_DIR)/utils.c \
+			$(SRCS_DIR)/get_map.c	\
+			$(SRCS_DIR)/key_pressed.c	\
+			$(SRCS_DIR)/generate_map.c \
+			$(SRCS_DIR)/init.c \
+			$(SRCS_DIR)/exit_game.c 
+#------------------------------------------------------------------------#
 
-SRCS =	so_long floodfill map_check utils get_map 			\
-			key_pressed	generate_map init exit_game
-	
-# ---------------------------------- Repertories ----------------------------- #
-HEADER_DIR = includes/
-OBJS_DIR = .objs/
-HEADER = $(addprefix ${HEADER_DIR}, so_long.h)
-OBJS = $(addprefix ${OBJS_DIR}, $(addsuffix .o, ${SRCS}))
-DEPS = ${OBJS:.o=.d}
+#---------------------------------Compilation & Linking---------------------------------#
+CC		=	cc
+RM		=	rm -f
+CFLAGS	=	-Wall -Werror -Wextra -g3
+LINKLIBS = -L minilibx-linux/ -lmlx_Linux -L libft/ -lft
+INCLUDES = -I $(HEADER_DIR) -I minilibx-linux -I libft
 
-# ---------------------------------- LibX Gestion ----------------------------- #
-LIBX_DIR = minilibx-linux/
-LINK_LIBX = -L ${LIBX_DIR} -lmlx_Linux
-LINK_LIBFT = -L ${LIBFT_DIR} -lft
-LIBFT_DIR = libft/
-LIBX = $(addprefix ${LIBX_DIR}, libmlx_Linux.a)
-LIBFT = $(addprefix ${LIBFT_DIR}, libft.a)
-INCLUDES = -I ${LIBX_DIR} -I ${HEADER_DIR} -I ${LIBFT_DIR}
-LIBS = ${LINK_LIBX} ${LINK_LIBFT}
+#------------------------------------------------------------------------#
 
-# ---------------------------------- Compilation ----------------------------- #
-all: ${NAME}
 
-${NAME}: ${OBJS} ${LIBX} ${LIBFT}
-	${CC} ${CFLAGS} ${OBJS} ${INCLUDES} ${LIBS} ${FLAGS} -o $@
+#---------------------------------Pretty---------------------------------#
+YELLOW	=	\033[1;33m
+GREEN	=	\033[1;32m
+RESET	=	\033[0m
+UP		=	"\033[A"
+CUT		=	"\033[K"
+#------------------------------------------------------------------------#
 
-${OBJS_DIR}%.o: %.c ${HEADER} | ${OBJS_DIR}
-	${CC} ${CFLAGS} ${INCLUDES} -O3 -c $< -o $@
 
-${LIBX}: FORCE
-	make -C ${LIBX_DIR}
+all: $(NAME)
 
-${LIBFT}: FORCE
-	$(MAKE) -C ${LIBFT_DIR}
+$(LIBFT): FORCE
+	@$(MAKE) --no-print-directory -C ./libft
 
--include ${DEPS}
-# ---------------------------------- Create Repertory ---------------------- #
-${OBJS_DIR}:
-			${MKDIR} ${OBJS_DIR}
-
-## ---------------------------------- Clean ----------------------------------- #
-clean:  ${OBJS_DIR}
-	${RMDIR} ${OBJS_DIR}
-	${MAKE} clean -C $(LIBX_DIR)
-	${MAKE} clean -C $(LIBFT_DIR)
-
-fclean: clean
-	${RM} ${NAME}
-	${RM} ${LIBX}
-	${RM} ${LIBFT}
-
-re:    fclean
-	${MAKE} ${NAME}
+$(MINIBILX) : FORCE
+	@$(MAKE) --no-print-directory -C ./minilibx-linux
 
 FORCE:
 
-# ---------------------------------- Phony ----------------------------------- #
-.PHONY: all clean fclean re FORCE
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
+	@mkdir -p $(@D)
+	@echo "$(YELLOW)Compiling [$<]$(RESET)"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ 
+	@printf $(UP)$(CUT)
+
+$(NAME): $(OBJS) $(MINIBILX) $(LIBFT) Makefile
+	@echo "$(YELLOW)Compiling [$<]$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(LINKLIBS) -lXext -lX11 -lz -o $@ 
+	@printf $(UP)$(CUT)
+	@echo "$(GREEN)$(NAME) compiled!$(RESET)"
+
+clean:
+	@echo "$(YELLOW)cleaning files$(RESET)"
+	@$(RM) $(OBJS) rm -rf $(OBJS_DIR)
+	@printf $(UP)$(CUT)
+	@echo "$(GREEN)$(NAME) files deleted !$(RESET)"
+	@$(MAKE) --no-print-directory -C ./libft clean
+	@$(MAKE) --no-print-directory -C ./minilibx-linux clean
+
+fclean:	clean
+	@echo "$(YELLOW)cleaning files$(RESET)"
+	@$(RM) $(NAME)
+	@printf $(UP)$(CUT)
+	@echo "$(GREEN)$(NAME) executable deleted !$(RESET)"
+	@$(RM) $(LIBFT)
+	@echo "$(GREEN)libft.a executable deleted !$(RESET)"
+	@$(RM) $(MINIBILX)
+	@echo "$(GREEN)libmlx_Linux.a executable deleted !$(RESET)"
+
+re:	fclean $(NAME)
+
+.PHONY:	all clean fclean re bonus FORCE

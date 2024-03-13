@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:26:01 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/13 15:33:00 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:05:30 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	is_map_valid(t_game *game)
 
 static int	map_rectangle_check(char **map)
 {
-	int	i;
-	int	strlen;
+	int		i;
+	size_t	strlen;
 
 	i = 0;
 	strlen = ft_strlen(map[i]);

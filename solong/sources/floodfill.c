@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:28:32 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/12 15:36:57 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:04:56 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	floodfill(char **map, int y, int x)
 	floodfill(map, y, x - 1);
 	floodfill(map, y + 1, x);
 	floodfill(map, y - 1, x);
+	return (1);
 }
 
 static int	check_floodfill(char **map)
@@ -59,8 +60,6 @@ static int	check_floodfill(char **map)
 
 static int	check_exit(char **map, int y, int x)
 {
-	int	status;
-
 	if (map[y + 1] && map[y + 1][x] == 'F')
 		return (1);
 	if (y >= 1 && map[y - 1][x] == 'F')

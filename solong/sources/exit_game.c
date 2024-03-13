@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 17:54:02 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/13 14:08:49 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:05:58 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	exit_game(t_game *game)
 	cleanup(game);
 	if (game->error_message)
 		perror_and_exit(game->error_message);
-	else
-		exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
 
 static void	cleanup(t_game *game)
