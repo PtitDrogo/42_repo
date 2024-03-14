@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tfreydie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 13:28:05 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/15 16:21:57 by tfreydie         ###   ########.fr       */
+/*   Updated: 2023/11/23 19:51:52 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list_libft	*ft_lstnew(void *content)
+t_list	*ft_lstnew(void *content)
 {
-	t_list_libft	*array;
+	t_list	*array;
 
-	array = malloc(sizeof(t_list_libft));
+	array = malloc(sizeof(t_list));
 	if (!array)
 		return (NULL);
 	array->content = content;

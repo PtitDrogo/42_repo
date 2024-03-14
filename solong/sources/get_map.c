@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:00:37 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/13 14:08:49 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 18:06:00 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void	get_map_grid(char **argv, t_game *game)
 
 	map_array = get_map_array(argv[1], game);
 	if (!map_array)
-		perror_and_exit("failed to get map");
+		perror_and_exit("Error\nfailed to get map");
 	game->map = ft_split(map_array, '\n');
 	game->map_double = ft_split(map_array, '\n');
 	free(map_array);
 	if (!game->map || !game->map_double)
 	{
-		game->error_message = "split failed";
+		game->error_message = "Error\nsplit failed";
 		exit_game(game);
 	}
 	return ;
@@ -44,7 +44,7 @@ static char	*get_map_array(char *mapname, t_game *game)
 	ber_check(mapname);
 	mapfd = open(mapname, O_RDONLY);
 	if (mapfd == -1)
-		perror_and_exit("failed to open map fd");
+		perror_and_exit("Error\nfailed to open map fd");
 	map = empty_malloc();
 	new_line = get_next_line(mapfd);
 	if (new_line)
@@ -54,13 +54,13 @@ static char	*get_map_array(char *mapname, t_game *game)
 	{
 		map = ft_strjoin_free_s1(map, new_line);
 		if (!map)
-			free_two_and_exit((void *)map, (void *)new_line, "map malloc fail");
+			free_two_and_exit((void *)map, (void *)new_line, "Error\nmalloc");
 		free(new_line);
 		new_line = get_next_line(mapfd);
 		(game->map_height)++;
 	}
 	if (close(mapfd) == -1)
-		free_two_and_exit((void *)map, (void *)new_line, "close failed");
+		free_two_and_exit((void *)map, (void *)new_line, "Error\nclose failed");
 	return (map);
 }
 
@@ -70,7 +70,7 @@ static char	*empty_malloc(void)
 
 	empty_malloc = malloc(sizeof(char));
 	if (!empty_malloc)
-		perror_and_exit("empty malloc failed");
+		perror_and_exit("Error\nempty malloc failed");
 	empty_malloc[0] = '\0';
 	return (empty_malloc);
 }
@@ -91,6 +91,6 @@ static void	ber_check(char *s)
 		i++;
 	i--;
 	if (s[i] != 'r' || s[i - 1] != 'e' || s[i - 2] != 'b' || s[i - 3] != '.')
-		perror_and_exit("not a .ber file");
+		perror_and_exit("Error\nnot a .ber file");
 	return ;
 }

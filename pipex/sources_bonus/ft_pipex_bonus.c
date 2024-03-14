@@ -36,6 +36,7 @@ int	main(int argc, char *argv[], char **envp)
 		if (waitpid(cmd_line.child_ids[i], &cmd_line.status, 0) == -1)
 			free_all_and_exit(&cmd_line, "error waiting for children");
 	}
+
 	free_all_init_malloc(&cmd_line);
 	return (WEXITSTATUS(cmd_line.status));
 }

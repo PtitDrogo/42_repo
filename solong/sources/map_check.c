@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:26:01 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/13 17:05:30 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/14 12:11:40 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,25 @@ int	is_map_valid(t_game *game)
 {
 	if (!(game->map))
 		return (0);
+	printf("hi\n");
 	if (!(game->map[0]))
 		return (0);
+	printf("hi\n");
 	if (map_items_check(game->map) == 0)
 		return (0);
+	printf("hi\n");
 	if (map_rectangle_check(game->map) == 0)
 		return (0);
+	printf("hi\n");
 	if (map_walls_check(game->map) == 0)
 		return (0);
+	printf("hi\n");
 	if (map_char_check(game->map) == 0)
 		return (0);
+	printf("hi\n");
 	if (path_check(game) == 0)
 		return (0);
+	printf("hi\n");
 	return (1);
 }
 

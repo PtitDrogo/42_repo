@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:07:35 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/13 15:16:03 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 18:07:16 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	swap_char(char *hero, char *square, t_game *game)
 			return (0);
 	}
 	(game->move_count)++;
-	if (printf("move : %i\n", game->move_count) == -1)
+	if (ft_printf("move : %i\n", game->move_count) == -1)
 		exit_game(game);
 	*square = *hero;
 	*hero = '0';

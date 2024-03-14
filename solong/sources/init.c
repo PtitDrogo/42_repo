@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:15:45 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/13 15:53:10 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 18:04:10 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@ void	init_all(t_game *game, char **argv)
 	get_p_xy(game);
 	if (is_map_valid(game) == 0)
 	{
-		game->error_message = "map is invalid";
+		game->error_message = "Error\nmap is invalid";
 		exit_game(game);
 	}
 	game->mlx = mlx_init();
 	if (!game->mlx)
 	{
-		game->error_message = "failed to connect to server";
+		game->error_message = "Error\nfailed to connect to server";
 		exit_game(game);
 	}
 	init_images(game);
 	game->mlx_win = mlx_new_window(game->mlx, game->map_width * game->img_width,
-			game->map_height * game->img_height, "Hello world!");
+			game->map_height * game->img_height, "so_long");
 	if (!game->mlx_win)
 	{
-		game->error_message = "failed to generate window";
+		game->error_message = "Error\nfailed to generate window";
 		exit_game(game);
 	}
 }
@@ -98,7 +98,7 @@ static void	init_images(t_game *game)
 	game->exit = mlx_xpm_file_to_image(mlx, "./img/end.xpm", width, height);
 	if (game_img_check(game) == 0)
 	{
-		perror("failed to load img");
+		perror("Error\nfailed to load img");
 		exit_game(game);
 	}
 }

@@ -41,7 +41,7 @@ OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-Wall -Werror -Wextra -g3
+CFLAGS	=	-Wall -Werror -Wextra -g3 -Wimplicit-function-declaration
 LDFLAGS =	-L./libft -lft
 LIBFT	=	./libft/libft.a
 

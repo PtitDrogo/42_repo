@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:11:39 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/15 16:21:57 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/13 13:34:14 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,37 @@
 # include <stdlib.h>
 # include <string.h>
 
-typedef struct s_list_libft
+# include <string.h>
+# include <stdbool.h>
+# include <limits.h>
+# include <stdio.h>
+
+# include <stdarg.h>
+# include <stddef.h>
+
+typedef struct s_list
 {
 	void			*content;
-	struct s_list_libft	*next;
-}	t_list_libft;
+	struct s_list	*next;
+}	t_list;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 
+///gnl///
+void	ft_free_array(void **array);
+char	*final_check(char *line);
+void	*free_and_null(char *line);
+char	*get_next_line(int fd);
+///printf///
+void	ft_putncount_str(char *str, int *size);
+void	ft_putncount_char(char c, int *size);
+void	ft_putnbr(int nbr, int *size);
+void	ft_putunsign(unsigned int nbr, char *base, int *size);
+void	ft_print_ptr(unsigned long long ptr, int *size);
+int		ft_printf(const char *text, ...);
+
+//libft//
 int		ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
@@ -57,14 +82,15 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putendl_fd(char *s, int fd);
-t_list_libft	*ft_lstnew(void *content);
-void	ft_lstadd_front(t_list_libft **lst, t_list_libft *new);
-int		ft_lstsize(t_list_libft *lst);
-t_list_libft	*ft_lstlast(t_list_libft *lst);
-void	ft_lstadd_back(t_list_libft **lst, t_list_libft *new);
-void	ft_lstdelone(t_list_libft *lst, void (*del)(void *));
-void	ft_lstclear(t_list_libft **lst, void (*del)(void *));
-void	ft_lstiter(t_list_libft *lst, void (*f)(void *));
-t_list_libft	*ft_lstmap(t_list_libft *lst, void *(*f)(void *), void (*del)(void *));
+t_list	*ft_lstnew(void *content);
+void	ft_lstadd_front(t_list **lst, t_list *new);
+int		ft_lstsize(t_list *lst);
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstdelone(t_list *lst, void (*del)(void *));
+void	ft_lstclear(t_list **lst, void (*del)(void *));
+void	ft_lstiter(t_list *lst, void (*f)(void *));
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+char	*ft_strjoin_free_s1(char *s1, char const *s2);
 
 #endif

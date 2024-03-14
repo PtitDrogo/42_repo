@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   ft_putnbr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 13:18:03 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/10 10:19:48 by tfreydie         ###   ########.fr       */
+/*   Created: 2023/11/28 20:15:44 by tfreydie          #+#    #+#             */
+/*   Updated: 2023/12/07 17:56:16 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_putnbr(int nbr, int *size)
 {
-	t_list	*previous_last;
+	long long	real_nbr;
+	int			digit;
 
-	if (!new)
-		return ;
-	if (lst)
+	real_nbr = nbr;
+	if (real_nbr < 0 && *size != -1)
 	{
-		if (!*lst)
-			*lst = new;
-		else
-		{
-			previous_last = ft_lstlast(*lst);
-			previous_last->next = new;
-		}
+		real_nbr *= -1;
+		ft_putncount_char('-', size);
+	}
+	if (real_nbr >= 10 && *size != -1)
+	{
+		ft_putnbr(real_nbr / 10, size);
+		ft_putnbr(real_nbr % 10, size);
+	}
+	else if (real_nbr < 10 && *size != -1)
+	{
+		digit = real_nbr + '0';
+		ft_putncount_char(digit, size);
 	}
 }

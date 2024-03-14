@@ -1,0 +1,10 @@
+includes
+includes_bonus
+ls
+Makefile
+pipex
+sources
+sources_bonus
+texte123123123.txt
+texte1.txt
+texte2.txt

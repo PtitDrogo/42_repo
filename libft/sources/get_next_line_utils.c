@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 14:13:00 by tfreydie          #+#    #+#             */
-/*   Updated: 2023/11/22 18:28:47 by tfreydie         ###   ########.fr       */
+/*   Created: 2023/12/09 19:01:49 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/03/07 10:59:14 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+void	*free_and_null(char *line)
 {
-	t_list	*temp;
+	free(line);
+	return (NULL);
+}
 
-	if (!lst || !(*del))
-		return ;
-	while (*lst)
-	{
-		temp = (*lst)->next;
-		ft_lstdelone(*lst, (*del));
-		*lst = temp;
-	}
-	*lst = NULL;
+char	*final_check(char *line)
+{
+	if (line[0])
+		return (line);
+	return (free_and_null(line));
 }

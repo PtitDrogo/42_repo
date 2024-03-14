@@ -45,7 +45,17 @@ SRCS	=	$(SRCS_DIR)/ft_isalnum.c \
 			$(SRCS_DIR)/ft_lstdelone_bonus.c \
 			$(SRCS_DIR)/ft_lstclear_bonus.c \
 			$(SRCS_DIR)/ft_lstiter_bonus.c \
-			$(SRCS_DIR)/ft_lstmap_bonus.c
+			$(SRCS_DIR)/ft_lstmap_bonus.c \
+			$(SRCS_DIR)/get_next_line.c \
+			$(SRCS_DIR)/get_next_line_utils.c \
+			$(SRCS_DIR)/ft_strjoin_free_s1.c \
+			$(SRCS_DIR)/ft_free_array.c \
+			$(SRCS_DIR)/ft_printf.c \
+			$(SRCS_DIR)/ft_putncount_str.c \
+			$(SRCS_DIR)/ft_putunsign.c \
+			$(SRCS_DIR)/ft_putncount_char.c \
+			$(SRCS_DIR)/ft_putnbr.c \
+			$(SRCS_DIR)/ft_print_ptr.c
 
 
 OBJS			=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
