@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/15 18:02:31 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/15 18:16:02 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ typedef struct s_philo
 typedef struct s_dinner
 {
     int fork;
-    int philo;
+    int philos;
     int time_to_die;
     int time_to_eat;
     int time_to_sleep;
+    int min_meals;
+    char    *test;
     
 } t_dinner;
 
