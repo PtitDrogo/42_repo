@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/15 18:16:02 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:03:33 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,24 @@ typedef struct s_philo
 {
     bool    alive;
     int     meals_eaten;
-    
+    int     id;
 } t_philo;
 
 typedef struct s_dinner
 {
-    int fork;
-    int philos;
-    int time_to_die;
-    int time_to_eat;
-    int time_to_sleep;
-    int min_meals;
-    char    *test;
+    pthread_mutex_t *forks;
+    pthread_t       *philos_list;
+
+    pthread_mutex_t mutex;
+    
+    long        fork;
+    long        philos;
+    
+    long        synchronise;
+    long        time_to_die;
+    long        time_to_eat;
+    long        time_to_sleep;
+    long        min_meals;
     
 } t_dinner;
 
@@ -61,3 +67,12 @@ typedef struct s_dinner
 
 
 ///------------------------Functions------------------------///
+
+
+long	getter(long *var, pthread_mutex_t *mutex);
+void	setter(long *var, long new_value, pthread_mutex_t *mutex);
+void	increment(long *var, pthread_mutex_t *mutex);
+
+
+
+int	ft_printf(const char *text, ...);
