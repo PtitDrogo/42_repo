@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/19 14:35:40 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:50:58 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 void    	init_dinner_variables(t_dinner *dinner, const char **argv, int argc);
 void    	lonely_philosopher(t_dinner *dinner);
 void		*routine(void *arg);
-int     	create_threads(t_dinner *dinner);
+int     	create_threads(t_dinner *dinner, t_philo *philosophers);
 void    	*lonely_routine(void *arg);
 pthread_mutex_t *init_forks(long philos);
 t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mutex_t *forks);
@@ -61,18 +61,12 @@ int main(int argc, char const *argv[])
 	{	
 		printf("hi in fail malloc");
 		return(1); //free forks and update err
-	}	////////////test init fork/////
-	for (int i = 0; i < dinner.philos; i++)
-	{
-		printf("philo %i has left fork %p and right fork %p\n", i, philosophers[i].left_fork, philosophers[i].right_fork);
-	}
-
-	////////////////////////////////
+	}	
 	if (dinner.philos == 1)
 		lonely_philosopher(&dinner);
 	else
 	{
-		create_threads(&dinner);
+		create_threads(&dinner, philosophers);
 	}
 	free(dinner.philos_list);
 	free(forks);
@@ -91,7 +85,10 @@ t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mu
 	while (i < dinner->philos)
 	{
 		//I will most likely come back here to add stuff
+		philosophers[i].alive = true;
+		philosophers[i].dinner = dinner;
 		philosophers[i].id = i;
+		philosophers[i].write = &dinner->write;
 		philosophers[i].left_fork = &forks[i];
 		if (i + 1 == dinner->philos)
 			philosophers[i].right_fork = &forks[0];
@@ -102,8 +99,7 @@ t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mu
 	return (philosophers);
 }
 
-
-int create_threads(t_dinner *dinner)
+int create_threads(t_dinner *dinner, t_philo *philosophers)
 {
 	int i;
 	
@@ -115,7 +111,7 @@ int create_threads(t_dinner *dinner)
 	while (i < dinner->philos)
 	{
 		// ft_printf("hi in create loop\n");
-		if (pthread_create(&dinner->philos_list[i], NULL, routine, dinner) != 0)
+		if (pthread_create(&dinner->philos_list[i], NULL, routine, &philosophers[i]) != 0)
 			printf("failed to create thread"); // cant just perror
 		i++;
 	}
@@ -132,25 +128,41 @@ int create_threads(t_dinner *dinner)
 
 void *routine(void *arg)
 {
-	t_dinner *dinner;
+	t_philo *philo;
+	struct timeval start;
+	struct timeval end;
+	long long   time;
 	
-	dinner = (t_dinner *)arg;
-	increment(&(dinner->synchronise), &(dinner->mutex));
-	while (getter(&(dinner->synchronise), &(dinner->mutex)) < dinner->philos)
-		usleep(10);
+	philo = (t_philo *)arg;
+	pthread_mutex_lock(philo->write);
+	// printf("hi, i am a philosopher and my id is %i\n", philo->id);
+	pthread_mutex_unlock(philo->write);
+	gettimeofday(&start, NULL);
+	usleep(9000);
+	gettimeofday(&end, NULL);
+	time = (end.tv_sec - start.tv_sec) * 1000LL;
+	time += (end.tv_usec - start.tv_usec) / 1000;
+	pthread_mutex_lock(philo->write);
+	printf("%lli philo %i is chilling\n", time, philo->id);
+	pthread_mutex_unlock(philo->write);
+	// increment(&(dinner->synchronise), &(dinner->mutex));
+	// while (getter(&(dinner->synchronise), &(dinner->mutex)) < dinner->philos)
+	// 	usleep(10);
+	
 	return (NULL);
 }
 
 void    init_dinner_variables(t_dinner *dinner, const char **argv, int argc)
 {
 	pthread_mutex_init(&dinner->mutex, NULL);
+	pthread_mutex_init(&dinner->write, NULL);
 	dinner->philos = atol(argv[1]);
-	dinner->fork = dinner->philos;
 	dinner->time_to_die = atol(argv[2]);
 	dinner->time_to_eat = atol(argv[3]);
 	dinner->time_to_sleep = atol(argv[4]);
 	if (argc == 6)
 		dinner->min_meals = atol(argv[5]);
+	
 }
 pthread_mutex_t *init_forks(long philos)
 {
