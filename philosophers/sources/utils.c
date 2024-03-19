@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:43:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/18 17:07:08 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:53:11 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,13 @@ long	getter(long *var, pthread_mutex_t *mutex)
 	pthread_mutex_unlock(mutex);
 	return (to_return);
 }
+
+	// ////////////test init fork/////
+	// printf("philos = %li\n", dinner.philos);
+	// for (int i = 0; i < dinner.philos; i++)
+	// {
+	// 	printf("hi\n");
+	// 	printf("fork %i = %p\n", i, &forks[i]);
+	// }
+
+	// ////////////////////////////////
