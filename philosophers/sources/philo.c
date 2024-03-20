@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/20 15:47:43 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:08:13 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int main(int argc, char const *argv[])
 	}
 	pthread_mutex_destroy(&dinner.write);
 	pthread_mutex_destroy(&dinner.mutex);
+	pthread_mutex_destroy(&dinner.death);
 	for (int i = 0; i < dinner.philos; i++)
 	{
 		pthread_mutex_destroy(&forks[i]);
@@ -90,6 +91,7 @@ t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mu
 	while (i < dinner->philos)
 	{
 		//I will most likely come back here to add stuff // this is kinda experimental
+		pthread_mutex_init(&(philosophers[i].last_meal), NULL); //todo delete this in each philo
 		philosophers[i].alive = true;
 		philosophers[i].dinner = dinner;
 		philosophers[i].id = i;
@@ -113,6 +115,8 @@ int create_threads(t_dinner *dinner, t_philo *philosophers)
 	dinner->philos_list = malloc(sizeof(pthread_t) * dinner->philos);
 	if (!dinner->philos_list)
 		return (0); // error checking later;
+	if (pthread_create(&dinner->death_checker, NULL, death_check, dinner) != 0)
+			printf("failed to create thread"); // cant just perror
 	while (i < dinner->philos)
 	{
 		// ft_printf("hi in create loop\n");
@@ -121,6 +125,8 @@ int create_threads(t_dinner *dinner, t_philo *philosophers)
 		i++;
 	}
 	i = 0;
+	if (pthread_join(dinner->death_checker, NULL) != 0)
+			perror("failed to join thread");
 	while (i < dinner->philos)
 	{
 		if (pthread_join(dinner->philos_list[i], NULL) != 0)
@@ -128,7 +134,6 @@ int create_threads(t_dinner *dinner, t_philo *philosophers)
 		i++;
 	}
 	return (1);
-	
 }
 
 void *routine(void *arg)
@@ -151,6 +156,7 @@ void    init_dinner_variables(t_dinner *dinner, const char **argv, int argc)
 {
 	pthread_mutex_init(&dinner->mutex, NULL);
 	pthread_mutex_init(&dinner->write, NULL);
+	pthread_mutex_init(&dinner->death, NULL);
 	dinner->philos = atol(argv[1]);
 	dinner->time_to_die = atol(argv[2]);
 	dinner->time_to_eat = atol(argv[3]);

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/20 14:56:16 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:57:18 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ typedef struct s_philo
     bool        alive;
     int         meals_eaten;
     int         id;
-    long         start_time;
+    long        start_time;
+    long        last_meal_time;
 
     t_dinner    *dinner;
+    pthread_mutex_t last_meal;
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
     pthread_mutex_t *write;
@@ -40,13 +42,15 @@ typedef struct s_dinner
     pthread_t       *philos_list;
     pthread_mutex_t mutex; //todo fix this random var name
     pthread_mutex_t write;
+    pthread_mutex_t death;
+    pthread_t       death_checker;
 
-    
+    bool        is_dead;
     long        time_to_die;
     long        time_to_eat;
     long        time_to_sleep;
     long        philos;
-    long        synchronise;
+    // long        synchronise;
     long        min_meals;
 } t_dinner;
 
@@ -76,12 +80,14 @@ typedef struct s_dinner
 long	getter(long *var, pthread_mutex_t *mutex);
 void	setter(long *var, long new_value, pthread_mutex_t *mutex);
 void	increment(long *var, pthread_mutex_t *mutex);
-
-
-
-int	    ft_printf(const char *text, ...);
 long    get_current_time(void);
 void	mutex_write(t_philo *philo, char *to_print, int id);
 
 
+
+int	    ft_printf(const char *text, ...);
+
+
 void	philo_grindset(t_philo *philo);
+int     is_anybody_dead(t_dinner *dinner);
+void    *death_check(void *arg);

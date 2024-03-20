@@ -12,7 +12,8 @@ OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 #---------------------------------Sources---------------------------------#
 SRCS =		$(SRCS_DIR)/philo.c \
 			$(SRCS_DIR)/utils.c \
-			$(SRCS_DIR)/actions.c
+			$(SRCS_DIR)/actions.c \
+			$(SRCS_DIR)/check_death.c
 #------------------------------------------------------------------------#
 
 #---------------------------------Compilation & Linking---------------------------------#

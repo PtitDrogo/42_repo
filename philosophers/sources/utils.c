@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:43:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/20 14:46:03 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:49:55 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ void	mutex_write(t_philo *philo, char *to_print, int id)
 	long time;
 	
 	pthread_mutex_lock(philo->write);
-	time = get_current_time() - philo->start_time; //TODO define start time
-	printf("%li %i %s", time, id, to_print);
+	time = get_current_time() - philo->start_time; //start_time is always the same
+	if (is_anybody_dead(philo->dinner) == 0)
+		printf("%li %i %s", time, id, to_print);
 	pthread_mutex_unlock(philo->write);
 	return ;
 }
