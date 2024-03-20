@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:48:04 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/20 15:25:28 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:37:58 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,16 @@ static void    think(t_philo *philo);
 
 void	philo_grindset(t_philo *philo)
 {
-	while (1)
+    philo->meals_eaten = 0;
+    while (philo->meals_eaten < 2)
 	{
 		eat(philo);
 		ft_sleep(philo);
 		think(philo);
     }
+    mutex_write(philo, "HMMM j'ai bien vecu adieu\n", philo->id);
+    return ;
 }
-
-
 static void	eat(t_philo *philo)
 {
     pthread_mutex_lock(philo->left_fork);

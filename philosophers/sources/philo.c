@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/20 15:23:03 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:47:43 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,15 @@ int main(int argc, char const *argv[])
 	{
 		create_threads(&dinner, philosophers);
 	}
-	free(dinner.philos_list);
-	free(forks);
-	free(philosophers);
+	pthread_mutex_destroy(&dinner.write);
 	pthread_mutex_destroy(&dinner.mutex);
+	for (int i = 0; i < dinner.philos; i++)
+	{
+		pthread_mutex_destroy(&forks[i]);
+	}
+	free(dinner.philos_list);
+	free(philosophers);
+	free(forks);
 	return (0);
 }
 t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mutex_t *forks)
@@ -136,8 +141,8 @@ void *routine(void *arg)
 	philo = (t_philo *)arg;
 	philo->start_time = get_current_time();
 	if (philo->id % 2 == 0)
-		usleep(20);
-	// philo_grindset(philo);
+		usleep(500);
+	philo_grindset(philo);
 	// mutex_write(philo, "philo is chilling\n", philo->id);
 	return (NULL);
 }
