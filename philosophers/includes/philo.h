@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/19 15:35:39 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:56:16 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <stdbool.h>
-
+#include <string.h>
+#include <sys/time.h>
 
 ///------------------------Structs------------------------///
 typedef struct s_dinner t_dinner;
@@ -26,7 +27,7 @@ typedef struct s_philo
     bool        alive;
     int         meals_eaten;
     int         id;
-
+    long         start_time;
 
     t_dinner    *dinner;
     pthread_mutex_t *left_fork;
@@ -78,4 +79,9 @@ void	increment(long *var, pthread_mutex_t *mutex);
 
 
 
-int	ft_printf(const char *text, ...);
+int	    ft_printf(const char *text, ...);
+long    get_current_time(void);
+void	mutex_write(t_philo *philo, char *to_print, int id);
+
+
+void	philo_grindset(t_philo *philo);

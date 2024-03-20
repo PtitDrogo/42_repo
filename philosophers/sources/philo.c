@@ -6,17 +6,12 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/19 15:50:58 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:23:03 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
-#include <string.h>
-#include <sys/time.h>
 
 void    	init_dinner_variables(t_dinner *dinner, const char **argv, int argc);
 void    	lonely_philosopher(t_dinner *dinner);
@@ -57,6 +52,11 @@ int main(int argc, char const *argv[])
 	if (!forks)
 		return (1); //UPDATE WITH ERROR MESSAGE
 	philosophers = init_philosophers(philosophers, &dinner, forks);
+	for (int i = 0; i < dinner.philos; i++)
+	{
+		printf("philo %i has left fork %p and right fork %p\n", i, philosophers[i].left_fork, philosophers[i].right_fork);
+	}
+	
 	if (!philosophers)
 	{	
 		printf("hi in fail malloc");
@@ -84,7 +84,7 @@ t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mu
 	i = 0;
 	while (i < dinner->philos)
 	{
-		//I will most likely come back here to add stuff
+		//I will most likely come back here to add stuff // this is kinda experimental
 		philosophers[i].alive = true;
 		philosophers[i].dinner = dinner;
 		philosophers[i].id = i;
@@ -131,24 +131,14 @@ void *routine(void *arg)
 	t_philo *philo;
 	struct timeval start;
 	struct timeval end;
-	long long   time;
+	long time;
 	
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(philo->write);
-	// printf("hi, i am a philosopher and my id is %i\n", philo->id);
-	pthread_mutex_unlock(philo->write);
-	gettimeofday(&start, NULL);
-	usleep(9000);
-	gettimeofday(&end, NULL);
-	time = (end.tv_sec - start.tv_sec) * 1000LL;
-	time += (end.tv_usec - start.tv_usec) / 1000;
-	pthread_mutex_lock(philo->write);
-	printf("%lli philo %i is chilling\n", time, philo->id);
-	pthread_mutex_unlock(philo->write);
-	// increment(&(dinner->synchronise), &(dinner->mutex));
-	// while (getter(&(dinner->synchronise), &(dinner->mutex)) < dinner->philos)
-	// 	usleep(10);
-	
+	philo->start_time = get_current_time();
+	if (philo->id % 2 == 0)
+		usleep(20);
+	// philo_grindset(philo);
+	// mutex_write(philo, "philo is chilling\n", philo->id);
 	return (NULL);
 }
 
