@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/21 18:03:56 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:58:27 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,8 @@ void *routine(void *arg)
 	
 	philo = (t_philo *)arg;
 	philo->start_time = get_current_time();
-	philo->last_meal_time = philo->start_time;
+	setter(&philo->last_meal_time, philo->start_time, &philo->last_meal);
+	// philo->last_meal_time = philo->start_time;
 	if (philo->id % 2 == 0)
 		usleep(500);
 	philo_grindset(philo);

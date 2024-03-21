@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:48:04 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/21 19:43:16 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/21 20:05:41 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,16 @@ static void	eat(t_philo *philo)
         mutex_write(philo, "is eating\n", philo->id);
     }
     usleep(philo->dinner->time_to_eat * 1000);
+
+    //uncommenting this makes philosophers time travel
+    
     // /////////////////////////////////TEST ZONE
-    pthread_mutex_lock(&philo->last_meal);
-	philo->last_meal_time = get_current_time() - philo->start_time;
-    pthread_mutex_unlock(&philo->last_meal);
-    pthread_mutex_lock(philo->write);
-    printf("philo %i last meal time is %li\n", philo->id, philo->last_meal_time);
-    pthread_mutex_unlock(philo->write);
+    // pthread_mutex_lock(&philo->last_meal);
+	// philo->last_meal_time = get_current_time() - philo->start_time;
+    // pthread_mutex_unlock(&philo->last_meal);
+    // pthread_mutex_lock(philo->write);
+    // printf("philo %i last meal time is %li\n", philo->id, philo->last_meal_time);
+    // pthread_mutex_unlock(philo->write);
     // /////////////////////////////////
 
     

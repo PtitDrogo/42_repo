@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:40:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/21 19:40:20 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:59:42 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,11 @@ void    *death_check(void *arg)
     
     dinner = (t_dinner *)arg;
     philos = dinner->list_t_philos;
-    pthread_mutex_lock(&dinner->write);
-    printf("whats up i an death checker\n");
-    pthread_mutex_unlock(&dinner->write);
+    // pthread_mutex_lock(&dinner->write);
+    // printf("whats up i an death checker\n");
+    // pthread_mutex_unlock(&dinner->write);
     int i;
     int time_since_eat;
-    // while (1)
-    // {
-    //     i = 0;
-    //     while (i < dinner->philos)
-    //     {
-    //         pthread_mutex_lock(&dinner->list_t_philos[i].last_meal);
-    //         time_since_eat = get_current_time() - dinner->list_t_philos[i].last_meal_time;
-    //         pthread_mutex_unlock(&dinner->list_t_philos[i].last_meal);
-    //         if (time_since_eat > dinner->time_to_die)
-    //         {    
-    //             pthread_mutex_lock(&dinner->death);
-    //             dinner->is_dead = true;
-    //             pthread_mutex_unlock(&dinner->death);
-    //             pthread_mutex_lock(&dinner->write);
-    //             printf("wesh jsuis printf et jvais kill le code direct tavu\n");
-    //             printf("%i = time since eat | %li time to die", time_since_eat, dinner->time_to_die);
-    //             pthread_mutex_unlock(&dinner->write);
-    //             return NULL;
-    //         }
-    //         i++;
-    //     }
-    // }
     ////////SCIENCE/////////
     // while (1)
     // {
@@ -80,7 +58,9 @@ void    *death_check(void *arg)
     //         pthread_mutex_lock(&philos[i].last_meal);
     //         if ((get_current_time() - philos[i].last_meal_time) > dinner->time_to_die)
     //         {
+    //             pthread_mutex_lock(&dinner->death); // could use a setter here
     //             dinner->is_dead = true;
+    //             pthread_mutex_unlock(&dinner->death);
     //             mutex_write(&philos[i], "has died\n", philos[i].id);
     //         }
     //         pthread_mutex_unlock(&philos[i].last_meal);
