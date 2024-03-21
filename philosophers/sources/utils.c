@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:43:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/20 18:49:55 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:28:37 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,3 @@ long get_current_time(void)
 	// printf("in get current time = %li\n", current_time);
 	return (current_time);
 }
-
-	// ////////////test init fork/////
-	// printf("philos = %li\n", dinner.philos);
-	// for (int i = 0; i < dinner.philos; i++)
-	// {
-	// 	printf("hi\n");
-	// 	printf("fork %i = %p\n", i, &forks[i]);
-	// }
-
-	// ////////////////////////////////	
-	// ////////////test init fork/////
-	// for (int i = 0; i < dinner.philos; i++)
-	// {
-	// 	printf("philo %i has left fork %p and right fork %p\n", i, philosophers[i].left_fork, philosophers[i].right_fork);
-	// }
-	// ////////////////////////////////

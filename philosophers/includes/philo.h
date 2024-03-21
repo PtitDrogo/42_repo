@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/20 18:57:18 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:21:50 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ typedef struct s_philo
     int         meals_eaten;
     int         id;
     long        start_time;
-    long        last_meal_time;
-
-    t_dinner    *dinner;
+    
+    long            last_meal_time;
     pthread_mutex_t last_meal;
+
+    t_dinner        *dinner;
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
     pthread_mutex_t *write;
@@ -39,7 +40,8 @@ typedef struct s_philo
 
 typedef struct s_dinner
 {
-    pthread_t       *philos_list;
+    pthread_t       *philos_list_thread;
+    t_philo         *list_t_philos;
     pthread_mutex_t mutex; //todo fix this random var name
     pthread_mutex_t write;
     pthread_mutex_t death;

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/20 19:08:13 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:03:56 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int main(int argc, char const *argv[])
 	if (!forks)
 		return (1); //UPDATE WITH ERROR MESSAGE
 	philosophers = init_philosophers(philosophers, &dinner, forks);
+	dinner.list_t_philos = philosophers; //UGLY BUT IT IS LIFE
 	for (int i = 0; i < dinner.philos; i++)
 	{
 		printf("philo %i has left fork %p and right fork %p\n", i, philosophers[i].left_fork, philosophers[i].right_fork);
@@ -65,17 +66,18 @@ int main(int argc, char const *argv[])
 	if (dinner.philos == 1)
 		lonely_philosopher(&dinner);
 	else
-	{
 		create_threads(&dinner, philosophers);
-	}
+	
 	pthread_mutex_destroy(&dinner.write);
 	pthread_mutex_destroy(&dinner.mutex);
 	pthread_mutex_destroy(&dinner.death);
+	
 	for (int i = 0; i < dinner.philos; i++)
 	{
-		pthread_mutex_destroy(&forks[i]);
+		pthread_mutex_destroy(&philosophers[i].last_meal); //mutex of each last meal time
+		pthread_mutex_destroy(&forks[i]); // each fork
 	}
-	free(dinner.philos_list);
+	free(dinner.philos_list_thread);
 	free(philosophers);
 	free(forks);
 	return (0);
@@ -94,7 +96,7 @@ t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mu
 		pthread_mutex_init(&(philosophers[i].last_meal), NULL); //todo delete this in each philo
 		philosophers[i].alive = true;
 		philosophers[i].dinner = dinner;
-		philosophers[i].id = i;
+		philosophers[i].id = i + 1;
 		philosophers[i].write = &dinner->write;
 		philosophers[i].left_fork = &forks[i];
 		if (i + 1 == dinner->philos)
@@ -111,25 +113,25 @@ int create_threads(t_dinner *dinner, t_philo *philosophers)
 	int i;
 	
 	i = 0;
-	printf("hi guys philos = %li\n", dinner->philos);
-	dinner->philos_list = malloc(sizeof(pthread_t) * dinner->philos);
-	if (!dinner->philos_list)
+	printf("hi guys numer of philos = %li\n", dinner->philos);
+	dinner->philos_list_thread = malloc(sizeof(pthread_t) * dinner->philos);
+	if (!dinner->philos_list_thread)
 		return (0); // error checking later;
-	if (pthread_create(&dinner->death_checker, NULL, death_check, dinner) != 0)
-			printf("failed to create thread"); // cant just perror
 	while (i < dinner->philos)
 	{
 		// ft_printf("hi in create loop\n");
-		if (pthread_create(&dinner->philos_list[i], NULL, routine, &philosophers[i]) != 0)
+		if (pthread_create(&dinner->philos_list_thread[i], NULL, routine, &philosophers[i]) != 0)
 			printf("failed to create thread"); // cant just perror
 		i++;
 	}
+	if (pthread_create(&dinner->death_checker, NULL, death_check, dinner) != 0)
+			printf("failed to create thread"); // cant just perror
 	i = 0;
 	if (pthread_join(dinner->death_checker, NULL) != 0)
 			perror("failed to join thread");
 	while (i < dinner->philos)
 	{
-		if (pthread_join(dinner->philos_list[i], NULL) != 0)
+		if (pthread_join(dinner->philos_list_thread[i], NULL) != 0)
 			perror("failed to join thread");
 		i++;
 	}
@@ -145,6 +147,7 @@ void *routine(void *arg)
 	
 	philo = (t_philo *)arg;
 	philo->start_time = get_current_time();
+	philo->last_meal_time = philo->start_time;
 	if (philo->id % 2 == 0)
 		usleep(500);
 	philo_grindset(philo);
