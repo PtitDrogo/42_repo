@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/21 19:58:27 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/22 18:55:13 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	ft_free_array(void **array)
 	free(array);
 	return ;
 }
+// die eat sleep
+
 
 int main(int argc, char const *argv[])
 {
@@ -75,6 +77,8 @@ int main(int argc, char const *argv[])
 	for (int i = 0; i < dinner.philos; i++)
 	{
 		pthread_mutex_destroy(&philosophers[i].last_meal); //mutex of each last meal time
+		pthread_mutex_destroy(&philosophers[i].mutex_meals_eaten_mutex); // how many meals
+		pthread_mutex_destroy(&philosophers[i].mutex_is_eating);
 		pthread_mutex_destroy(&forks[i]); // each fork
 	}
 	free(dinner.philos_list_thread);
@@ -93,16 +97,21 @@ t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mu
 	while (i < dinner->philos)
 	{
 		//I will most likely come back here to add stuff // this is kinda experimental
-		pthread_mutex_init(&(philosophers[i].last_meal), NULL); //todo delete this in each philo
+		pthread_mutex_init(&(philosophers[i].last_meal), NULL);
+		pthread_mutex_init(&(philosophers[i].mutex_meals_eaten_mutex), NULL);
+		pthread_mutex_init(&philosophers[i].mutex_is_eating, NULL);
+		philosophers[i].is_eating = false;
 		philosophers[i].alive = true;
 		philosophers[i].dinner = dinner;
 		philosophers[i].id = i + 1;
 		philosophers[i].write = &dinner->write;
 		philosophers[i].left_fork = &forks[i];
+		// philosophers[i].last_meal_time = 0;
 		if (i + 1 == dinner->philos)
 			philosophers[i].right_fork = &forks[0];
 		else
 			philosophers[i].right_fork = &forks[i + 1];
+		philosophers[i].start_time = get_current_time(); // in theory this is dumb and wrong
 		i++;
 	}
 	return (philosophers);
@@ -124,7 +133,7 @@ int create_threads(t_dinner *dinner, t_philo *philosophers)
 			printf("failed to create thread"); // cant just perror
 		i++;
 	}
-	if (pthread_create(&dinner->death_checker, NULL, death_check, dinner) != 0)
+	if (pthread_create(&dinner->death_checker, NULL, death_check, dinner) != 0) //idk if this should be before or after
 			printf("failed to create thread"); // cant just perror
 	i = 0;
 	if (pthread_join(dinner->death_checker, NULL) != 0)
@@ -146,11 +155,11 @@ void *routine(void *arg)
 	long time;
 	
 	philo = (t_philo *)arg;
-	philo->start_time = get_current_time();
+	// philo->start_time = get_current_time(); //trying to set it outside of a thread but maybe its a bad idea
 	setter(&philo->last_meal_time, philo->start_time, &philo->last_meal);
 	// philo->last_meal_time = philo->start_time;
-	if (philo->id % 2 == 0)
-		usleep(500);
+	// if (philo->id % 2 == 0)
+	// 	usleep(500);
 	philo_grindset(philo);
 	// mutex_write(philo, "philo is chilling\n", philo->id);
 	return (NULL);

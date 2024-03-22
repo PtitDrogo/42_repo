@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:43:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/21 18:28:37 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:25:31 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	increment(long *var, pthread_mutex_t *mutex)
 {
 	pthread_mutex_lock(mutex);
 	(*var)++;
-    ft_printf("var is = %i\n", (int) *var); //obviously i need a write mutex
+    // ft_printf("var is = %i\n", (int) *var); //obviously i need a write mutex
 	pthread_mutex_unlock(mutex);
     return ;
 }
@@ -63,3 +63,13 @@ long get_current_time(void)
 	// printf("in get current time = %li\n", current_time);
 	return (current_time);
 }
+
+// int	usleep(long milliseconds)
+// {
+// 	long	start;
+
+// 	start = get_current_time();
+// 	while ((get_current_time() - start) < milliseconds)
+// 		usleep(500);
+// 	return (0);
+// }

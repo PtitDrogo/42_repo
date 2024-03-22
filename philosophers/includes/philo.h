@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/21 19:21:50 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:55:15 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,13 @@ typedef struct s_dinner t_dinner;
 typedef struct s_philo 
 {
     bool        alive;
-    int         meals_eaten;
     int         id;
     long        start_time;
+    
+    bool        is_eating;
+    pthread_mutex_t mutex_is_eating;
+    long            meals_eaten;
+    pthread_mutex_t mutex_meals_eaten_mutex;
     
     long            last_meal_time;
     pthread_mutex_t last_meal;
@@ -93,3 +97,6 @@ int	    ft_printf(const char *text, ...);
 void	philo_grindset(t_philo *philo);
 int     is_anybody_dead(t_dinner *dinner);
 void    *death_check(void *arg);
+
+
+// int	usleep(long milliseconds);
