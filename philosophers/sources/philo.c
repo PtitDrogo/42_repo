@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/22 18:55:13 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/22 19:23:26 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ int create_threads(t_dinner *dinner, t_philo *philosophers)
 	dinner->philos_list_thread = malloc(sizeof(pthread_t) * dinner->philos);
 	if (!dinner->philos_list_thread)
 		return (0); // error checking later;
+	if (pthread_create(&dinner->death_checker, NULL, death_check, dinner) != 0) //idk if this should be before or after
+			printf("failed to create thread"); // cant just perror
 	while (i < dinner->philos)
 	{
 		// ft_printf("hi in create loop\n");
@@ -133,8 +135,6 @@ int create_threads(t_dinner *dinner, t_philo *philosophers)
 			printf("failed to create thread"); // cant just perror
 		i++;
 	}
-	if (pthread_create(&dinner->death_checker, NULL, death_check, dinner) != 0) //idk if this should be before or after
-			printf("failed to create thread"); // cant just perror
 	i = 0;
 	if (pthread_join(dinner->death_checker, NULL) != 0)
 			perror("failed to join thread");

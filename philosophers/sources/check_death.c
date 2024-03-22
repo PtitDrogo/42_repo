@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:40:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/22 18:01:38 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/22 19:45:54 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void    *death_check(void *arg)
     //////SCIENCE/////////
     while (1)
     {
-        // usleep(50000);
+        usleep(500);
         i = 0;
         while (i < dinner->philos)
         {
