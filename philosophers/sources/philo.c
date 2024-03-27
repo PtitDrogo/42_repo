@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/22 19:23:26 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/27 11:37:24 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,10 @@ void    init_dinner_variables(t_dinner *dinner, const char **argv, int argc)
 	dinner->time_to_die = atol(argv[2]);
 	dinner->time_to_eat = atol(argv[3]);
 	dinner->time_to_sleep = atol(argv[4]);
+	dinner->time_to_sleep *= 1000;
+	dinner->time_to_eat *= 1000;
 	if (argc == 6)
-		dinner->min_meals = atol(argv[5]);
+		dinner->meals_goal = atol(argv[5]);
 	
 }
 pthread_mutex_t *init_forks(long philos)

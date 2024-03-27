@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:40:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/22 19:45:54 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:35:15 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,24 @@ void    *death_check(void *arg)
     
     dinner = (t_dinner *)arg;
     philos = dinner->list_t_philos;
-    pthread_mutex_lock(&dinner->write);
-    printf("whats up i an death checker\n");
-    printf("number of philos is %li time to die %li\n", dinner->philos, dinner->time_to_die);
-    // printf("last meal time is %li\n", philos[i].last_meal_time);
-    pthread_mutex_unlock(&dinner->write);
+    // pthread_mutex_lock(&dinner->write);
+    // printf("whats up i an death checker\n");
+    // printf("number of philos is %li time to die %li\n", dinner->philos, dinner->time_to_die);
+    // // printf("last meal time is %li\n", philos[i].last_meal_time);
+    // pthread_mutex_unlock(&dinner->write);
     int i;
 
     long    time_since_last_meal; 
-    //////SCIENCE/////////
+
     while (1)
     {
-        usleep(500);
+        // usleep(500); This one fails the 800 200 200 test
         i = 0;
         while (i < dinner->philos)
         {
-            pthread_mutex_lock(&philos[i].last_meal);
-            time_since_last_meal = (get_current_time() - philos[i].start_time) - philos[i].last_meal_time;
+            time_since_last_meal = (get_current_time() - philos[i].start_time) - getter(&philos[i].last_meal_time, &philos[i].last_meal);
             pthread_mutex_lock(&philos[i].mutex_is_eating);
-            if (time_since_last_meal >= dinner->time_to_die && philos[i].is_eating == false)
+            if (time_since_last_meal > dinner->time_to_die && philos[i].is_eating == false) // > instead of >= for now
             {
                 // pthread_mutex_lock(&dinner->write);
                 // // printf("get_current_time value from this printf %li\n", get_current_time());
@@ -70,28 +69,26 @@ void    *death_check(void *arg)
                 // // printf("time_since_last_meal = %li\n", time_since_last_meal);
                 // pthread_mutex_unlock(&dinner->write);
                 pthread_mutex_unlock(&philos[i].mutex_is_eating);
-                pthread_mutex_unlock(&philos[i].last_meal);
                 mutex_write(&philos[i], "has died\n", philos[i].id);
-                pthread_mutex_lock(&dinner->death);
-                dinner->is_dead = true;
-                pthread_mutex_unlock(&dinner->death);
-                // sleep(100);
+                setter_bool(&dinner->is_dead, true, &dinner->death);
                 return (NULL);
             }
-            else
-            {    
-                pthread_mutex_unlock(&philos[i].mutex_is_eating);
-                pthread_mutex_unlock(&philos[i].last_meal);
-            }
+            pthread_mutex_unlock(&philos[i].mutex_is_eating);
             i++;
         }
     }
-    /////////ENDSCIENCE//////////
     return (NULL);
 }
 
-// int last_meal_check(t_philo *philo)
-// {
-//     if ()
-// }
+int last_meal_check(t_philo *philo)
+{
+    pthread_mutex_lock(&philo->mutex_meals_eaten_mutex);
+    if (philo->meals_eaten >= philo->dinner->meals_goal)
+    {    
+        pthread_mutex_unlock(&philo->mutex_meals_eaten_mutex);
+        return (1);
+    }
+    pthread_mutex_unlock(&philo->mutex_meals_eaten_mutex);
+    return (0);
+}
 

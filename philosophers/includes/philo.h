@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/22 17:55:15 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/27 11:42:56 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ typedef struct s_philo
     int         id;
     long        start_time;
     
-    bool        is_eating;
+    bool            is_eating;
     pthread_mutex_t mutex_is_eating;
+    
     long            meals_eaten;
     pthread_mutex_t mutex_meals_eaten_mutex;
     
@@ -57,7 +58,7 @@ typedef struct s_dinner
     long        time_to_sleep;
     long        philos;
     // long        synchronise;
-    long        min_meals;
+    long        meals_goal;
 } t_dinner;
 
 /*
@@ -84,6 +85,8 @@ typedef struct s_dinner
 
 
 long	getter(long *var, pthread_mutex_t *mutex);
+bool	getter_bool(bool *var, pthread_mutex_t *mutex);
+void	setter_bool(bool *var, bool new_value, pthread_mutex_t *mutex);
 void	setter(long *var, long new_value, pthread_mutex_t *mutex);
 void	increment(long *var, pthread_mutex_t *mutex);
 long    get_current_time(void);
@@ -93,10 +96,10 @@ void	mutex_write(t_philo *philo, char *to_print, int id);
 
 int	    ft_printf(const char *text, ...);
 
-
 void	philo_grindset(t_philo *philo);
 int     is_anybody_dead(t_dinner *dinner);
 void    *death_check(void *arg);
+
 
 
 // int	usleep(long milliseconds);

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:43:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/22 17:25:31 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/27 11:38:48 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,18 @@ void	increment(long *var, pthread_mutex_t *mutex)
 {
 	pthread_mutex_lock(mutex);
 	(*var)++;
-    // ft_printf("var is = %i\n", (int) *var); //obviously i need a write mutex
 	pthread_mutex_unlock(mutex);
     return ;
 }
+
+void	setter_bool(bool *var, bool new_value, pthread_mutex_t *mutex)
+{
+	pthread_mutex_lock(mutex);
+	*var = new_value;
+	pthread_mutex_unlock(mutex);
+	return ;
+}
+
 
 void	setter(long *var, long new_value, pthread_mutex_t *mutex)
 {
@@ -27,6 +35,16 @@ void	setter(long *var, long new_value, pthread_mutex_t *mutex)
 	*var = new_value;
 	pthread_mutex_unlock(mutex);
 	return ;
+}
+
+bool	getter_bool(bool *var, pthread_mutex_t *mutex)
+{
+	bool	to_return;
+
+	pthread_mutex_lock(mutex);
+	to_return = *var;
+	pthread_mutex_unlock(mutex);
+	return (to_return);
 }
 
 long	getter(long *var, pthread_mutex_t *mutex)
@@ -70,6 +88,9 @@ long get_current_time(void)
 
 // 	start = get_current_time();
 // 	while ((get_current_time() - start) < milliseconds)
+// 	{	
 // 		usleep(500);
+// 		write(1, "hi\n", 3);
+// 	}
 // 	return (0);
 // }
