@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/27 11:42:56 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:17:25 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <sys/time.h>
+#include <limits.h>
 
 ///------------------------Structs------------------------///
 typedef struct s_dinner t_dinner;
@@ -26,7 +27,7 @@ typedef struct s_philo
 {
     bool        alive;
     int         id;
-    long        start_time;
+
     
     bool            is_eating;
     pthread_mutex_t mutex_is_eating;
@@ -41,24 +42,29 @@ typedef struct s_philo
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
     pthread_mutex_t *write;
+
 } t_philo;
 
 typedef struct s_dinner
 {
     pthread_t       *philos_list_thread;
+    pthread_t       death_checker;
+    
     t_philo         *list_t_philos;
-    pthread_mutex_t mutex; //todo fix this random var name
+    
     pthread_mutex_t write;
     pthread_mutex_t death;
-    pthread_t       death_checker;
 
     bool        is_dead;
     long        time_to_die;
     long        time_to_eat;
     long        time_to_sleep;
     long        philos;
-    // long        synchronise;
-    long        meals_goal;
+    long        start_time;
+
+    pthread_mutex_t dinner_start;
+    bool            is_dinner_started;
+    long            meals_goal;
 } t_dinner;
 
 /*
@@ -79,6 +85,9 @@ typedef struct s_dinner
     - Make an extra thread that will check if other philosophers are dead;
     - I guess it just loops over and over the list of philo and their alive status;
 */
+///------------------------Define------------------------///
+
+#define ATOL_ERROR -42
 
 
 ///------------------------Functions------------------------///
@@ -89,7 +98,7 @@ bool	getter_bool(bool *var, pthread_mutex_t *mutex);
 void	setter_bool(bool *var, bool new_value, pthread_mutex_t *mutex);
 void	setter(long *var, long new_value, pthread_mutex_t *mutex);
 void	increment(long *var, pthread_mutex_t *mutex);
-long    get_current_time(void);
+long    get_time(void);
 void	mutex_write(t_philo *philo, char *to_print, int id);
 
 
@@ -97,9 +106,11 @@ void	mutex_write(t_philo *philo, char *to_print, int id);
 int	    ft_printf(const char *text, ...);
 
 void	philo_grindset(t_philo *philo);
-int     is_anybody_dead(t_dinner *dinner);
-void    *death_check(void *arg);
+void    *the_watcher(void *arg);
+int	is_anybody_dead(t_dinner *dinner);
+int is_args_valid(int argc, char **args);
+
+long	basic_safe_atol(const char *nptr);
 
 
-
-// int	usleep(long milliseconds);
+// int	ft_usleep(long milliseconds);

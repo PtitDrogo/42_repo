@@ -13,13 +13,14 @@ OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 SRCS =		$(SRCS_DIR)/philo.c \
 			$(SRCS_DIR)/utils.c \
 			$(SRCS_DIR)/actions.c \
-			$(SRCS_DIR)/check_death.c
+			$(SRCS_DIR)/check_death.c \
+			$(SRCS_DIR)/parsing.c
 #------------------------------------------------------------------------#
 
 #---------------------------------Compilation & Linking---------------------------------#
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-pthread -g3
+CFLAGS	=	-Wall -Wextra -Werror -pthread -g3
 LINKLIBS = -L libft/ -lft
 INCLUDES = -I $(HEADER_DIR) -I libft
 
