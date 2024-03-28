@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/28 15:56:11 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:47:55 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int main(int argc, char const *argv[])
 	{
 		pthread_mutex_destroy(&philosophers[i].last_meal); //mutex of each last meal time
 		pthread_mutex_destroy(&philosophers[i].mutex_meals_eaten_mutex); // how many meals
-		pthread_mutex_destroy(&philosophers[i].mutex_is_eating);
 		pthread_mutex_destroy(&forks[i]); // each fork
 	}
 	free(dinner.philos_list_thread);
@@ -74,8 +73,6 @@ t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mu
 		memset(&philosophers[i], 0, sizeof(t_philo));
 		pthread_mutex_init(&(philosophers[i].last_meal), NULL);
 		pthread_mutex_init(&(philosophers[i].mutex_meals_eaten_mutex), NULL);
-		pthread_mutex_init(&philosophers[i].mutex_is_eating, NULL);
-		philosophers[i].is_eating = false;
 		philosophers[i].alive = true;
 		philosophers[i].dinner = dinner;
 		philosophers[i].id = i + 1;
@@ -139,11 +136,11 @@ void *routine(void *arg)
 	philo = (t_philo *)arg;
 	while (getter_bool(&philo->dinner->is_dinner_started, &philo->dinner->dinner_start) == false)
 	{
-		usleep(500);
+		// usleep(500);
 	}
 	setter(&philo->last_meal_time, philo->dinner->start_time, &philo->last_meal);
-	if (philo->id % 2 == 0)
-		usleep(500); // This makes things worse ?????? Sometimes ?? idk ??
+	// if (philo->id % 2 == 0)
+	// 	usleep(500); // This makes things worse ?????? Sometimes ?? idk ??
 	philo_grindset(philo);
 	return (NULL);
 }

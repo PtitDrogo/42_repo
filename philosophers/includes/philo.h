@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/28 15:54:01 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:29:27 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct s_philo
     int         id;
 
     
-    bool            is_eating;
-    pthread_mutex_t mutex_is_eating;
+    // bool            is_eating;
+    // pthread_mutex_t mutex_is_eating;
     
     long            meals_eaten;
     pthread_mutex_t mutex_meals_eaten_mutex;
