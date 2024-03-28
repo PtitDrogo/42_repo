@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/27 17:32:53 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:31:12 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,16 @@ t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mu
 	}
 	return (philosophers);
 }
+
+// void	fork_behavior(t_philo	*philo, pthread_mutex_t *forks, int i)
+// {
+// 	pthread_mutex_t *buffer;
+// 	buffer = philo[i].left_fork;
+// 	if (philo[i].id % 2 != 0)
+// 	{
+// 		philo[i].left_fork = philo[i].right_fork;
+// 	}
+// }
 
 int create_threads(t_dinner *dinner, t_philo *philosophers)
 {

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:40:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/27 16:06:51 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:01:37 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ static bool	death_check_for_real(t_dinner *dinner, t_philo *philos)
 		if (time_since_last_meal >= dinner->time_to_die
 			&& !getter_bool(&philos[i].is_eating, &philos[i].mutex_is_eating))
 		{
-			mutex_write(&philos[i], "has died\n", philos[i].id);
+			pthread_mutex_lock(philos->write);
+			printf("time since last meal = %li, last meal time = %li\n", time_since_last_meal, getter(&philos[i].last_meal_time, &philos[i].last_meal));
+			printf("is eating = %i\n", getter_bool(&philos[i].is_eating, &philos[i].mutex_is_eating));
+			pthread_mutex_unlock(philos->write);
+			mutex_write(&philos[i], "died\n", philos[i].id);
 			setter_bool(&dinner->is_dead, true, &dinner->death);
 			return (true);
 		}
