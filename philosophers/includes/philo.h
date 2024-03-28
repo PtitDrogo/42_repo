@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/27 17:17:25 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:54:01 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ typedef struct s_philo
     pthread_mutex_t last_meal;
 
     t_dinner        *dinner;
-    pthread_mutex_t *left_fork;
-    pthread_mutex_t *right_fork;
+    pthread_mutex_t *fork_1;
+    pthread_mutex_t *fork_2;
     pthread_mutex_t *write;
 
 } t_philo;
@@ -64,6 +64,7 @@ typedef struct s_dinner
 
     pthread_mutex_t dinner_start;
     bool            is_dinner_started;
+    
     long            meals_goal;
 } t_dinner;
 

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:40:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/28 13:01:37 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:56:03 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	*the_watcher(void *arg)
 	philos = dinner->list_t_philos;
 	while (!getter_bool(&dinner->is_dinner_started, &dinner->dinner_start))
 	{
+		usleep(500);
 	}
 	while (1)
 	{
@@ -46,21 +47,26 @@ static bool	death_check_for_real(t_dinner *dinner, t_philo *philos)
 	{
 		time_since_last_meal = (get_time() - dinner->start_time)
 			- getter(&philos[i].last_meal_time, &philos[i].last_meal);
-		if (time_since_last_meal >= dinner->time_to_die
-			&& !getter_bool(&philos[i].is_eating, &philos[i].mutex_is_eating))
+		if (time_since_last_meal >= dinner->time_to_die)
 		{
-			pthread_mutex_lock(philos->write);
-			printf("time since last meal = %li, last meal time = %li\n", time_since_last_meal, getter(&philos[i].last_meal_time, &philos[i].last_meal));
-			printf("is eating = %i\n", getter_bool(&philos[i].is_eating, &philos[i].mutex_is_eating));
-			pthread_mutex_unlock(philos->write);
-			mutex_write(&philos[i], "died\n", philos[i].id);
+			// pthread_mutex_lock(philos->write);
+			// printf("time since last meal = %li, last meal time = %li\n", time_since_last_meal, getter(&philos[i].last_meal_time, &philos[i].last_meal));
+			// printf("is eating = %i\n", getter_bool(&philos[i].is_eating, &philos[i].mutex_is_eating));
+			// pthread_mutex_unlock(philos->write);
+			// mutex_write(&philos[i], "died\n", philos[i].id);
 			setter_bool(&dinner->is_dead, true, &dinner->death);
+			long time = get_time() - philos->dinner->start_time;
+			pthread_mutex_lock(philos->write);
+			printf("%li %i %s", time, philos->id, "died\n");
+			pthread_mutex_unlock(philos->write);
 			return (true);
 		}
 		i++;
 	}
 	return (false);
 }
+
+// !getter_bool(&philos[i].is_eating, &philos[i].mutex_is_eating)
 
 static bool	did_all_eat(t_dinner *dinner, t_philo *philos)
 {

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/28 13:31:12 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:56:11 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,25 +80,25 @@ t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mu
 		philosophers[i].dinner = dinner;
 		philosophers[i].id = i + 1;
 		philosophers[i].write = &dinner->write;
-		philosophers[i].left_fork = &forks[i];
-		if (i + 1 == dinner->philos)
-			philosophers[i].right_fork = &forks[0];
+		if (i == 0)
+		{	
+			philosophers[i].fork_1 = &forks[dinner->philos - 1];
+			philosophers[i].fork_2 = &forks[i];
+		}
+		else if (i % 2 == 0)
+		{
+			philosophers[i].fork_1 = &forks[i - 1];
+			philosophers[i].fork_2 = &forks[i];
+		}
 		else
-			philosophers[i].right_fork = &forks[i + 1];
+		{
+			philosophers[i].fork_2 = &forks[i - 1];
+			philosophers[i].fork_1 = &forks[i];	
+		}
 		i++;
 	}
 	return (philosophers);
 }
-
-// void	fork_behavior(t_philo	*philo, pthread_mutex_t *forks, int i)
-// {
-// 	pthread_mutex_t *buffer;
-// 	buffer = philo[i].left_fork;
-// 	if (philo[i].id % 2 != 0)
-// 	{
-// 		philo[i].left_fork = philo[i].right_fork;
-// 	}
-// }
 
 int create_threads(t_dinner *dinner, t_philo *philosophers)
 {
@@ -138,7 +138,9 @@ void *routine(void *arg)
 	
 	philo = (t_philo *)arg;
 	while (getter_bool(&philo->dinner->is_dinner_started, &philo->dinner->dinner_start) == false)
-	{}
+	{
+		usleep(500);
+	}
 	setter(&philo->last_meal_time, philo->dinner->start_time, &philo->last_meal);
 	if (philo->id % 2 == 0)
 		usleep(500); // This makes things worse ?????? Sometimes ?? idk ??
@@ -224,5 +226,5 @@ void    lonely_philosopher(t_dinner *dinner)
 }
 	// for (int i = 0; i < dinner.philos; i++)
 	// {
-	// 	printf("philo %i has left fork %p and right fork %p\n", i, philosophers[i].left_fork, philosophers[i].right_fork);
+	// 	printf("philo %i has left fork %p and right fork %p\n", i, philosophers[i].fork_1, philosophers[i].fork_2);
 	// }

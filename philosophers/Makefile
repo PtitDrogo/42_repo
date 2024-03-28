@@ -20,10 +20,10 @@ SRCS =		$(SRCS_DIR)/philo.c \
 #---------------------------------Compilation & Linking---------------------------------#
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-Wall -Wextra -Werror -pthread
+CFLAGS	=	-Wall -Wextra -Werror -pthread -g3
 LINKLIBS = -L libft/ -lft
 INCLUDES = -I $(HEADER_DIR) -I libft
-
+# -fsanitize=thread -g3
 #------------------------------------------------------------------------#
 
 
