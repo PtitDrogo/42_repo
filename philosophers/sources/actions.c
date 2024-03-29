@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:48:04 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/28 17:08:30 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/29 09:54:44 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	eat(t_philo *philo)
 	setter(&philo->last_meal_time, get_time() - philo->dinner->start_time,
 		&philo->last_meal);
 		
-	usleep(philo->dinner->time_to_eat);
+	ft_usleep(philo->dinner->time_to_eat);
 	
 	pthread_mutex_unlock(philo->fork_2);
 	pthread_mutex_unlock(philo->fork_1);
@@ -50,7 +50,7 @@ static void	eat(t_philo *philo)
 static void	snooze(t_philo *philo)
 {
 	mutex_write(philo, "is sleeping\n", philo->id);
-	usleep(philo->dinner->time_to_sleep);
+	ft_usleep(philo->dinner->time_to_sleep);
 	return ;
 }
 
@@ -60,6 +60,6 @@ static void	think(t_philo *philo)
 	if (philo->dinner->philos % 2 == 0)
         return ;
     if (((philo->dinner->time_to_eat * 2) - philo->dinner->time_to_sleep) > 0)
-		usleep(((philo->dinner->time_to_eat * 2) - philo->dinner->time_to_sleep));
+		ft_usleep(((philo->dinner->time_to_eat * 2) - philo->dinner->time_to_sleep));
 	return ;
 }

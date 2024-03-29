@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_death.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:40:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/28 16:50:06 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/29 10:01:41 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*the_watcher(void *arg)
 	philos = dinner->list_t_philos;
 	while (!getter_bool(&dinner->is_dinner_started, &dinner->dinner_start))
 	{
-		// usleep(500);
+		ft_usleep(500);
 	}
 	while (1)
 	{
@@ -49,6 +49,7 @@ static bool	death_check_for_real(t_dinner *dinner, t_philo *philos)
 	{
 		// time_since_last_meal = (get_time() - dinner->start_time)
 		// 	- getter(&philos[i].last_meal_time, &philos[i].last_meal);
+		// ft_usleep(5000);
 		if (get_time() - dinner->start_time - getter(&philos[i].last_meal_time, &philos[i].last_meal) > dinner->time_to_die)
 		{
 			setter_bool(&dinner->is_dead, true, &dinner->death);

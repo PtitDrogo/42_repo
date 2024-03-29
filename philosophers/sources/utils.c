@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:43:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/27 16:21:02 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/29 09:54:16 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,16 @@ int	is_anybody_dead(t_dinner *dinner)
 }
 
 //this doesnt work for a mystery reason
-// int	ft_usleep(long milliseconds)
-// {
-// 	size_t	start;
-
-// 	start = (size_t)get_time();
-// 	while (((size_t)get_time() - start) < (size_t)milliseconds)
-// 	{	
-// 		usleep(500);
-// 		// write(1, "hi\n", 3);
-// 	}
-// 	return (0);
-// }
+int	ft_usleep(long milliseconds)
+{
+	long	start;
+	
+	milliseconds /= 1000;
+	start = get_time();
+	while ((get_time() - start) < milliseconds)
+	{	
+		// printf("hi get time = %li start : %li miliseconds : %li \n", get_time(), start, milliseconds);
+		usleep(500);
+	}
+	return (0);
+}

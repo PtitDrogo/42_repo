@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/28 16:29:27 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/29 09:50:21 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,4 @@ int is_args_valid(int argc, char **args);
 long	basic_safe_atol(const char *nptr);
 
 
-// int	ft_usleep(long milliseconds);
+int	ft_usleep(long milliseconds);

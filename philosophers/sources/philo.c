@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/28 16:47:55 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/03/29 09:55:57 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,11 @@ void *routine(void *arg)
 	philo = (t_philo *)arg;
 	while (getter_bool(&philo->dinner->is_dinner_started, &philo->dinner->dinner_start) == false)
 	{
-		// usleep(500);
+		ft_usleep(500);
 	}
 	setter(&philo->last_meal_time, philo->dinner->start_time, &philo->last_meal);
-	// if (philo->id % 2 == 0)
-	// 	usleep(500); // This makes things worse ?????? Sometimes ?? idk ??
+	if (philo->id % 2 == 0)
+		ft_usleep(500); // This makes things worse ?????? Sometimes ?? idk ??
 	philo_grindset(philo);
 	return (NULL);
 }
@@ -203,7 +203,7 @@ void    *lonely_routine(void *arg)
 	printf("%lld philosopher has taken a fork\n", time);
 	gettimeofday(&end, NULL);
 	gettimeofday(&start, NULL);
-	usleep(dinner->time_to_die * 1000);
+	ft_usleep(dinner->time_to_die * 1000); //this is wrong i think
 	gettimeofday(&end, NULL);
 	time = (end.tv_sec - start.tv_sec) * 1000LL;
 	time += (end.tv_usec - start.tv_usec) / 1000;
