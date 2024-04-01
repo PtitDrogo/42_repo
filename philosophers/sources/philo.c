@@ -6,7 +6,7 @@
 /*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/29 09:55:57 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/04/01 19:51:26 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,8 @@ void *routine(void *arg)
 	{
 		ft_usleep(500);
 	}
-	setter(&philo->last_meal_time, philo->dinner->start_time, &philo->last_meal);
+	// setter(&philo->last_meal_time, philo->dinner->start_time, &philo->last_meal);
+	setter(&philo->last_meal_time, 0, &philo->last_meal);
 	if (philo->id % 2 == 0)
 		ft_usleep(500); // This makes things worse ?????? Sometimes ?? idk ??
 	philo_grindset(philo);
