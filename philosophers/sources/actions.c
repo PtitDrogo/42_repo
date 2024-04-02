@@ -6,7 +6,7 @@
 /*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:48:04 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/29 09:54:44 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/04/02 13:04:53 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ static void	eat(t_philo *philo)
 	mutex_write(philo, "has taken a fork\n", philo->id);
 
 	mutex_write(philo, "is eating\n", philo->id);
-	setter(&philo->last_meal_time, get_time() - philo->dinner->start_time,
-		&philo->last_meal);
+	setter(&philo->last_meal_time, get_time() - philo->dinner->start_time + 1, &philo->last_meal);
 		
 	ft_usleep(philo->dinner->time_to_eat);
 	

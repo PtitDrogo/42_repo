@@ -6,7 +6,7 @@
 /*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:40:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/01 20:57:23 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/04/02 12:57:22 by ptitdrogo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static bool	death_check_for_real(t_dinner *dinner, t_philo *philos)
 		// if (i == 1)
 		// {
 		// 	time = get_time();
-		// 	printf("time %li start time %li last meal time %li time to die %li\n", time, dinner->start_time, philos[i].last_meal_time, dinner->time_to_die);
+		// 	// printf("time %li start time %li last meal time %li time to die %li\n", time, dinner->start_time, philos[i].last_meal_time, dinner->time_to_die);
 		// }
 		if (calculate_philo_death(&philos[i], dinner))
 		{
@@ -79,10 +79,10 @@ int	calculate_philo_death(t_philo *philo, t_dinner *dinner)
 	long time = get_time();
 	if (time - dinner->start_time - philo->last_meal_time > dinner->time_to_die)
 	{	
-		printf("time %li start time %li last meal time %li time to die %li\n", time, dinner->start_time, philo->last_meal_time, dinner->time_to_die);
-		printf("time - start time = %li\n", time - dinner->start_time);
+		// printf("time %li start time %li last meal time %li time to die %li\n", time, dinner->start_time, philo->last_meal_time, dinner->time_to_die);
+		// printf("time - start time = %li\n", time - dinner->start_time);
 		pthread_mutex_unlock(&philo->last_meal);
-		printf("dead\n");
+		// printf("dead\n");
 		return (1);
 	}
 	// printf("not dead\n");
