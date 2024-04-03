@@ -6,13 +6,15 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:58:49 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/03 14:49:42 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:07:08 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 static int	init_dinner_mutexes(t_dinner *dinner);
+int     init_forks(t_dinner *dinner);
+void    init_fork_cleanup(t_dinner *dinner);
 
 int    init_dinner_variables(t_dinner *dinner, const char **argv, int argc)
 {
@@ -56,20 +58,22 @@ static int	init_dinner_mutexes(t_dinner *dinner)
 	return (1);
 }
 
-pthread_mutex_t *init_forks(long philos)
+int     init_forks(t_dinner *dinner)
 {
-	pthread_mutex_t *forks;
     int status;
 	int	i;
 
 	i = -1;
     status = 1;
-	forks = malloc(sizeof(pthread_mutex_t) * philos);
-	if (!forks)
-		return (error_and_return_NULL("Fork malloc failed"));
-	while (++i < philos)
+	dinner->forks = malloc(sizeof(pthread_mutex_t) * dinner->philos);
+	if (!dinner->forks)
+	{	
+        init_fork_cleanup(dinner);
+        return (error_and_return_0("Fork malloc failed"));
+    }
+    while (++i < dinner->philos)
 	{
-		if (pthread_mutex_init(&forks[i], NULL) != 0)
+		if (pthread_mutex_init(&dinner->forks[i], NULL) != 0)
         {    
             status = 0;
             break ;
@@ -78,9 +82,18 @@ pthread_mutex_t *init_forks(long philos)
     if (status == 0)
     {
         while (i-- > 0)
-            pthread_mutex_destroy(&forks[i]);
-        free (forks);
-        return (error_and_return_NULL("Fork mutex failed"));
+            pthread_mutex_destroy(&dinner->forks[i]);
+        free (dinner->forks);
+        init_fork_cleanup(dinner);
+        return (error_and_return_0("Fork mutex failed"));
     }
-	return (forks);
+	return (1);
+}
+
+void    init_fork_cleanup(t_dinner *dinner)
+{
+    pthread_mutex_destroy(&dinner->write);
+    pthread_mutex_destroy(&dinner->death);
+    pthread_mutex_destroy(&dinner->dinner_start);
+    return ;
 }

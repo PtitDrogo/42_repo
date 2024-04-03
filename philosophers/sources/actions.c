@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:48:04 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/03 14:02:02 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:49:45 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void *routine(void *arg)
 	while (getter_bool(&philo->dinner->is_dinner_started, &philo->dinner->dinner_start) == false)
 	{
 		ft_usleep(500);
+		
 	}
 	philo_grindset(philo);
 	return (NULL);

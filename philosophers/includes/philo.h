@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/03 15:20:51 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:16:55 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void    *the_watcher(void *arg);
 int	is_anybody_dead(t_dinner *dinner);
 int are_args_valid(int argc, char **args);
 int    init_dinner_variables(t_dinner *dinner, const char **argv, int argc);
+int     init_forks(t_dinner *dinner);
 
 long	basic_safe_atol(const char *nptr);
 

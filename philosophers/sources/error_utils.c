@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:38:39 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/03 15:19:28 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:10:44 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int    error_and_return_0(const char *err_msg)
 	return (0);
 }
 
-void *error_and_return_NULL(const char *err_msg)
-{
-	if (!err_msg)
-		return (0);
-	write(2, err_msg, ft_strlen(err_msg));
-	write(2, "\n", 1);
-	return (NULL);
-}
+// void *error_and_return_NULL(const char *err_msg)
+// {
+// 	if (!err_msg)
+// 		return (0);
+// 	write(2, err_msg, ft_strlen(err_msg));
+// 	write(2, "\n", 1);
+// 	return (NULL);
+// }
 static int	ft_strlen(const char *s)
 {
 	int	i;
