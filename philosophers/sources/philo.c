@@ -6,14 +6,14 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/03 16:54:23 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/03 17:07:50 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 
-int    	init_dinner_variables(t_dinner *dinner, const char **argv, int argc);
+int    		init_dinner_variables(t_dinner *dinner, const char **argv, int argc);
 void    	lonely_philosopher(t_dinner *dinner);
 void		*routine(void *arg);
 int     	create_threads(t_dinner *dinner, t_philo *philosophers);
@@ -22,7 +22,6 @@ void    	*lonely_routine(void *arg);
 int		init_philosophers(t_philo	*philosophers, t_dinner *dinner);
 int		init_dinner_mutexes(t_dinner *dinner);
 void	philosopher_fork_behavior(int i, t_philo	*philosophers, t_dinner *dinner);
-void	total_cleanup(t_dinner *dinner);
 int		init_all(t_dinner *dinner, int argc, char const **argv);
 
 int main(int argc, char const *argv[])
@@ -31,11 +30,12 @@ int main(int argc, char const *argv[])
 	
 	memset(&dinner, 0, sizeof(t_dinner));
 	if (init_all(&dinner, argc, argv) == 0)
-		return (0);
+		return (1);
 	if (dinner.philos == 1)
 		lonely_philosopher(&dinner);
 	else
-		create_threads(&dinner, dinner.list_t_philos);
+		if (create_threads(&dinner, dinner.list_t_philos) == 0)
+			return (1);
 	total_cleanup(&dinner);
 	return (0);
 }
@@ -49,39 +49,7 @@ int		init_all(t_dinner *dinner, int argc, char const **argv)
 		return (0);
 	return (1);
 }
-void	total_cleanup(t_dinner *dinner)
-{
-	int i;
-	
-	i = 0;
-	pthread_mutex_destroy(&dinner->write);
-	pthread_mutex_destroy(&dinner->death);
-	pthread_mutex_destroy(&dinner->dinner_start);
-	
-	while (i < dinner->philos)
-	{
-		pthread_mutex_destroy(&dinner->list_t_philos[i].last_meal);
-		pthread_mutex_destroy(&dinner->list_t_philos[i].mutex_meals_eaten_mutex);
-		pthread_mutex_destroy(&dinner->forks[i]);
-		i++;
-	}
-	free(dinner->philos_list_thread);
-	free(dinner->list_t_philos);
-	free(dinner->forks);
-}
 
-void	init_philo_cleanup(t_dinner *dinner)
-{
-	int	i;
-	
-	pthread_mutex_destroy(&dinner->write);
-	pthread_mutex_destroy(&dinner->death);
-	pthread_mutex_destroy(&dinner->dinner_start);
-	i = -1;
-	while (++i < dinner->philos)
-		pthread_mutex_destroy(&dinner->forks[i]);
-	free(dinner->forks);
-}
 int		init_philosophers(t_philo	*philosophers, t_dinner *dinner)
 {
 	int	i;
@@ -89,7 +57,7 @@ int		init_philosophers(t_philo	*philosophers, t_dinner *dinner)
 	philosophers = malloc(sizeof(t_philo) * dinner->philos);
 	if (!philosophers)
 	{	
-		init_philo_cleanup(dinner);
+		philo_cleanup(dinner);
 		return (error_and_return_0("Philo malloc failed"));
 	}
 	i = 0;
@@ -99,14 +67,14 @@ int		init_philosophers(t_philo	*philosophers, t_dinner *dinner)
 		if (pthread_mutex_init(&(philosophers[i].last_meal), NULL) != 0)
 		{	
 			free(philosophers);
-			init_philo_cleanup(dinner);
+			philo_cleanup(dinner);
 			return (error_and_return_0("Last meal mutex failed"));
 		}
 		if (pthread_mutex_init(&(philosophers[i].mutex_meals_eaten_mutex), NULL) != 0)
 		{	
 			pthread_mutex_destroy(&(philosophers[i].last_meal));
 			free(philosophers);
-			init_philo_cleanup(dinner);
+			philo_cleanup(dinner);
 			return (error_and_return_0("meal eaten mutex failed"));
 		}
 		philosophers[i].alive = true;
@@ -205,7 +173,3 @@ void    lonely_philosopher(t_dinner *dinner)
 	if (pthread_join(philo, NULL) != 0) 
 		return ;
 }
-	// for (int i = 0; i < dinner.philos; i++)
-	// {
-	// 	printf("philo %i has left fork %p and right fork %p\n", i, philosophers[i].fork_1, philosophers[i].fork_2);
-	// }

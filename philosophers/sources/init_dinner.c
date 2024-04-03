@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:58:49 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/03 16:07:08 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/03 17:08:08 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,3 @@ int     init_forks(t_dinner *dinner)
 	return (1);
 }
 
-void    init_fork_cleanup(t_dinner *dinner)
-{
-    pthread_mutex_destroy(&dinner->write);
-    pthread_mutex_destroy(&dinner->death);
-    pthread_mutex_destroy(&dinner->dinner_start);
-    return ;
-}

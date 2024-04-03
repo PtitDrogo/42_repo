@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/03 16:16:55 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/03 17:03:33 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,16 +104,16 @@ void	increment(long *var, pthread_mutex_t *mutex);
 long    get_time(void);
 void	mutex_write(t_philo *philo, char *to_print, int id);
 int    error_and_return_0(const char *err_msg);
-void *error_and_return_NULL(const char *err_msg);
+void    init_fork_cleanup(t_dinner *dinner);
 
 
 int	    ft_printf(const char *text, ...);
 
 void	philo_grindset(t_philo *philo);
 void    *the_watcher(void *arg);
-int	is_anybody_dead(t_dinner *dinner);
-int are_args_valid(int argc, char **args);
-int    init_dinner_variables(t_dinner *dinner, const char **argv, int argc);
+int     is_anybody_dead(t_dinner *dinner);
+int     are_args_valid(int argc, char **args);
+int     init_dinner_variables(t_dinner *dinner, const char **argv, int argc);
 int     init_forks(t_dinner *dinner);
 
 long	basic_safe_atol(const char *nptr);
@@ -121,3 +121,8 @@ long	basic_safe_atol(const char *nptr);
 
 int	ft_usleep(long milliseconds);
 void *routine(void *arg);
+
+//cleanup
+void	total_cleanup(t_dinner *dinner);
+void	philo_cleanup(t_dinner *dinner);
+void    init_fork_cleanup(t_dinner *dinner);

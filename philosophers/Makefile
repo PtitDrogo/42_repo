@@ -16,7 +16,8 @@ SRCS =		$(SRCS_DIR)/philo.c \
 			$(SRCS_DIR)/check_death.c \
 			$(SRCS_DIR)/parsing.c \
 			$(SRCS_DIR)/error_utils.c \
-			$(SRCS_DIR)/init_dinner.c
+			$(SRCS_DIR)/init_dinner.c \
+			$(SRCS_DIR)/cleanup.c 
 #------------------------------------------------------------------------#
 
 #---------------------------------Compilation & Linking---------------------------------#
