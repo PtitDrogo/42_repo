@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:58:51 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/02 12:59:26 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/04/03 15:25:22 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,31 +19,33 @@ void		*routine(void *arg);
 int     	create_threads(t_dinner *dinner, t_philo *philosophers);
 void    	*lonely_routine(void *arg);
 pthread_mutex_t *init_forks(long philos);
-t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mutex_t *forks);
+t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner);
+int	init_dinner_mutexes(t_dinner *dinner);
 
 int main(int argc, char const *argv[])
 {
 	t_dinner 		dinner;
-	pthread_mutex_t *forks;
-	t_philo			*philosophers;
 	
+
 	memset(&dinner, 0, sizeof(t_dinner));
-	if (argc < 5)
-		return (perror("invalid number of arguments"), 1);
 	if (init_dinner_variables(&dinner, argv, argc) == 0)
-		return (1); //update with error
-	forks = init_forks(dinner.philos);
-	if (!forks)
-		return (1); //UPDATE WITH ERROR MESSAGE
-	philosophers = NULL;
-	philosophers = init_philosophers(philosophers, &dinner, forks);
-	if (!philosophers)
+		return (1);
+	dinner.forks = init_forks(dinner.philos);
+	if (!dinner.forks)
+	{
+		pthread_mutex_destroy(&dinner.write);
+		pthread_mutex_destroy(&dinner.death);
+		pthread_mutex_destroy(&dinner.dinner_start);
+		return (1);
+	}
+
+	dinner.list_t_philos = init_philosophers(dinner.list_t_philos, &dinner);
+	if (!dinner.list_t_philos)
 		return (1); //free forks and update err
-	dinner.list_t_philos = philosophers; //UGLY BUT IT IS LIFE
 	if (dinner.philos == 1)
 		lonely_philosopher(&dinner);
 	else
-		create_threads(&dinner, philosophers);
+		create_threads(&dinner, dinner.list_t_philos);
 	
 	pthread_mutex_destroy(&dinner.write);
 	pthread_mutex_destroy(&dinner.death);
@@ -51,22 +53,31 @@ int main(int argc, char const *argv[])
 	
 	for (int i = 0; i < dinner.philos; i++)
 	{
-		pthread_mutex_destroy(&philosophers[i].last_meal); //mutex of each last meal time
-		pthread_mutex_destroy(&philosophers[i].mutex_meals_eaten_mutex); // how many meals
-		pthread_mutex_destroy(&forks[i]); // each fork
+		pthread_mutex_destroy(&dinner.list_t_philos[i].last_meal); //mutex of each last meal time
+		pthread_mutex_destroy(&dinner.list_t_philos[i].mutex_meals_eaten_mutex); // how many meals
+		pthread_mutex_destroy(&dinner.forks[i]); // each fork
 	}
 	free(dinner.philos_list_thread);
-	free(philosophers);
-	free(forks);
+	free(dinner.list_t_philos);
+	free(dinner.forks);
 	return (0);
 }
-t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mutex_t *forks)
+t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner)
 {
 	int	i;
 	
 	philosophers = malloc(sizeof(t_philo) * dinner->philos);
 	if (!philosophers)
-		return (NULL); //and free forks;
+	{	
+		pthread_mutex_destroy(&dinner->write);
+		pthread_mutex_destroy(&dinner->death);
+		pthread_mutex_destroy(&dinner->dinner_start);
+		i = -1;
+		while (++i < dinner->philos)
+			pthread_mutex_destroy(&dinner->forks[i]);
+		free(dinner->forks);
+		return (error_and_return_NULL("Philo malloc failed"));
+	}
 	i = 0;
 	while (i < dinner->philos)
 	{
@@ -79,18 +90,18 @@ t_philo			*init_philosophers(t_philo	*philosophers, t_dinner *dinner, pthread_mu
 		philosophers[i].write = &dinner->write;
 		if (i == 0)
 		{	
-			philosophers[i].fork_1 = &forks[dinner->philos - 1];
-			philosophers[i].fork_2 = &forks[i];
+			philosophers[i].fork_1 = &dinner->forks[dinner->philos - 1];
+			philosophers[i].fork_2 = &dinner->forks[i];
 		}
 		else if (i % 2 == 0)
 		{
-			philosophers[i].fork_1 = &forks[i - 1];
-			philosophers[i].fork_2 = &forks[i];
+			philosophers[i].fork_1 = &dinner->forks[i - 1];
+			philosophers[i].fork_2 = &dinner->forks[i];
 		}
 		else
 		{
-			philosophers[i].fork_2 = &forks[i - 1];
-			philosophers[i].fork_1 = &forks[i];	
+			philosophers[i].fork_2 = &dinner->forks[i - 1];
+			philosophers[i].fork_1 = &dinner->forks[i];	
 		}
 		i++;
 	}
@@ -102,7 +113,6 @@ int create_threads(t_dinner *dinner, t_philo *philosophers)
 	int i;
 	
 	i = 0;
-	// printf("hi guys numer of philos = %li\n", dinner->philos);
 	dinner->philos_list_thread = malloc(sizeof(pthread_t) * dinner->philos);
 	if (!dinner->philos_list_thread)
 		return (0); // error checking later;
@@ -129,67 +139,6 @@ int create_threads(t_dinner *dinner, t_philo *philosophers)
 	return (1);
 }
 
-void *routine(void *arg)
-{
-	t_philo *philo;
-	
-	philo = (t_philo *)arg;
-	while (getter_bool(&philo->dinner->is_dinner_started, &philo->dinner->dinner_start) == false)
-	{
-		ft_usleep(500);
-	}
-	// setter(&philo->last_meal_time, philo->dinner->start_time, &philo->last_meal);
-	// setter(&philo->last_meal_time, 0, &philo->last_meal);
-	if (philo->id % 2 == 0)
-		ft_usleep(5000); // This makes things worse ?????? Sometimes ?? idk ??
-	philo_grindset(philo);
-	return (NULL);
-}
-
-int    init_dinner_variables(t_dinner *dinner, const char **argv, int argc)
-{
-	if (is_args_valid(argc, (char **)argv) == 0)
-	{	
-		printf("Invalid arguments\n");
-		return (0); //maybe need to free stuff idk
-	}
-	pthread_mutex_init(&dinner->write, NULL);
-	pthread_mutex_init(&dinner->death, NULL);
-	pthread_mutex_init(&dinner->dinner_start, NULL);
-	dinner->philos = basic_safe_atol(argv[1]);
-	dinner->time_to_die = basic_safe_atol(argv[2]);
-	dinner->time_to_eat = basic_safe_atol(argv[3]);
-	dinner->time_to_sleep = basic_safe_atol(argv[4]);
-	if (argc == 6)
-		dinner->meals_goal = basic_safe_atol(argv[5]);
-	else
-		dinner->meals_goal = -1;
-	if (dinner->philos == ATOL_ERROR || dinner->time_to_die == ATOL_ERROR || dinner->time_to_eat == ATOL_ERROR || dinner->time_to_sleep == ATOL_ERROR || dinner->meals_goal == ATOL_ERROR)
-	{	
-		printf("Variable bigger than long int\n");
-		return (0); //maybe need to free stuff idk
-	}
-	dinner->time_to_sleep *= 1000;
-	dinner->time_to_eat *= 1000;
-	dinner->is_dinner_started = false;
-	return (1);
-}
-pthread_mutex_t *init_forks(long philos)
-{
-	pthread_mutex_t *forks;
-	int	i;
-
-	i = 0;
-	forks = malloc(sizeof(pthread_mutex_t) * philos);
-	if (!forks)
-		return (NULL); //TODO update but maybe no
-	while (i < philos)
-	{
-		pthread_mutex_init(&forks[i], NULL);
-		i++;
-	}
-	return (forks);
-}
 
 void    *lonely_routine(void *arg)
 {

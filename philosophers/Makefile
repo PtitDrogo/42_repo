@@ -14,15 +14,16 @@ SRCS =		$(SRCS_DIR)/philo.c \
 			$(SRCS_DIR)/utils.c \
 			$(SRCS_DIR)/actions.c \
 			$(SRCS_DIR)/check_death.c \
-			$(SRCS_DIR)/parsing.c
+			$(SRCS_DIR)/parsing.c \
+			$(SRCS_DIR)/error_utils.c \
+			$(SRCS_DIR)/init_dinner.c
 #------------------------------------------------------------------------#
 
 #---------------------------------Compilation & Linking---------------------------------#
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-Wall -Wextra -Werror -pthread -fsanitize=thread
-LINKLIBS = -L libft/ -lft
-INCLUDES = -I $(HEADER_DIR) -I libft
+CFLAGS	=	-Wall -Wextra -Werror -pthread
+INCLUDES = -I $(HEADER_DIR)
 # -fsanitize=thread -g3
 #------------------------------------------------------------------------#
 
@@ -38,11 +39,6 @@ CUT		=	"\033[K"
 
 all: $(NAME)
 
-$(LIBFT): FORCE
-	@$(MAKE) --no-print-directory -C ./libft
-
-FORCE:
-
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
 	@mkdir -p $(@D)
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
@@ -51,7 +47,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
 
 $(NAME): $(OBJS) $(LIBFT) Makefile
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(LINKLIBS) -o $@ 
+	@$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) -o $@ 
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) compiled!$(RESET)"
 
@@ -60,15 +56,12 @@ clean:
 	@$(RM) $(OBJS) rm -rf $(OBJS_DIR)
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) files deleted !$(RESET)"
-	@$(MAKE) --no-print-directory -C ./libft clean
 
 fclean:	clean
 	@echo "$(YELLOW)cleaning files$(RESET)"
 	@$(RM) $(NAME)
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) executable deleted !$(RESET)"
-	@$(RM) $(LIBFT)
-	@echo "$(GREEN)libft.a executable deleted !$(RESET)"
 
 re:	fclean $(NAME)
 

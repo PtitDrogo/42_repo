@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:43:58 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/29 09:54:16 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/04/03 15:10:04 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	is_anybody_dead(t_dinner *dinner)
 	return (0);
 }
 
-//this doesnt work for a mystery reason
 int	ft_usleep(long milliseconds)
 {
 	long	start;
@@ -98,7 +97,6 @@ int	ft_usleep(long milliseconds)
 	start = get_time();
 	while ((get_time() - start) < milliseconds)
 	{	
-		// printf("hi get time = %li start : %li miliseconds : %li \n", get_time(), start, milliseconds);
 		usleep(500);
 	}
 	return (0);

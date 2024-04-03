@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptitdrogo <ptitdrogo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:36:07 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/03/29 09:50:21 by ptitdrogo        ###   ########.fr       */
+/*   Updated: 2024/04/03 15:20:51 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_dinner
     pthread_mutex_t write;
     pthread_mutex_t death;
 
+    pthread_mutex_t *forks;
+    
     bool        is_dead;
     long        time_to_die;
     long        time_to_eat;
@@ -101,7 +103,8 @@ void	setter(long *var, long new_value, pthread_mutex_t *mutex);
 void	increment(long *var, pthread_mutex_t *mutex);
 long    get_time(void);
 void	mutex_write(t_philo *philo, char *to_print, int id);
-
+int    error_and_return_0(const char *err_msg);
+void *error_and_return_NULL(const char *err_msg);
 
 
 int	    ft_printf(const char *text, ...);
@@ -109,9 +112,11 @@ int	    ft_printf(const char *text, ...);
 void	philo_grindset(t_philo *philo);
 void    *the_watcher(void *arg);
 int	is_anybody_dead(t_dinner *dinner);
-int is_args_valid(int argc, char **args);
+int are_args_valid(int argc, char **args);
+int    init_dinner_variables(t_dinner *dinner, const char **argv, int argc);
 
 long	basic_safe_atol(const char *nptr);
 
 
 int	ft_usleep(long milliseconds);
+void *routine(void *arg);
