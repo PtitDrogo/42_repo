@@ -6,14 +6,15 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:38:39 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/03 16:58:43 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:14:44 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
 static int	ft_strlen(const char *s);
 
-int    error_and_return_0(const char *err_msg)
+int	error_and_return_0(const char *err_msg)
 {
 	if (!err_msg)
 		return (0);

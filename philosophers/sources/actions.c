@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:48:04 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/03 16:49:45 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/04 17:24:30 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,20 @@
 static void		eat(t_philo *philo);
 static void		snooze(t_philo *philo);
 static void		think(t_philo *philo);
+static void		philo_grindset(t_philo *philo);
 
-void *routine(void *arg)
+void	*routine(void *arg)
 {
-	t_philo *philo;
-	
+	t_philo	*philo;
+
 	philo = (t_philo *)arg;
-	while (getter_bool(&philo->dinner->is_dinner_started, &philo->dinner->dinner_start) == false)
+	while (getter_bool(&philo->dinner->is_dinner_started,
+			&philo->dinner->dinner_start) == false)
 	{
 		ft_usleep(500);
-		
 	}
+	if (philo->dinner->error == true)
+		return (NULL);
 	philo_grindset(philo);
 	return (NULL);
 }
@@ -48,15 +51,13 @@ static void	eat(t_philo *philo)
 	mutex_write(philo, "has taken a fork\n", philo->id);
 	pthread_mutex_lock(philo->fork_2);
 	mutex_write(philo, "has taken a fork\n", philo->id);
-
 	mutex_write(philo, "is eating\n", philo->id);
-	setter(&philo->last_meal_time, get_time() - philo->dinner->start_time, &philo->last_meal);
-
+	setter(&philo->last_meal_time, get_time() - philo->dinner->start_time,
+		&philo->last_meal);
 	ft_usleep(philo->dinner->time_to_eat);
-	
 	pthread_mutex_unlock(philo->fork_2);
 	pthread_mutex_unlock(philo->fork_1);
-	increment(&philo->meals_eaten, &philo->mutex_meals_eaten_mutex);
+	increment(&philo->meals_eaten, &philo->mutex_eaten);
 	return ;
 }
 
@@ -71,8 +72,9 @@ static void	think(t_philo *philo)
 {
 	mutex_write(philo, "is thinking\n", philo->id);
 	if (philo->dinner->philos % 2 == 0)
-        return ;
-    if (((philo->dinner->time_to_eat * 2) - philo->dinner->time_to_sleep) > 0)
-		ft_usleep(((philo->dinner->time_to_eat * 2) - philo->dinner->time_to_sleep));
+		return ;
+	if (((philo->dinner->time_to_eat * 2) - philo->dinner->time_to_sleep) > 0)
+		ft_usleep(((philo->dinner->time_to_eat * 2)
+				- philo->dinner->time_to_sleep));
 	return ;
 }

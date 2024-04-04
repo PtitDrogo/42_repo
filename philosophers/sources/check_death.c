@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:40:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/03 13:39:28 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:46:31 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int		last_meal_check(t_philo *philo);
 static bool		did_all_eat(t_dinner *dinner, t_philo *philos);
 static bool		death_check_for_real(t_dinner *dinner, t_philo *philos);
-int	calculate_philo_death(t_philo *philo, t_dinner *dinner);
+static int		calculate_philo_death(t_philo *philo, t_dinner *dinner);
 
 void	*the_watcher(void *arg)
 {
@@ -28,6 +28,8 @@ void	*the_watcher(void *arg)
 	{
 		ft_usleep(500);
 	}
+	if (philos->dinner->error == true)
+		return (NULL);
 	while (1)
 	{
 		if (death_check_for_real(dinner, philos) == true)
@@ -60,13 +62,12 @@ static bool	death_check_for_real(t_dinner *dinner, t_philo *philos)
 	return (false);
 }
 
-int	calculate_philo_death(t_philo *philo, t_dinner *dinner)
+static int	calculate_philo_death(t_philo *philo, t_dinner *dinner)
 {
-
 	pthread_mutex_lock(&philo->last_meal);
-
-	if (get_time() - dinner->start_time - philo->last_meal_time >= dinner->time_to_die)
-	{	
+	if (get_time() - dinner->start_time - philo->last_meal_time
+		>= dinner->time_to_die)
+	{
 		pthread_mutex_unlock(&philo->last_meal);
 		return (1);
 	}
@@ -99,7 +100,7 @@ static bool	did_all_eat(t_dinner *dinner, t_philo *philos)
 
 static int	last_meal_check(t_philo *philo)
 {
-	if (getter(&philo->meals_eaten, &philo->mutex_meals_eaten_mutex)
+	if (getter(&philo->meals_eaten, &philo->mutex_eaten)
 		>= philo->dinner->meals_goal)
 		return (1);
 	return (0);

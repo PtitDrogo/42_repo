@@ -4,7 +4,7 @@ OBJS_DIR	=	.objs
 SRCS_DIR	=	sources
 HEADER_DIR	=	includes
 HEADER_FILE = 	philo.h
-LIBFT		=	./libft/libft.a
+
 NAME		=	philo
 OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 #------------------------------------------------------------------------#
@@ -17,15 +17,18 @@ SRCS =		$(SRCS_DIR)/philo.c \
 			$(SRCS_DIR)/parsing.c \
 			$(SRCS_DIR)/error_utils.c \
 			$(SRCS_DIR)/init_dinner.c \
-			$(SRCS_DIR)/cleanup.c 
+			$(SRCS_DIR)/cleanup.c \
+			$(SRCS_DIR)/mutex_utils.c \
+			$(SRCS_DIR)/lonely.c \
+			$(SRCS_DIR)/init_philos.c 
 #------------------------------------------------------------------------#
 
 #---------------------------------Compilation & Linking---------------------------------#
 CC		=	cc
 RM		=	rm -f
-CFLAGS	=	-Wall -Wextra -Werror -pthread
+CFLAGS	=	-Wall -Wextra -Werror -pthread 
 INCLUDES = -I $(HEADER_DIR)
-# -fsanitize=thread -g3
+# -g3 -fsanitize=thread 
 #------------------------------------------------------------------------#
 
 
@@ -46,7 +49,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ 
 	@printf $(UP)$(CUT)
 
-$(NAME): $(OBJS) $(LIBFT) Makefile
+$(NAME): $(OBJS) Makefile
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
 	@$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) -o $@ 
 	@printf $(UP)$(CUT)
