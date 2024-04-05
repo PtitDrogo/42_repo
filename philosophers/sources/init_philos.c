@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 17:00:09 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/04 17:25:32 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:32:07 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	init_philosophers(t_dinner *dinner)
 				pthread_mutex_destroy(&dinner->list_t_philos[i].mutex_eaten);
 				pthread_mutex_destroy(&dinner->list_t_philos[i].last_meal);
 			}
-			return (error_and_return_0("philosopher mutex failed"));
+			return (error_and_return_0("Philosopher mutex failed"));
 		}
 		set_philo_vars(dinner, i);
 		fork_behavior(i, dinner->list_t_philos, dinner);

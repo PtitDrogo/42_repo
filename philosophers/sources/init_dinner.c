@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:58:49 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/04 17:24:37 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:30:42 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	init_dinner_variables(t_dinner *dinner, const char **argv, int argc)
 		|| dinner->time_to_eat == ATOL_ERROR || dinner->time_to_sleep
 		== ATOL_ERROR || dinner->meals_goal == ATOL_ERROR)
 		return (error_and_return_0("Numbers are way too big !"));
-	init_dinner_mutexes(dinner);
+	if (init_dinner_mutexes(dinner) == 0)
+		return (0);
 	dinner->time_to_sleep *= 1000;
 	dinner->time_to_eat *= 1000;
 	dinner->is_dinner_started = false;
@@ -45,17 +46,17 @@ int	init_dinner_variables(t_dinner *dinner, const char **argv, int argc)
 static int	init_dinner_mutexes(t_dinner *dinner)
 {
 	if (pthread_mutex_init(&dinner->write, NULL) != 0)
-		return (error_and_return_0("failed to initialize mutex"));
+		return (error_and_return_0("Failed to initialize mutex"));
 	if (pthread_mutex_init(&dinner->death, NULL) != 0)
 	{
 		pthread_mutex_destroy(&dinner->write);
-		return (error_and_return_0("failed to initialize mutex"));
+		return (error_and_return_0("Failed to initialize mutex"));
 	}
 	if (pthread_mutex_init(&dinner->dinner_start, NULL) != 0)
 	{
 		pthread_mutex_destroy(&dinner->write);
 		pthread_mutex_destroy(&dinner->death);
-		return (error_and_return_0("failed to initialize mutex"));
+		return (error_and_return_0("Failed to initialize mutex"));
 	}
 	return (1);
 }

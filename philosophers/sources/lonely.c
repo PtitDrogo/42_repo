@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:29:52 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/04 16:48:50 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:43:22 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*lonely_routine(void *arg)
 
 	dinner = (t_dinner *)arg;
 	printf("0 1 has taken a fork\n");
-	ft_usleep(dinner->time_to_die);
+	ft_usleep(dinner->time_to_die * 1000);
 	printf("%li 1 philosopher died\n", dinner->time_to_die);
 	total_cleanup(dinner);
 	return (NULL);
