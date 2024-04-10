@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:14:17 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/10 17:39:57 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/10 19:47:15 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_garbage_collect
 
 //garbage collector
 int		add_to_trash(t_garbage_collect **root, void *to_free);
-void    *malloc_trash(int size, t_garbage_collect *gc);
+void    *malloc_trash(int size, t_garbage_collect **gc);
 int 	empty_trash(t_garbage_collect *gc);
 
 ///------------------------Libft------------------------///
