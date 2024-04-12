@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:14:17 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/12 14:58:33 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:30:15 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 typedef struct s_env_node {
 
 	struct s_env_node	*next;
+	char				*variable_name;
 	char				*variable;
-	bool				is_set_value; //isthere an equal sign
 } t_env_node;
 
 typedef struct s_garbage_collect

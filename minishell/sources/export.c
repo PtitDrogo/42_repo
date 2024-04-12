@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:11:59 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/12 15:12:12 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:14:50 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	pop(t_env_node *env_dup_root, t_env_node *node_to_pop);
 
 t_env_node *check_if_variable_exist(t_env_node *root, void *variable);
 int	is_valid_env_name(char *name);
+char	*get_env_name(const char *src);
+char	*get_env_var(const char *src);
 //trying to access a freed pointer no bueno
 
 int main(int argc, char const *argv[], char **envp)
@@ -38,19 +40,29 @@ int main(int argc, char const *argv[], char **envp)
 	//test
 	// unset(env_dup_root, "DISPLAY=");
 	// unset(env_dup_root, "IdontExist");
-	// export(&env_dup_root, "MIAOU=VALGRIND", &gc);
+	printf("tests begin\n\n\n");
+	export(&env_dup_root, "MIAOU=VALGRIND", &gc);
+	export(&env_dup_root, "MIAOU=COUCOU", &gc);
+	export(&env_dup_root, "MIAOUSSE", &gc);
 	// export(&env_dup_root, "MIAOU2=VALGRIND2", &gc);
 	// export(&env_dup_root, "MIAOU3=VALGRIND3", &gc);
 	// unset(env_dup_root, "MIAOU2=");
 	//end test
 	printf("\n\n\n\n\nhi\n\n\n\n");
-	// this loop does memory freeing but it shouldnt after garbage c.
+	// this is test for export with no argument
+	// while (env_dup_root)
+	// {
+	// 	printf("declare -x %s\"%s\"\n", env_dup_root->variable_name, env_dup_root->variable);
+	// 	env_dup_root = env_dup_root->next;
+	// }
+	// printf("\n\n\n\n\nhi\n\n\n\n");
+	// this is test for env builtin (doesnt print env var with no value)
 	while (env_dup_root)
 	{
-		printf("%s\n", env_dup_root->variable);
+		if (env_dup_root->variable)
+			printf("%s%s\n", env_dup_root->variable_name, env_dup_root->variable);
 		env_dup_root = env_dup_root->next;
 	}
-	printf("\n\n\n\n\nhi\n\n\n\n");
 	empty_trash(gc);
 	return (0);
 }
@@ -76,21 +88,25 @@ int	export(t_env_node **root, void *variable, t_garbage_collect **gc)
 	t_env_node	*current;
 	t_env_node	*same_name_node;
 	
-	// if (is_valid_env_name(variable) == 0)
-	// 	return (0);
-	// same_name_node = check_if_variable_exist(*root, variable);
-	// if (same_name_node)
-	// {
-	// 	same_name_node->variable = ft_strdup(variable);
-	// 	add_to_trash(gc, new_node->variable);
-	// 	return (1);
-	// }
+	if (is_valid_env_name(variable) == 0)
+		return (0);
+	same_name_node = check_if_variable_exist(*root, variable);
+	if (same_name_node)
+	{
+		same_name_node->variable_name = get_env_name(variable);
+		same_name_node->variable = get_env_var(variable);
+		add_to_trash(gc, same_name_node->variable);
+		add_to_trash(gc, same_name_node->variable_name);
+		return (1);
+	}
 	new_node = malloc_trash(sizeof(t_env_node), gc);
 	if (!new_node)
 		return (0);
 	new_node->next = NULL;
-	new_node->variable = ft_strdup(variable); // need to modify ft_strdup somehow unless variable cant be NULL;
+	new_node->variable_name = get_env_name(variable);
+	new_node->variable = get_env_var(variable);
 	add_to_trash(gc, new_node->variable);
+	add_to_trash(gc, new_node->variable_name);
 	if ((*root) == NULL)
 	{
 		*root = new_node;
@@ -103,21 +119,23 @@ int	export(t_env_node **root, void *variable, t_garbage_collect **gc)
 	return (1);
 }
 
+//this function checks if the env var name is valid;
 int	is_valid_env_name(char *name)
 {
-	//this function checks if the env var name is valid;
 	int	i;
 	
+	// printf("in valid name with var = %s\n", name);
 	if (ft_isalpha(name[0]) == 0 && name[0] != '_')
 		return (0);
+	// printf("passed first test\n");
 	i = 1; // we start after the first letter;
-	while (name[i])
+	while (name[i] && name[i] != '=')
 	{
-		if (ft_isalnum(name[i]) == 0 && name[0] != '_')
+		if (ft_isalnum(name[i]) == 0 && name[i] != '_')
 			return (0);
 		i++;
 	}
-	printf("name is valid !\n");
+	// printf("name is valid !\n");
 	return (1);
 }
 
@@ -125,15 +143,9 @@ int	is_valid_env_name(char *name)
 //variable, otherwise it returns NULL
 t_env_node *check_if_variable_exist(t_env_node *root, void *variable)
 {
-	//VARIABLE IS ALREADY PREPROCESSED TO BE WHATS BEFORE THE =
-	
-	//this needs to check if the variable already exist, and if 
-	//so, replace the content after the =;
-	// the tricky part is that "export b" wont replace export "b=test", even with export '';
-	
-	//if the variable doesnt have a "=" it wont replace anything
 	size_t var_len;
 	
+	printf("in test variable = %s\n", (char *)variable);
 	if (variable == NULL)
 		return (NULL);
 	if (is_char_in_str(variable, '=') == 0)
@@ -141,13 +153,57 @@ t_env_node *check_if_variable_exist(t_env_node *root, void *variable)
 	var_len = len_to_char(variable, '=');
 	while (root)
 	{
-		if (len_to_char(variable, '=') == var_len)
+		printf("var_len = %zu len_to_char = %zu\n", var_len, len_to_char(root->variable_name, '='));
+		if (len_to_char(root->variable_name, '=') == var_len)
 		{
+			printf("hiii\n");
 			if (ft_strncmp(root->variable, variable, var_len) == 0)
+			{	
+				printf("variable exists already !\n");
 				return (root);
+			}
 		}
 		root = root->next;
 	}
 	return (NULL);
 }
+
+char	*get_env_name(const char *src)
+{
+	int		i;
+	int		j;
+	char	*dest;
+
+	i = 0;
+	while (src[i] != '\0' && src[i] != '=')
+		i++;
+	i++;
+	dest = malloc(sizeof(char) * i + 1);
+	if (!dest)
+		return (NULL);
+	j = i;
+	i = 0;
+	while (i < j)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[j] = '\0';
+	return (dest);
+}
+
+char	*get_env_var(const char *src)
+{
+	int i;
+
+	i = 0;
+	while (src[i] != '\0' && src[i] != '=')
+		i++;
+	if (src[i] == '\0')
+		return (NULL);//Could be return empty malloc(but risk of false positive), would also make it different than failed malloc
+	i++; // to include the '='
+	return (ft_strdup(&src[i]));
+}
+
+
 
