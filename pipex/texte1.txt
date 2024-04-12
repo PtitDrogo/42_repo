@@ -1,2 +1,13 @@
-bonjour je suis texte 1
-
+includes
+includes_bonus
+ls
+Makefile
+pipex
+pipex-tester
+sources
+sources_bonus
+texte123123123.txt
+texte1.txt
+texte2.txt
+textepipeinpipe2.txt
+textepipeinpipe.txt

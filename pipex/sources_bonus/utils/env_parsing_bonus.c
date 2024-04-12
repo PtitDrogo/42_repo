@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:03:18 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/02/03 18:46:45 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/10 19:22:42 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*find_env_variable(char **envp, char *env_to_find)
 	int	i;
 	int	len_env;
 
-	if (!env_to_find || !envp || !envp[0])
+	if (!env_to_find || !envp || !envp[0]) // uh ?
 	{
 		perror("Environnement does not exist");
 		exit(EXIT_FAILURE);
@@ -56,7 +56,7 @@ char	*find_env_variable(char **envp, char *env_to_find)
 	while (envp[i])
 	{
 		if (ft_strnstr(envp[i], env_to_find, len_env))
-			return (envp[i] + len_env);
+			return (envp[i] + len_env); // this is so i just get the content
 		i++;
 	}
 	return (NULL);
