@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 17:32:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/10 19:46:47 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:14:43 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ int empty_trash(t_garbage_collect *gc)
 {
 	t_garbage_collect *tmp_to_free;
 	
-	printf("\n\n\n\n\nin empty %s is gc hi\n\n\n\n", (char *)gc);
+	printf("\n\n\n\n\nin empty %p is gc hi\n\n\n\n", gc);
     while (gc)
 	{
-		write(2, "hello\n", 6);
         free(gc->to_free);
 		tmp_to_free = gc;
 		gc = gc->next;

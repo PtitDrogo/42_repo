@@ -11,7 +11,9 @@ OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 
 #---------------------------------Sources---------------------------------#
 SRCS =		$(SRCS_DIR)/export.c \
-			$(SRCS_DIR)/garbage_collector.c 
+			$(SRCS_DIR)/garbage_collector.c \
+			$(SRCS_DIR)/unset.c \
+			$(SRCS_DIR)/utils.c 
 #------------------------------------------------------------------------#
 
 #---------------------------------Compilation & Linking---------------------------------#
