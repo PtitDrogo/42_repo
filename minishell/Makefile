@@ -13,7 +13,8 @@ OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
 SRCS =		$(SRCS_DIR)/export.c \
 			$(SRCS_DIR)/garbage_collector.c \
 			$(SRCS_DIR)/unset.c \
-			$(SRCS_DIR)/utils.c 
+			$(SRCS_DIR)/utils.c \
+			$(SRCS_DIR)/readline.c
 #------------------------------------------------------------------------#
 
 #---------------------------------Compilation & Linking---------------------------------#
@@ -50,7 +51,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
 
 $(NAME): $(OBJS) $(LIBFT) Makefile
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(LINKLIBS) -o $@ 
+	@$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) $(LINKLIBS) -o $@ 
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) compiled!$(RESET)"
 

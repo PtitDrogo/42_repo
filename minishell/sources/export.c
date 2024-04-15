@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:11:59 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/12 17:14:50 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:52:59 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,49 +23,49 @@ char	*get_env_name(const char *src);
 char	*get_env_var(const char *src);
 //trying to access a freed pointer no bueno
 
-int main(int argc, char const *argv[], char **envp)
-{
-    t_env_node *env_dup_root;
-	// t_env_node *to_free; // need to introduce my garbage collector later
-    t_garbage_collect *gc;
-	int	i;
+// int main(int argc, char const *argv[], char **envp)
+// {
+//     t_env_node *env_dup_root;
+// 	// t_env_node *to_free; // need to introduce my garbage collector later
+//     t_garbage_collect *gc;
+// 	int	i;
 	
-	i = -1;
-	gc = NULL;
-	env_dup_root = NULL;
-	if (envp == NULL)
-		return (1); //Error handling somehow
-	while (envp[++i]) // add condition if export fails
-		export(&env_dup_root, (void *)envp[i], &gc);
-	//test
-	// unset(env_dup_root, "DISPLAY=");
-	// unset(env_dup_root, "IdontExist");
-	printf("tests begin\n\n\n");
-	export(&env_dup_root, "MIAOU=VALGRIND", &gc);
-	export(&env_dup_root, "MIAOU=COUCOU", &gc);
-	export(&env_dup_root, "MIAOUSSE", &gc);
-	// export(&env_dup_root, "MIAOU2=VALGRIND2", &gc);
-	// export(&env_dup_root, "MIAOU3=VALGRIND3", &gc);
-	// unset(env_dup_root, "MIAOU2=");
-	//end test
-	printf("\n\n\n\n\nhi\n\n\n\n");
-	// this is test for export with no argument
-	// while (env_dup_root)
-	// {
-	// 	printf("declare -x %s\"%s\"\n", env_dup_root->variable_name, env_dup_root->variable);
-	// 	env_dup_root = env_dup_root->next;
-	// }
-	// printf("\n\n\n\n\nhi\n\n\n\n");
-	// this is test for env builtin (doesnt print env var with no value)
-	while (env_dup_root)
-	{
-		if (env_dup_root->variable)
-			printf("%s%s\n", env_dup_root->variable_name, env_dup_root->variable);
-		env_dup_root = env_dup_root->next;
-	}
-	empty_trash(gc);
-	return (0);
-}
+// 	i = -1;
+// 	gc = NULL;
+// 	env_dup_root = NULL;
+// 	if (envp == NULL)
+// 		return (1); //Error handling somehow
+// 	while (envp[++i]) // add condition if export fails
+// 		export(&env_dup_root, (void *)envp[i], &gc);
+// 	//test
+// 	// unset(env_dup_root, "DISPLAY=");
+// 	// unset(env_dup_root, "IdontExist");
+// 	printf("tests begin\n\n\n");
+// 	export(&env_dup_root, "MIAOU=VALGRIND", &gc);
+// 	export(&env_dup_root, "MIAOU=COUCOU", &gc);
+// 	export(&env_dup_root, "MIAOUSSE", &gc);
+// 	// export(&env_dup_root, "MIAOU2=VALGRIND2", &gc);
+// 	// export(&env_dup_root, "MIAOU3=VALGRIND3", &gc);
+// 	// unset(env_dup_root, "MIAOU2=");
+// 	//end test
+// 	printf("\n\n\n\n\nhi\n\n\n\n");
+// 	// this is test for export with no argument
+// 	// while (env_dup_root)
+// 	// {
+// 	// 	printf("declare -x %s\"%s\"\n", env_dup_root->variable_name, env_dup_root->variable);
+// 	// 	env_dup_root = env_dup_root->next;
+// 	// }
+// 	// printf("\n\n\n\n\nhi\n\n\n\n");
+// 	// this is test for env builtin (doesnt print env var with no value)
+// 	while (env_dup_root)
+// 	{
+// 		if (env_dup_root->variable)
+// 			printf("%s%s\n", env_dup_root->variable_name, env_dup_root->variable);
+// 		env_dup_root = env_dup_root->next;
+// 	}
+// 	empty_trash(gc);
+// 	return (0);
+// }
 
 
 //TODO make this universal later

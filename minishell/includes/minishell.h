@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:14:17 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/12 16:30:15 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:54:20 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_garbage_collect
 int		add_to_trash(t_garbage_collect **root, void *to_free);
 void    *malloc_trash(int size, t_garbage_collect **gc);
 int 	empty_trash(t_garbage_collect *gc);
+void	setter_gc(void *data_to_set, t_garbage_collect **gc);
 
 //BUILT INS
 int	unset(t_env_node *env_dup_root, char *env_to_find);

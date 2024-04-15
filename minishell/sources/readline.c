@@ -6,22 +6,19 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:35:49 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/10 19:44:57 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:52:37 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdbool.h> 
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "minishell.h"
 
-typedef struct s_garbage_collect
-{
-	void				*to_free;
-	struct s_garbage_collect	*next;
+
+// typedef struct s_garbage_collect
+// {
+// 	void				*to_free;
+// 	struct s_garbage_collect	*next;
 	
-} t_garbage_collect;
+// } t_garbage_collect;
 
 // compile this code with cc readline.c -lreadline
 int empty_trash(t_garbage_collect *gc);

@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 17:32:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/12 15:14:43 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:54:09 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void    *malloc_trash(int size, t_garbage_collect **gc)
     add_to_trash(gc, to_return);
     return(to_return);
 }
-#include <unistd.h>
+
 int empty_trash(t_garbage_collect *gc)
 {
 	t_garbage_collect *tmp_to_free;
@@ -56,4 +56,10 @@ int empty_trash(t_garbage_collect *gc)
 		free(tmp_to_free);
 	}
 	return (1);
+}
+
+void	setter_gc(void *data_to_set, t_garbage_collect **gc)
+{
+	add_to_trash(gc, data_to_set);
+	return (data_to_set);
 }
