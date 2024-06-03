@@ -1,29 +1,24 @@
-#---------------------------------Variables---------------------------------#
-
 OBJS_DIR	=	.objs
+DEPS_DIR	=	.deps
 SRCS_DIR	=	sources
 HEADER_DIR	=	includes
-HEADER_FILE = 	minishell.h
-LIBFT		=	./libft/libft.a
-NAME		=	minishell
-OBJS	=	$(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
+
+NAME		=	megaphone
+OBJS	=	$(patsubst $(SRCS_DIR)%.cpp, $(OBJS_DIR)%.o, $(SRCS))
+DEPS	=	$(OBJS:.o=.d)
 #------------------------------------------------------------------------#
 
 #---------------------------------Sources---------------------------------#
-SRCS =		$(SRCS_DIR)/export.c \
-			$(SRCS_DIR)/garbage_collector.c \
-			$(SRCS_DIR)/unset.c \
-			$(SRCS_DIR)/utils.c \
-			$(SRCS_DIR)/readline.c \
-			$(SRCS_DIR)/env.c
+SRCS	=		$(SRCS_DIR)/megaphone.cpp
+			
 #------------------------------------------------------------------------#
 
 #---------------------------------Compilation & Linking---------------------------------#
-CC		=	cc
+CC		=	c++
 RM		=	rm -f
-CFLAGS	=	-lreadline -g3 
-LINKLIBS = -L libft/ -lft
-INCLUDES = -I $(HEADER_DIR) -I libft
+
+CFLAGS		=	-g3 -std=c++98 -Wall -Werror -Wextra
+INCLUDES	=	-I $(HEADER_DIR) -MMD -MP
 
 #------------------------------------------------------------------------#
 
@@ -38,13 +33,11 @@ CUT		=	"\033[K"
 
 
 all: $(NAME)
-
-$(LIBFT): FORCE
-	@$(MAKE) --no-print-directory -C ./libft
+-include $(DEPS)
 
 FORCE:
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 	@mkdir -p $(@D)
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ 
@@ -52,7 +45,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_DIR)/$(HEADER_FILE)
 
 $(NAME): $(OBJS) $(LIBFT) Makefile
 	@echo "$(YELLOW)Compiling [$<]$(RESET)"
-	@$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) $(LINKLIBS) -o $@ 
+	@$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) -o $@ 
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) compiled!$(RESET)"
 
@@ -61,15 +54,12 @@ clean:
 	@$(RM) $(OBJS) rm -rf $(OBJS_DIR)
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) files deleted !$(RESET)"
-	@$(MAKE) --no-print-directory -C ./libft clean
 
 fclean:	clean
 	@echo "$(YELLOW)cleaning files$(RESET)"
 	@$(RM) $(NAME)
 	@printf $(UP)$(CUT)
 	@echo "$(GREEN)$(NAME) executable deleted !$(RESET)"
-	@$(RM) $(LIBFT)
-	@echo "$(GREEN)libft.a executable deleted !$(RESET)"
 
 re:	fclean $(NAME)
 

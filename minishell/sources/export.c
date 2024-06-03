@@ -6,63 +6,69 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:11:59 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/15 12:52:59 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/15 15:46:31 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int	unset(t_env_node *env_dup_root, char *env_to_find);
-int	export(t_env_node **root, void *variable, t_garbage_collect **gc);
-int	pop(t_env_node *env_dup_root, t_env_node *node_to_pop);
-
+int			unset(t_env_node *env_dup_root, char *env_to_find);
+int			export(t_env_node **root, void *variable, t_garbage_collect **gc);
+int			pop(t_env_node *env_dup_root, t_env_node *node_to_pop);
 t_env_node *check_if_variable_exist(t_env_node *root, void *variable);
-int	is_valid_env_name(char *name);
-char	*get_env_name(const char *src);
-char	*get_env_var(const char *src);
-//trying to access a freed pointer no bueno
+int			is_valid_env_name(char *name);
+char		*get_env_name(const char *src);
+char		*get_env_var(const char *src);
+
 
 // int main(int argc, char const *argv[], char **envp)
 // {
-//     t_env_node *env_dup_root;
-// 	// t_env_node *to_free; // need to introduce my garbage collector later
-//     t_garbage_collect *gc;
-// 	int	i;
+// 	t_env_node *env_dup_root;
+// 	t_garbage_collect *gc;
+// 	char	*input;
+
 	
-// 	i = -1;
 // 	gc = NULL;
 // 	env_dup_root = NULL;
-// 	if (envp == NULL)
-// 		return (1); //Error handling somehow
-// 	while (envp[++i]) // add condition if export fails
-// 		export(&env_dup_root, (void *)envp[i], &gc);
-// 	//test
-// 	// unset(env_dup_root, "DISPLAY=");
-// 	// unset(env_dup_root, "IdontExist");
+// 	if (generate_env_llist(&env_dup_root, gc, envp) == 0)
+// 	{
+// 		write(2, "failed to generate env\n", 23);
+// 		empty_trash(gc);
+// 		return (1); // this will be its own function later
+// 	}
+
+// 	// test
 // 	printf("tests begin\n\n\n");
+// 	unset(env_dup_root, "DISPLAY=");
+// 	unset(env_dup_root, "IdontExist");
 // 	export(&env_dup_root, "MIAOU=VALGRIND", &gc);
-// 	export(&env_dup_root, "MIAOU=COUCOU", &gc);
+// 	// export(&env_dup_root, "MIAOU=COUCOU", &gc);
 // 	export(&env_dup_root, "MIAOUSSE", &gc);
-// 	// export(&env_dup_root, "MIAOU2=VALGRIND2", &gc);
-// 	// export(&env_dup_root, "MIAOU3=VALGRIND3", &gc);
-// 	// unset(env_dup_root, "MIAOU2=");
-// 	//end test
-// 	printf("\n\n\n\n\nhi\n\n\n\n");
+// 	export(&env_dup_root, "LOL", &gc);
+// 	export(&env_dup_root, "MIAOU2=VALGRIND2", &gc);
+// 	export(&env_dup_root, "MIAOU3=VALGRIND3", &gc);
+// 	unset(env_dup_root, "MIAOU2="); //this doesnt unset in BASH, you need to write without the =
+// 	unset(env_dup_root, "MIAOU3");
+// 	// end test
 // 	// this is test for export with no argument
-// 	// while (env_dup_root)
-// 	// {
-// 	// 	printf("declare -x %s\"%s\"\n", env_dup_root->variable_name, env_dup_root->variable);
-// 	// 	env_dup_root = env_dup_root->next;
-// 	// }
-// 	// printf("\n\n\n\n\nhi\n\n\n\n");
+	
+// 	t_env_node *second_test = env_dup_root;
+// 	printf("\n\n\n\n\nEXPORT NO ARG TEST\n\n\n\n");
+// 	while (env_dup_root)
+// 	{
+// 		printf("declare -x %s=\"%s\"\n", env_dup_root->variable_name, env_dup_root->variable);
+// 		env_dup_root = env_dup_root->next;
+// 	}
 // 	// this is test for env builtin (doesnt print env var with no value)
+// 	printf("\n\n\n\n\nENV TEST\n\n\n\n");
+// 	env_dup_root = second_test;
 // 	while (env_dup_root)
 // 	{
 // 		if (env_dup_root->variable)
-// 			printf("%s%s\n", env_dup_root->variable_name, env_dup_root->variable);
+// 			printf("%s=%s\n", env_dup_root->variable_name, env_dup_root->variable);
 // 		env_dup_root = env_dup_root->next;
 // 	}
+// 	printf("first GC var %s\n", (char *)gc->to_free);
 // 	empty_trash(gc);
 // 	return (0);
 // }
@@ -89,24 +95,20 @@ int	export(t_env_node **root, void *variable, t_garbage_collect **gc)
 	t_env_node	*same_name_node;
 	
 	if (is_valid_env_name(variable) == 0)
-		return (0);
+		return (2); //different error that SHOULDNT terminate the shell
 	same_name_node = check_if_variable_exist(*root, variable);
 	if (same_name_node)
 	{
-		same_name_node->variable_name = get_env_name(variable);
-		same_name_node->variable = get_env_var(variable);
-		add_to_trash(gc, same_name_node->variable);
-		add_to_trash(gc, same_name_node->variable_name);
+		new_node->variable_name = (char *)setter_gc(get_env_name(variable), gc);
+		new_node->variable = (char *)setter_gc(get_env_var(variable), gc);
 		return (1);
 	}
 	new_node = malloc_trash(sizeof(t_env_node), gc);
 	if (!new_node)
 		return (0);
 	new_node->next = NULL;
-	new_node->variable_name = get_env_name(variable);
-	new_node->variable = get_env_var(variable);
-	add_to_trash(gc, new_node->variable);
-	add_to_trash(gc, new_node->variable_name);
+	new_node->variable_name = (char *)setter_gc(get_env_name(variable), gc);
+	new_node->variable = (char *)setter_gc(get_env_var(variable), gc);
 	if ((*root) == NULL)
 	{
 		*root = new_node;
@@ -145,7 +147,7 @@ t_env_node *check_if_variable_exist(t_env_node *root, void *variable)
 {
 	size_t var_len;
 	
-	printf("in test variable = %s\n", (char *)variable);
+	// printf("in test variable = %s\n", (char *)variable);
 	if (variable == NULL)
 		return (NULL);
 	if (is_char_in_str(variable, '=') == 0)
@@ -153,13 +155,12 @@ t_env_node *check_if_variable_exist(t_env_node *root, void *variable)
 	var_len = len_to_char(variable, '=');
 	while (root)
 	{
-		printf("var_len = %zu len_to_char = %zu\n", var_len, len_to_char(root->variable_name, '='));
+		// printf("var_len = %zu len_to_char = %zu\n", var_len, len_to_char(root->variable_name, '='));
 		if (len_to_char(root->variable_name, '=') == var_len)
 		{
-			printf("hiii\n");
-			if (ft_strncmp(root->variable, variable, var_len) == 0)
+			if (ft_strncmp(root->variable_name, variable, var_len) == 0)
 			{	
-				printf("variable exists already !\n");
+				// printf("variable exists already !\n");
 				return (root);
 			}
 		}
@@ -177,7 +178,7 @@ char	*get_env_name(const char *src)
 	i = 0;
 	while (src[i] != '\0' && src[i] != '=')
 		i++;
-	i++;
+	// i = i + (src[i] == '=');
 	dest = malloc(sizeof(char) * i + 1);
 	if (!dest)
 		return (NULL);
@@ -201,8 +202,21 @@ char	*get_env_var(const char *src)
 		i++;
 	if (src[i] == '\0')
 		return (NULL);//Could be return empty malloc(but risk of false positive), would also make it different than failed malloc
-	i++; // to include the '='
+	i++; // to go past the '='
 	return (ft_strdup(&src[i]));
+}
+
+int	generate_env_llist(t_env_node **env_dup_root, t_garbage_collect *gc, char **envp)
+{
+	int i;
+
+	i = -1;
+	while (envp[++i])
+	{	
+		if (export(env_dup_root, (void *)envp[i], &gc) == 0)
+			return (0);
+	}
+	return (1);
 }
 
 

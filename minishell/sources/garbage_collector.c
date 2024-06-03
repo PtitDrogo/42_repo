@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 17:32:57 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/15 12:54:09 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:58:15 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int empty_trash(t_garbage_collect *gc)
 	return (1);
 }
 
-void	setter_gc(void *data_to_set, t_garbage_collect **gc)
+void	*setter_gc(void *data_to_set, t_garbage_collect **gc)
 {
 	add_to_trash(gc, data_to_set);
 	return (data_to_set);

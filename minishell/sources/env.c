@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 12:36:06 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/15 13:20:06 by tfreydie         ###   ########.fr       */
+/*   Created: 2024/04/15 14:54:23 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/04/15 14:57:14 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strncmp(char *s1, char *s2, size_t n)
+int env(t_env_node *env_dup_root)
 {
-	size_t	i;
-
-	i = 0;
-	// printf("in strncmp %s and %s size %zu\n", s1, s2, n);
-	while (s1[i] == s2[i] && s1[i] && i < n)
+    while (env_dup_root)
 	{
-		i++;
+		if (env_dup_root->variable)
+			if (printf("%s=%s\n", env_dup_root->variable_name, env_dup_root->variable) == -1)
+                return (0);
+        env_dup_root = env_dup_root->next;
 	}
-	if (i == n)
-		return (0);
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+    return (1);
 }
