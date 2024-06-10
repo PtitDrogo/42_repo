@@ -3,13 +3,14 @@ DEPS_DIR	=	.deps
 SRCS_DIR	=	sources
 HEADER_DIR	=	includes
 
-NAME		=	megaphone
+NAME		=	phonebook
 OBJS	=	$(patsubst $(SRCS_DIR)%.cpp, $(OBJS_DIR)%.o, $(SRCS))
 DEPS	=	$(OBJS:.o=.d)
 #------------------------------------------------------------------------#
 
 #---------------------------------Sources---------------------------------#
-SRCS	=		$(SRCS_DIR)/megaphone.cpp
+SRCS	=		$(SRCS_DIR)/PhoneBook.cpp \
+				$(SRCS_DIR)/main.cpp
 			
 #------------------------------------------------------------------------#
 
