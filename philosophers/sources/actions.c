@@ -71,8 +71,8 @@ static void	snooze(t_philo *philo)
 static void	think(t_philo *philo)
 {
 	mutex_write(philo, "is thinking\n", philo->id);
-	if (philo->dinner->philos % 2 == 0)
-		return ;
+	// if (philo->dinner->philos % 2 == 0)
+	// 	return ; //GIGANTESQUE FUN FACT CA DOIT ETRE TOUT LE TEMPS
 	if (((philo->dinner->time_to_eat * 2) - philo->dinner->time_to_sleep) > 0)
 		ft_usleep(((philo->dinner->time_to_eat * 2)
 				- philo->dinner->time_to_sleep));
