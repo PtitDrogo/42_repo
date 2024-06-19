@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 13:54:24 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/06/18 15:49:00 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/06/18 17:08:02 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,5 @@ public:
     Zombie(std::string name);
     ~Zombie();
 };
-
-Zombie::Zombie(std::string name)
-{
-    this->name = name;
-}
-
-Zombie::~Zombie()
-{
-    PRINTN("I am deleting the zombie named : ");
-    PRINT(name);
-}
 
 #endif

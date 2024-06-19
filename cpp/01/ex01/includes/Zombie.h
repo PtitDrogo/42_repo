@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 13:54:24 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/06/18 18:19:47 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:29:25 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ private:
     std::string name;
 
 public:
-    void announce(void);
+    void    announce(void);
+    void    set_name(std::string name);
     Zombie();
     Zombie(std::string name);
     ~Zombie();

@@ -3,17 +3,16 @@ DEPS_DIR	=	.deps
 SRCS_DIR	=	sources
 HEADER_DIR	=	includes
 
-NAME		=	zombieHorde
+NAME		=	Bonk
 OBJS	=	$(patsubst $(SRCS_DIR)%.cpp, $(OBJS_DIR)%.o, $(SRCS))
 DEPS	=	$(OBJS:.o=.d)
 #------------------------------------------------------------------------#
 
 #---------------------------------Sources---------------------------------#
-SRCS	=		$(SRCS_DIR)/Zombie.cpp \
-				$(SRCS_DIR)/newZombie.cpp \
-				$(SRCS_DIR)/randomChump.cpp \
-				$(SRCS_DIR)/zombieHorde.cpp \
-				$(SRCS_DIR)/main.cpp
+SRCS	=		$(SRCS_DIR)/main.cpp \
+				$(SRCS_DIR)/HumanA.cpp \
+				$(SRCS_DIR)/HumanB.cpp \
+				$(SRCS_DIR)/Weapon.cpp 
 			
 #------------------------------------------------------------------------#
 

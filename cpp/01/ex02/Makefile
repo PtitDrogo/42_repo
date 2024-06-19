@@ -3,7 +3,7 @@ DEPS_DIR	=	.deps
 SRCS_DIR	=	sources
 HEADER_DIR	=	includes
 
-NAME		=	zombieHorde
+NAME		=	
 OBJS	=	$(patsubst $(SRCS_DIR)%.cpp, $(OBJS_DIR)%.o, $(SRCS))
 DEPS	=	$(OBJS:.o=.d)
 #------------------------------------------------------------------------#

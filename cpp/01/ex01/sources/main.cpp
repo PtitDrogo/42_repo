@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:36:11 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/06/18 18:39:06 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:35:35 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int main(void)
 {
     Zombie *army;
 
-    army = zombieHorde(15, "Gandin");
-    // delete army;
+    army = zombieHorde(10, "Gandin");
+    delete []army;
     
     return 0;
 }
