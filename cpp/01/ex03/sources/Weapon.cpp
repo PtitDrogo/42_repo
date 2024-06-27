@@ -12,5 +12,5 @@ void    Weapon::setType(const std::string type)
 }
 Weapon::Weapon(std::string type) : _type(type) {}
 
-Weapon::Weapon(void) : _type(NULL) {}
+Weapon::Weapon() {}
 Weapon::~Weapon() {}
