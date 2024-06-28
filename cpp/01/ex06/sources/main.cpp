@@ -5,28 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 15:36:11 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/06/27 22:35:15 by tfreydie         ###   ########.fr       */
+/*   Created: 2024/06/27 22:46:12 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/06/28 04:52:51 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-int main()
+
+int main(int argc, char **argv)
 {
+    if (argc != 2)
     {
-        Weapon club = Weapon("crude spiked club");
-        HumanA bob("Bob", club);
-        bob.attack();
-        club.setType("some other type of club");
-        bob.attack();
+        std::cout << "Please enter warning Level properly" << std::endl;
+        return (0);
     }
-    {
-        Weapon club = Weapon("crude spiked club");
-        HumanB jim("Jim");
-        jim.setWeapon(club);
-        jim.attack();
-        club.setType("some other type of club");
-        jim.attack();
-    }
+    Harl Harl;
+    Harl.complain(argv[1]);
+    
     return 0;
 }
+
+
+

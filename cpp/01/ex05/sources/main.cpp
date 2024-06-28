@@ -5,28 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 15:36:11 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/06/27 22:35:15 by tfreydie         ###   ########.fr       */
+/*   Created: 2024/06/27 22:46:12 by tfreydie          #+#    #+#             */
+/*   Updated: 2024/06/28 04:52:46 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-int main()
+
+int main(void)
 {
-    {
-        Weapon club = Weapon("crude spiked club");
-        HumanA bob("Bob", club);
-        bob.attack();
-        club.setType("some other type of club");
-        bob.attack();
-    }
-    {
-        Weapon club = Weapon("crude spiked club");
-        HumanB jim("Jim");
-        jim.setWeapon(club);
-        jim.attack();
-        club.setType("some other type of club");
-        jim.attack();
-    }
+    Harl Harl;
+    
+    Harl.complain("DEBUG");
+    Harl.complain("INFO");
+    Harl.complain("WARNING");
+    Harl.complain("ERROR");
     return 0;
 }
+
