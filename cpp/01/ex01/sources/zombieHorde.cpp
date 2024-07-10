@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 18:08:25 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/06/28 04:53:12 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:52:25 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Zombie* zombieHorde( int N, std::string name )
     for (int i = 0; i < N; ++i) 
     {
         zombieHorde[i].set_name(name);
-        // zombieHorde[i].announce();
+        zombieHorde[i].announce();
     }
     return (zombieHorde);
 }
