@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 15:06:33 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/06/17 16:48:30 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/07/10 23:27:03 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ void Contact::printContactInfo()
     PRINT(_age);
 }
 
-Contact::Contact() {}
+Contact::Contact() 
+{
+    PRINT("creating contact");
+}
 
-Contact::~Contact() {}
+Contact::~Contact() 
+{
+    PRINT("destroying contact");
+}

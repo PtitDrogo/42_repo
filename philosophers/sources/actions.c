@@ -6,7 +6,7 @@
 /*   By: tfreydie <tfreydie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:48:04 by tfreydie          #+#    #+#             */
-/*   Updated: 2024/04/04 17:24:30 by tfreydie         ###   ########.fr       */
+/*   Updated: 2024/07/11 01:18:14 by tfreydie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ static void	snooze(t_philo *philo)
 static void	think(t_philo *philo)
 {
 	mutex_write(philo, "is thinking\n", philo->id);
-	// if (philo->dinner->philos % 2 == 0)
-	// 	return ; //GIGANTESQUE FUN FACT CA DOIT ETRE TOUT LE TEMPS
+	if (philo->dinner->philos % 2 == 0)
+		return ; //GIGANTESQUE FUN FACT CA DOIT ETRE TOUT LE TEMPS
 	if (((philo->dinner->time_to_eat * 2) - philo->dinner->time_to_sleep) > 0)
 		ft_usleep(((philo->dinner->time_to_eat * 2)
 				- philo->dinner->time_to_sleep));
