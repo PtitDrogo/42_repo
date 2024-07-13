@@ -6,7 +6,7 @@ class Fixed
 {
 private:
     int _number;
-    static const int _mask = 8;
+    static const int _precision = 8;
 public:
     int     getRawBits( void ) const;
     void    setRawBits( int const raw );
