@@ -30,6 +30,25 @@ int main( void )
 	std::cout << "a != b is " << (a != b) << std::endl;
 	std::cout << "a >= b is " << (a >= b) << std::endl;
 	std::cout << "a <= b is " << (a <= b) << std::endl;
+	std::cout << "a + b is " << (a + b) << std::endl;
+	std::cout << "a - b is " << (a - b) << std::endl;
+	std::cout << "a * b is " << (a * b) << std::endl;
+	std::cout << "a / b is " << (a / b) << std::endl;
+	
+	Fixed Z(42);
+
+	std::cout << "Z++ is " << (Z++) << std::endl;
+	std::cout << "now Z is " << (Z.toFloat()) << std::endl;
+	std::cout << "++Z is " << (++Z) << std::endl;
+	std::cout << "now Z is " << (Z.toFloat()) << std::endl;
+	std::cout << "Z-- is " << (Z--) << std::endl;
+	std::cout << "now Z is " << (Z.toFloat()) << std::endl;
+	std::cout << "--Z is " << (--Z) << std::endl;
+	std::cout << "now Z is " << (Z.toFloat()) << std::endl;
+	std::cout << std::endl;
+
+
+
 
 	return 0;
 }
