@@ -9,10 +9,9 @@ DEPS	=	$(OBJS:.o=.d)
 #------------------------------------------------------------------------#
 
 #---------------------------------Sources---------------------------------#
-SRCS	=		$(SRCS_DIR)/bsp.cpp \
-				$(SRCS_DIR)/Fixed.cpp \
-				$(SRCS_DIR)/main.cpp \
-				$(SRCS_DIR)/Point.cpp \
+SRCS	=		$(SRCS_DIR)/main.cpp \
+				$(SRCS_DIR)/ClassA.cpp \
+				$(SRCS_DIR)/ClassB.cpp
 			
 #------------------------------------------------------------------------#
 

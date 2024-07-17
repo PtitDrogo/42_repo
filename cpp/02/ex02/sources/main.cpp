@@ -4,24 +4,23 @@
 int main( void ) 
 {
 	std::cout.setf(std::ios::boolalpha); // to print true/false instead of 1/0
-	Fixed a;
-	Fixed const b(10);
-	Fixed const c(42.42f);
-	Fixed const d(b);
-
-	a = Fixed(1234.4321f);
-
-	std::cout << "a is " << a << std::endl;
-	std::cout << "b is " << b << std::endl;
-	std::cout << "c is " << c << std::endl;
-	std::cout << "d is " << d << std::endl;
-
-	std::cout << "a is " << a.toInt() << " as integer" << std::endl;
-	std::cout << "b is " << b.toInt() << " as integer" << std::endl;
-	std::cout << "c is " << c.toInt() << " as integer" << std::endl;
-	std::cout << "d is " << d.toInt() << " as integer" << std::endl;
+	{
+		Fixed a;
+		Fixed const b( Fixed( 5.05f ) * Fixed( 2 ) );
+		
+		std::cout << a << std::endl;
+		std::cout << ++a << std::endl;
+		std::cout << a << std::endl;
+		std::cout << a++ << std::endl;
+		std::cout << a << std::endl;
+		std::cout << b << std::endl;
+		std::cout << Fixed::max( a, b ) << std::endl;
+	}
 
 	//testing operators
+	Fixed a = 5;
+	Fixed const b(10);
+
 	std::cout << std::endl << "MY TESTS "<< std::endl;
 	std::cout << "a is " << a << " b is " << b << std::endl;
 	std::cout << "a < b is " << (a < b) << std::endl;
@@ -38,15 +37,24 @@ int main( void )
 	Fixed Z(42);
 
 	std::cout << "Z++ is " << (Z++) << std::endl;
-	std::cout << "now Z is " << (Z.toFloat()) << std::endl;
+	std::cout << "now Z is " << (Z) << std::endl;
 	std::cout << "++Z is " << (++Z) << std::endl;
-	std::cout << "now Z is " << (Z.toFloat()) << std::endl;
+	std::cout << "now Z is " << (Z) << std::endl;
 	std::cout << "Z-- is " << (Z--) << std::endl;
-	std::cout << "now Z is " << (Z.toFloat()) << std::endl;
+	std::cout << "now Z is " << (Z) << std::endl;
 	std::cout << "--Z is " << (--Z) << std::endl;
-	std::cout << "now Z is " << (Z.toFloat()) << std::endl;
+	std::cout << "now Z is " << (Z) << std::endl;
 	std::cout << std::endl;
 
+	Fixed big(100);
+	Fixed small(5);
+	Fixed const constbig(100);
+	Fixed const constsmall(5);
+	std::cout << "Between big : " << big << " and small : " << small << std::endl;
+	std::cout << "min is : " <<  Fixed::min(big, small) << std::endl;
+	std::cout << "max is : " <<  Fixed::max(big, small) << std::endl;
+	std::cout << "min of const is : " <<  Fixed::min(big, small) << std::endl;
+	std::cout << "max of const is : " <<  Fixed::max(big, small) << std::endl;
 
 
 
