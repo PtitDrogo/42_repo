@@ -7,11 +7,10 @@ int main( void )
     Fixed a;
     Fixed b(a);
     Fixed c;
-    float z = 4.20;
+
     c = b;
     std::cout << a.getRawBits() << std::endl;
     std::cout << b.getRawBits() << std::endl;
     std::cout << c.getRawBits() << std::endl;
-    std::cout << "float is " << z << std::endl;
     return 0;
 }

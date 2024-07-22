@@ -1,29 +1,31 @@
-#include "ClapTrap.h"
+#include "ScavTrap.h"
 #include <iostream>
 
 static std::string s_logic(unsigned int amount, std::string word);
 
-ClapTrap::ClapTrap() : 
+
+ScavTrap(const std::string& name) : ClapTrap(name) {};
+ScavTrap::ScavTrap() : 
     _name("no_name"), 
     _hit_points(10),
     _energy_points(10),
     _attack_damage(0) { std::cout << "Default constructor called for " << _name << std::endl; }
-ClapTrap::ClapTrap(std::string _name) : 
+ScavTrap::ScavTrap(std::string _name) : 
     _name(_name),
     _hit_points(10), 
     _energy_points(10),
     _attack_damage(0) { std::cout << "Name constructor called for " << _name << std::endl; }
-ClapTrap::ClapTrap(ClapTrap& other) : 
+ScavTrap::ScavTrap(ScavTrap& other) : 
     _name(other.get_name()),
     _hit_points(other.get_hp()), 
     _energy_points(other.get_energy()),
     _attack_damage(other.get_attack()) { std::cout << "Copy constructor called for " << _name << std::endl; }
-ClapTrap::~ClapTrap() 
+ScavTrap::~ScavTrap() 
 {
     std::cout << "Destructor called for " << _name << std::endl;
 }
 
-ClapTrap& ClapTrap::operator=(const ClapTrap& other)
+ScavTrap& ScavTrap::operator=(const ScavTrap& other)
 {
     if (this != &other)
     {
@@ -36,12 +38,12 @@ ClapTrap& ClapTrap::operator=(const ClapTrap& other)
 }
 
 
-std::string ClapTrap::get_name() const { return _name; }
-int ClapTrap::get_hp() const { return _hit_points; }
-int ClapTrap::get_energy() const { return _energy_points; }
-int ClapTrap::get_attack() const { return _attack_damage; }
+std::string ScavTrap::get_name() const { return _name; }
+int ScavTrap::get_hp() const { return _hit_points; }
+int ScavTrap::get_energy() const { return _energy_points; }
+int ScavTrap::get_attack() const { return _attack_damage; }
 
-void ClapTrap::attack(const std::string& target)
+void ScavTrap::attack(const std::string& target)
 {
     if (_energy_points == 0)
     {
@@ -53,7 +55,7 @@ void ClapTrap::attack(const std::string& target)
         _energy_points--;
     }
 }
-void ClapTrap::takeDamage(unsigned int amount)
+void ScavTrap::takeDamage(unsigned int amount)
 {
     std::cout << _name << " takes " << amount << " " << s_logic(amount, "point") << " of damage!" << std::endl;
     if (_hit_points > 0 && (_hit_points <= static_cast<int>(amount)))
@@ -66,7 +68,7 @@ void ClapTrap::takeDamage(unsigned int amount)
     }
     _hit_points -= amount;
 }
-void ClapTrap::beRepaired(unsigned int amount)
+void ScavTrap::beRepaired(unsigned int amount)
 {
     if (_energy_points == 0)
     {
@@ -84,7 +86,7 @@ void ClapTrap::beRepaired(unsigned int amount)
     }
     if (amount == 0)
     {
-        std::cout << "(Not sure why Claptrap did that if he was full health ... )" << std::endl;
+        std::cout << "(Not sure why ScavTrap did that if he was full health ... )" << std::endl;
     }
 }
 static std::string s_logic(unsigned int amount, std::string word)
@@ -94,7 +96,7 @@ static std::string s_logic(unsigned int amount, std::string word)
     return (word + "s");
 }
 
-std::ostream    &operator<<(std::ostream &out, ClapTrap const &fixed)
+std::ostream    &operator<<(std::ostream &out, ScavTrap const &fixed)
 {
     out << fixed.get_name();
     return (out);

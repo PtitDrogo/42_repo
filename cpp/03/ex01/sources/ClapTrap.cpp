@@ -82,6 +82,10 @@ void ClapTrap::beRepaired(unsigned int amount)
         _energy_points--;
         _hit_points += amount;
     }
+    if (amount == 0)
+    {
+        std::cout << "(Not sure why Claptrap did that if he was full health ... )" << std::endl;
+    }
 }
 static std::string s_logic(unsigned int amount, std::string word)
 {

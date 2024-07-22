@@ -141,11 +141,22 @@ Fixed Fixed::operator-(const Fixed &other) const
 }
 Fixed Fixed::operator*(const Fixed &other) const
 {
-   return Fixed(this->toFloat() * other.toFloat());
+    long int x = _number;
+    x *= other._number;
+    x >>= _precision;
+    Fixed result;
+    result.setRawBits(x);
+    return result;
+//    return Fixed(this->toFloat() * other.toFloat());
 }
 Fixed Fixed::operator/(const Fixed &other) const
 {
-    return Fixed(this->toFloat() / other.toFloat());
+    long int x = _number << _precision;
+    x /= other._number;
+    Fixed result;
+    result.setRawBits(x);
+    return result;
+    // return Fixed(this->toFloat() / other.toFloat());
 }
 Fixed Fixed::operator++(int)
 {

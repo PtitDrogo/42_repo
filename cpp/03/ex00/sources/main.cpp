@@ -13,6 +13,7 @@ int main()
     std::cout << "Gandin has to do something !" << std::endl;
     A.beRepaired(3);
     A.beRepaired(10000);
+    A.beRepaired(1);
     std::cout << "God Strikes down Gandin" << std::endl;
     A.takeDamage(10000);
     std::cout << "God Strikes down Gandin Again to make sure" << std::endl;

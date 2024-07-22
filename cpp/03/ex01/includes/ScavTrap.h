@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
-class ClapTrap
+#include "ClapTrap.h"
+class ScavTrap : public ClapTrap
 {
 protected:
     std::string _name;
@@ -10,15 +11,16 @@ protected:
     int _attack_damage;
 public:
     //Constructors
-    ClapTrap();
-    ClapTrap(ClapTrap& other);
-    ClapTrap(std::string _name);
+    ScavTrap(const std::string& _name) : ClapTrap(_name) {};
+    ScavTrap(ScavTrap& other);
+    // ScavTrap(std::string _name);
+    ScavTrap();
     
     //Destructors
-    ~ClapTrap();
+    ~ScavTrap();
 
     //Overloads
-    ClapTrap& operator=(const ClapTrap& other);
+    ScavTrap& operator=(const ScavTrap& other);
 
     //Getters
     std::string get_name() const;
@@ -32,4 +34,4 @@ public:
     void beRepaired(unsigned int amount);
 };
 
-std::ostream    &operator<<(std::ostream &o, ClapTrap const &fixed);
+std::ostream    &operator<<(std::ostream &o, ScavTrap const &fixed);
