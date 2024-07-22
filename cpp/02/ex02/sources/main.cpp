@@ -18,8 +18,8 @@ int main( void )
 	}
 
 	//testing operators
-	Fixed a = 5;
-	Fixed const b(10);
+	Fixed a = 2;
+	Fixed const b(1.5f);
 
 	std::cout << std::endl << "MY TESTS "<< std::endl;
 	std::cout << "a is " << a << " b is " << b << std::endl;
