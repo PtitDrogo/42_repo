@@ -1,45 +1,42 @@
-#include "ScavTrap.h"
+#include "FragTrap.h"
 #include <iostream>
 
 static std::string s_logic(unsigned int amount, std::string word);
 
-ScavTrap::ScavTrap() : ClapTrap(), _is_in_guard_mode(false)
+FragTrap::FragTrap() : ClapTrap()
 {  
     _hit_points = 100;
-    _energy_points = 50;
-    _attack_damage = 20;
+    _energy_points = 100;
+    _attack_damage = 30;
     
-    std::cout << "ScavTrap Default constructor called for " << _name << std::endl; 
+    std::cout << "FragTrap Default constructor called for " << _name << std::endl; 
 }
-ScavTrap::ScavTrap(const std::string& name) : ClapTrap(name), _is_in_guard_mode(false)
+FragTrap::FragTrap(const std::string& name) : ClapTrap(name)
 {
     _hit_points = 100;
-    _energy_points = 50;
-    _attack_damage = 20;
-    std::cout << "ScavTrap Name constructor called for " << _name << std::endl; 
+    _energy_points = 100;
+    _attack_damage = 30;
+    std::cout << "FragTrap Name constructor called for " << _name << std::endl; 
 }
-ScavTrap::ScavTrap(ScavTrap& other) : ClapTrap(other), _is_in_guard_mode(false)
+FragTrap::FragTrap(FragTrap& other) : ClapTrap(other)
 {
-    std::cout << "ScavTrap Copy constructor called for " << _name << std::endl; 
+    std::cout << "FragTrap Copy constructor called for " << _name << std::endl; 
 }
-ScavTrap::~ScavTrap() 
-{
-    std::cout << "ScavTrap Destructor called for " << _name << std::endl;
+FragTrap::~FragTrap() 
+{   
+    std::cout << "FragTrap Destructor called for " << _name << std::endl;
 }
 
-ScavTrap& ScavTrap::operator=(const ScavTrap& other)
+FragTrap& FragTrap::operator=(const FragTrap& other)
 {
     if (this != &other)
     {
         ClapTrap::operator=(other);
-        _is_in_guard_mode = other.get_status();
     }
     return (*this);
 }
 
-bool ScavTrap::get_status() const { return _is_in_guard_mode; }
-
-void ScavTrap::attack(const std::string& target)
+void FragTrap::attack(const std::string& target)
 {
     if (_energy_points == 0)
     {
@@ -48,11 +45,11 @@ void ScavTrap::attack(const std::string& target)
     else
     {
         std::cout << _name << " attacks " << target << ", causing " << _attack_damage << " " << s_logic(_attack_damage, "point") << " of damage!";
-        std::cout << " (whoah, that actually did something)" << std::endl;
+        std::cout << " (Terrible, terrible damage)" << std::endl;
         _energy_points--;
     }
 }
-void ScavTrap::takeDamage(unsigned int amount)
+void FragTrap::takeDamage(unsigned int amount)
 {
     std::cout << _name << " takes " << amount << " " << s_logic(amount, "point") << " of damage!" << std::endl;
     if (_hit_points > 0 && (_hit_points <= static_cast<int>(amount)))
@@ -65,7 +62,7 @@ void ScavTrap::takeDamage(unsigned int amount)
     }
     _hit_points -= amount;
 }
-void ScavTrap::beRepaired(unsigned int amount)
+void FragTrap::beRepaired(unsigned int amount)
 {
     if (_energy_points == 0)
     {
@@ -83,20 +80,14 @@ void ScavTrap::beRepaired(unsigned int amount)
     }
     if (amount == 0)
     {
-        std::cout << "(Not sure why ScavTrap did that if he was full health ... )" << std::endl;
+        std::cout << "(Not sure why FragTrap did that if he was full health ... )" << std::endl;
     }
 }
+void FragTrap::highFivesGuys(void)
+{
+    std::cout << "What a beautiful day to be alive right guys ? High Five !" << std::endl;
+}
 
-void ScavTrap::guardGate()
-{
-    _is_in_guard_mode = true;
-    std::cout << "ScavTrap is now in Gate keeper mode." << std::endl;
-}
-void ScavTrap::stopGuard()
-{
-    _is_in_guard_mode = false;
-    std::cout << "ScavTrap is now in Big Chilling mode." << std::endl;
-}
 static std::string s_logic(unsigned int amount, std::string word)
 {
     if (amount == 1)
@@ -104,7 +95,7 @@ static std::string s_logic(unsigned int amount, std::string word)
     return (word + "s");
 }
 
-std::ostream    &operator<<(std::ostream &out, ScavTrap const &fixed)
+std::ostream    &operator<<(std::ostream &out, FragTrap const &fixed)
 {
     out << fixed.get_name();
     return (out);

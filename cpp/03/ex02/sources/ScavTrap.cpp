@@ -3,6 +3,7 @@
 
 static std::string s_logic(unsigned int amount, std::string word);
 
+
 ScavTrap::ScavTrap() : ClapTrap(), _is_in_guard_mode(false)
 {  
     _hit_points = 100;

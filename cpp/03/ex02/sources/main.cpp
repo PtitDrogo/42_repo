@@ -1,14 +1,26 @@
-#include "ClassA.h"
-#include "ClassB.h"
+#include "ClapTrap.h"
+#include "ScavTrap.h"
+#include "FragTrap.h"
 #include <iostream>
 
 int main()
 {
-    ClassA A(4, 5);
-    ClassB B;
-    std::cout << A << std::endl;
-    std::cout << B << std::endl;
+    FragTrap littleguy("mousey");
+    std::cout << littleguy << " stats are, attack: " << littleguy.get_attack() << " hp: " << littleguy.get_hp() << " energy: " << littleguy.get_energy() << std::endl;
+    littleguy.highFivesGuys();
+    FragTrap copycat(littleguy);
+    std::cout << copycat << " stats are, attack: " << copycat.get_attack() << " hp: " << copycat.get_hp() << " energy: " << copycat.get_energy() << std::endl;
+    copycat.highFivesGuys();
 
-    //Your wonderful code here
+    FragTrap new_guy("new guy");
+    new_guy.attack("The wind at 6 am");
+    new_guy.attack("The wind at 6 am");
+    new_guy.attack("The wind at 6 am");
+    new_guy.attack("The wind at 6 am");
+    new_guy.attack("The wind at 6 am");
+    new_guy.attack("The wind at 6 am");
+    copycat = new_guy;
+    std::cout << copycat << " stats are, attack: " << copycat.get_attack() << " hp: " << copycat.get_hp() << " energy: " << copycat.get_energy() << std::endl;
+    copycat.highFivesGuys();
     return 0;
 }

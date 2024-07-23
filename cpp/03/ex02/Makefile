@@ -3,15 +3,16 @@ DEPS_DIR	=	.deps
 SRCS_DIR	=	sources
 HEADER_DIR	=	includes
 
-NAME		=	executable
+NAME		=	FragTrap
 OBJS	=	$(patsubst $(SRCS_DIR)%.cpp, $(OBJS_DIR)%.o, $(SRCS))
 DEPS	=	$(OBJS:.o=.d)
 #------------------------------------------------------------------------#
 
 #---------------------------------Sources---------------------------------#
 SRCS	=		$(SRCS_DIR)/main.cpp \
-				$(SRCS_DIR)/ClassA.cpp \
-				$(SRCS_DIR)/ClassB.cpp
+				$(SRCS_DIR)/ClapTrap.cpp \
+				$(SRCS_DIR)/ScavTrap.cpp \
+				$(SRCS_DIR)/FragTrap.cpp \
 			
 #------------------------------------------------------------------------#
 

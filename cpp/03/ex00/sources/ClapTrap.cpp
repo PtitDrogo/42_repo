@@ -27,10 +27,10 @@ ClapTrap& ClapTrap::operator=(const ClapTrap& other)
 {
     if (this != &other)
     {
-        this->_name = get_name();
-        this->_hit_points = get_hp();
-        this->_energy_points = get_energy();
-        this->_attack_damage = get_attack();
+        this->_name = other.get_name();
+        this->_hit_points = other.get_hp();
+        this->_energy_points = other.get_energy();
+        this->_attack_damage = other.get_attack();
     }
     return (*this);
 }
