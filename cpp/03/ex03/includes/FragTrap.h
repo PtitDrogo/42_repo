@@ -2,13 +2,13 @@
 #include <iostream>
 #include <string>
 #include "ClapTrap.h"
-class FragTrap : public ClapTrap
+class FragTrap : virtual public ClapTrap
 {
 public:
     //Constructors
     FragTrap(const std::string& name);
     FragTrap(FragTrap& other);
-    FragTrap();
+    FragTrap(); 
     
     //Destructors
     ~FragTrap();
