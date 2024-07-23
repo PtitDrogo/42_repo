@@ -4,25 +4,22 @@
 static std::string s_logic(unsigned int amount, std::string word);
 
 DiamondTrap::DiamondTrap() : 
-    ClapTrap("no_name"), 
+    ClapTrap("no_name_clap_name"), 
     ScavTrap(), 
     FragTrap(),
     _name("no_name")
 {  
-    ClapTrap::_name = this->_name + "_clap_name";
     this->_hit_points = FragTrap::_hit_points;
     this->_energy_points = ScavTrap::_energy_points;
     this->_attack_damage = FragTrap::_attack_damage;
-    
     std::cout << "DiamondTrap Default constructor called for " << _name << std::endl; 
 }
 DiamondTrap::DiamondTrap(const std::string& name) : 
-    ClapTrap(name),
+    ClapTrap(name + "_clap_name"),
     ScavTrap(), 
     FragTrap(),
     _name(name)
 {
-    ClapTrap::_name = this->_name + "_clap_name";
     _hit_points = FragTrap::_hit_points;
     _energy_points = ScavTrap::_energy_points;
     _attack_damage = FragTrap::_attack_damage;
@@ -61,7 +58,7 @@ void DiamondTrap::attack(const std::string& target)
 }
 void DiamondTrap::whoAmI()
 {
-    std::cout << "Who am I ? Well that's easy, I am " << get_name() << " But my ClapTrap name is " << ClapTrap::_name << std::endl; //if I replace _name by getname() i get the wrong name
+    std::cout << "Who am I ? Well that's easy, I am " << get_name() << " But my ClapTrap name is " << ClapTrap::_name << std::endl;
 }
 void DiamondTrap::takeDamage(unsigned int amount)
 {

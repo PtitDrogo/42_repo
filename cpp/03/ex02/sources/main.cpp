@@ -5,7 +5,7 @@
 
 int main()
 {
-    FragTrap littleguy("mousey");
+    FragTrap littleguy("mousey"); //name constructor
     std::cout << littleguy << " stats are, attack: " << littleguy.get_attack() << " hp: " << littleguy.get_hp() << " energy: " << littleguy.get_energy() << std::endl;
     littleguy.highFivesGuys();
     FragTrap copycat(littleguy);
