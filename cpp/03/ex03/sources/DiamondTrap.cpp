@@ -10,7 +10,6 @@ DiamondTrap::DiamondTrap() :
     this->_hit_points = FragTrap::_hit_points;
     this->_energy_points = ScavTrap::_energy_points;
     this->_attack_damage = FragTrap::_attack_damage;
-    
     std::cout << "DiamondTrap Default constructor called for " << _name << std::endl; 
 }
 DiamondTrap::DiamondTrap(const std::string& name) : 
@@ -57,7 +56,7 @@ void DiamondTrap::attack(const std::string& target)
 }
 void DiamondTrap::whoAmI()
 {
-    std::cout << "Who am I ? Well that's easy, I am " << get_name() << " But my ClapTrap name is " << ClapTrap::_name << std::endl; //if I replace _name by getname() i get the wrong name
+    std::cout << "Who am I ? Well that's easy, I am " << get_name() << " But my ClapTrap name is " << ClapTrap::_name << std::endl;
 }
 
 std::ostream    &operator<<(std::ostream &out, DiamondTrap const &fixed)
