@@ -5,9 +5,9 @@ class ClapTrap
 {
 private:
     std::string _name;
-    int _hit_points;
-    int _energy_points;
-    int _attack_damage;
+    unsigned int _hit_points;
+    unsigned int _energy_points;
+    unsigned int _attack_damage;
 public:
     //Constructors
     ClapTrap();
@@ -22,9 +22,9 @@ public:
 
     //Getters
     std::string get_name() const;
-    int get_hp() const;
-    int get_energy() const;
-    int get_attack() const;
+    unsigned int get_hp() const;
+    unsigned int get_energy() const;
+    unsigned int get_attack() const;
 
     //Method
     void attack(const std::string& target);

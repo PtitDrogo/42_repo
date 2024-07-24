@@ -15,12 +15,14 @@ int main()
         std::cout << std::endl;
     {
         DiamondTrap steve("real steve"); //name constructor
+        std::cout << std::endl;
         DiamondTrap new_guy(steve); //copy constructor
+        std::cout << std::endl;
         DiamondTrap newest_guy = steve;
         std::cout << std::endl;
         steve.whoAmI();
         new_guy.whoAmI();
-        newest_guy.whoAmI(); //Claptrap name becomes name_clap_name, is it intended ? //TOCHECK BEFORE PUSHING
+        newest_guy.whoAmI();
         std::cout << std::endl;
     }
 

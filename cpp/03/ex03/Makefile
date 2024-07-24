@@ -3,7 +3,7 @@ DEPS_DIR	=	.deps
 SRCS_DIR	=	sources
 HEADER_DIR	=	includes
 
-NAME		=	executable
+NAME		=	DiamondTrap
 OBJS	=	$(patsubst $(SRCS_DIR)%.cpp, $(OBJS_DIR)%.o, $(SRCS))
 DEPS	=	$(OBJS:.o=.d)
 #------------------------------------------------------------------------#
@@ -22,6 +22,7 @@ CC		=	c++
 RM		=	rm -f
 
 CFLAGS		=	-g3 -std=c++98 -Wall -Werror -Wextra
+#-Wshadow and -Wno-shadow compiler flags?
 
 INCLUDES	=	-I $(HEADER_DIR) -MMD -MP
 

@@ -48,42 +48,8 @@ void ScavTrap::attack(const std::string& target)
     else
     {
         std::cout << _name << " attacks " << target << ", causing " << _attack_damage << " " << s_logic(_attack_damage, "point") << " of damage!";
-        std::cout << " (whoah, that actually did something)" << std::endl;
+        std::cout << " (whoah, that actually did something, Scav Power !)" << std::endl;
         _energy_points--;
-    }
-}
-void ScavTrap::takeDamage(unsigned int amount)
-{
-    std::cout << _name << " takes " << amount << " " << s_logic(amount, "point") << " of damage!" << std::endl;
-    if (_hit_points > 0 && (_hit_points <= static_cast<int>(amount)))
-    {
-        std::cout << _name << " died from his wounds " << std::endl;
-    }
-    else if (_hit_points < 0)
-    {
-        std::cout << _name << " was already dead " << std::endl;
-    }
-    _hit_points -= amount;
-}
-void ScavTrap::beRepaired(unsigned int amount)
-{
-    if (_energy_points == 0)
-    {
-        std::cout << "Not enough energy to repair" << std::endl;
-    }
-    else 
-    {
-        if (_hit_points + amount >= 10)
-        {
-            amount = 10 - _hit_points;
-        }
-        std::cout << _name << " repairs " << amount << " health " << s_logic(amount, "point") << " !" << std::endl;
-        _energy_points--;
-        _hit_points += amount;
-    }
-    if (amount == 0)
-    {
-        std::cout << "(Not sure why ScavTrap did that if he was full health ... )" << std::endl;
     }
 }
 

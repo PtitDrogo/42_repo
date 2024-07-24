@@ -37,9 +37,9 @@ ClapTrap& ClapTrap::operator=(const ClapTrap& other)
 
 
 std::string ClapTrap::get_name() const { return _name; }
-int ClapTrap::get_hp() const { return _hit_points; }
-int ClapTrap::get_energy() const { return _energy_points; }
-int ClapTrap::get_attack() const { return _attack_damage; }
+unsigned int ClapTrap::get_hp() const { return _hit_points; }
+unsigned int ClapTrap::get_energy() const { return _energy_points; }
+unsigned int ClapTrap::get_attack() const { return _attack_damage; }
 
 void ClapTrap::attack(const std::string& target)
 {
@@ -56,13 +56,17 @@ void ClapTrap::attack(const std::string& target)
 void ClapTrap::takeDamage(unsigned int amount)
 {
     std::cout << _name << " takes " << amount << " " << s_logic(amount, "point") << " of damage!" << std::endl;
-    if (_hit_points > 0 && (_hit_points <= static_cast<int>(amount)))
+    if (_hit_points > 0 && (_hit_points <= (amount)))
     {
         std::cout << _name << " died from his wounds " << std::endl;
     }
-    else if (_hit_points < 0)
+    else if (_hit_points == 0)
     {
         std::cout << _name << " was already dead " << std::endl;
+    }
+    if (_hit_points <= amount)
+    {
+        amount = _hit_points;
     }
     _hit_points -= amount;
 }
@@ -74,6 +78,12 @@ void ClapTrap::beRepaired(unsigned int amount)
     }
     else 
     {
+        if (_hit_points + amount < amount)
+        {
+            std::cout << "ClapTrap is overflowing with repairs ! Why would he do that he doesnt have that much health" << std::endl;
+            amount = 10 - _hit_points;
+        }
+        
         if (_hit_points + amount >= 10)
         {
             amount = 10 - _hit_points;

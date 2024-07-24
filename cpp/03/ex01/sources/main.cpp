@@ -6,15 +6,15 @@ int main()
 {
     std::cout.setf(std::ios::boolalpha);
     {
-        ScavTrap nameless;
+        ScavTrap nameless; //Default constructor
         std::cout << nameless << " stats, HP : " << nameless.get_hp() << " Attack : " << nameless.get_attack() << " energy : "<< nameless.get_energy() << std::endl;
     }
     std::cout << std::endl;
     {
-        ClapTrap A("Gandin");
+        ClapTrap A("Gandin"); //name constructor
         std::cout << A << " stats, HP : " << A.get_hp() << " Attack : " << A.get_attack() << " energy : "<< A.get_energy() << std::endl;
         ScavTrap Scavvie("Scavvie");
-        ScavTrap copycat(Scavvie);
+        ScavTrap copycat(Scavvie); //copy constructor
         std::cout << copycat << " stats, HP : " << copycat.get_hp() << " Attack : " << copycat.get_attack() << " energy : "<< copycat.get_energy() << std::endl;
         copycat.attack("A Wall, for some reason");
         std::cout << copycat.get_energy() << " energy left for " << copycat << std::endl;
