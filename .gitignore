@@ -1,2 +1,10 @@
-*.o
-*.d
+# Ignore all .o files
+**/*.o
+
+# Ignore all .d files
+**/*.d
+
+# Optional: Ignore common build directories
+build/
+bin/
+obj/
