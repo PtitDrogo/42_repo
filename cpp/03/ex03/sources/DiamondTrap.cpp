@@ -44,7 +44,7 @@ DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other)
 {
     if (this != &other)
     {
-        ClapTrap::operator=(other);
+        ScavTrap::operator=(other);
     }
     return (*this);
 }
