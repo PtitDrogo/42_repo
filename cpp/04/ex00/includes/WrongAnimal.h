@@ -1,20 +1,21 @@
 #pragma once
 #include <iostream>
-#include "Animal.h"
-class Dog : public Animal
+
+class WrongAnimal
 {
 private:
     std::string type;
+
 public:
     //Constructors
-    Dog();
-    Dog(Dog& other);
+    WrongAnimal();
+    WrongAnimal(WrongAnimal& other);
     
     //Destructors
-    ~Dog();
+    ~WrongAnimal();
 
     //Overloads
-    Dog& operator=(const Dog& other);
+    WrongAnimal& operator=(const WrongAnimal& other);
 
     //Getters
     std::string getType() const;
@@ -23,4 +24,4 @@ public:
     void makeSound() const;
 };
 
-std::ostream    &operator<<(std::ostream &o, Dog const &fixed);
+std::ostream    &operator<<(std::ostream &o, WrongAnimal const &fixed);

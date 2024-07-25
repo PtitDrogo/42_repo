@@ -5,6 +5,7 @@ class Dog : public Animal
 {
 private:
     std::string type;
+    Brain* _Brain;
 public:
     //Constructors
     Dog();

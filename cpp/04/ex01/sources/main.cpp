@@ -1,14 +1,29 @@
-#include "ClassA.h"
-#include "ClassB.h"
+#include "Animal.h"
+#include "Cat.h"
+#include "Dog.h"
+#include "Brain.h"
 #include <iostream>
 
 int main()
 {
-    ClassA A(4, 5);
-    ClassB B;
-    std::cout << A << std::endl;
-    std::cout << B << std::endl;
+    // {    
+    //     const Animal* meta = new Animal();
+    //     const Animal* j = new Dog();
+    //     const Animal* i = new Cat();
+    //     std::cout << j->getType() << " " << std::endl;
+    //     std::cout << i->getType() << " " << std::endl;
+    //     i->makeSound(); //will output the cat sound!
+    //     j->makeSound();
+    //     meta->makeSound();
 
-    //Your wonderful code here
+    //     delete meta;
+    //     delete j;
+    //     delete i;
+    // }
+    {
+        Brain brain;
+        std::cout << brain;
+    }
+
     return 0;
 }

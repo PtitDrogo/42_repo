@@ -10,8 +10,11 @@ DEPS	=	$(OBJS:.o=.d)
 
 #---------------------------------Sources---------------------------------#
 SRCS	=		$(SRCS_DIR)/main.cpp \
-				$(SRCS_DIR)/ClassA.cpp \
-				$(SRCS_DIR)/ClassB.cpp
+				$(SRCS_DIR)/Animal.cpp \
+				$(SRCS_DIR)/Dog.cpp \
+				$(SRCS_DIR)/Cat.cpp \
+				$(SRCS_DIR)/WrongCat.cpp \
+				$(SRCS_DIR)/WrongAnimal.cpp \
 			
 #------------------------------------------------------------------------#
 

@@ -27,15 +27,15 @@ bool bsp( Point const a, Point const b, Point const c, Point const point)
 
 Fixed sideOfLine(const Point& p1, const Point& p2, const Point& p) 
 {   
-    std::cout << "(" << p2.getX() << " - " << p1.getX() << ")" << " * " << "(" << p.getY() << " - " << p1.getY() << ")";
-    std::cout << " - " ;d
-    std::cout << "(" << p.getX() << " - " << p1.getX() << ")" << " * " << "(" << p2.getY() << " - " << p1.getY() << ")"<< std::endl;
+    // std::cout << "(" << p2.getX() << " - " << p1.getX() << ")" << " * " << "(" << p.getY() << " - " << p1.getY() << ")";
+    // std::cout << " - " ;d
+    // std::cout << "(" << p.getX() << " - " << p1.getX() << ")" << " * " << "(" << p2.getY() << " - " << p1.getY() << ")"<< std::endl;
 
-    std::cout << "(" << p2.getX() - p1.getX()  << " * "  << (p.getY() - p1.getY()) << ")";
-    std::cout << " - ";
-    std::cout << "(" << p.getX() - p1.getX() << " * "  << (p2.getY() - p1.getY()) << ")" << std::endl;
+    // std::cout << "(" << p2.getX() - p1.getX()  << " * "  << (p.getY() - p1.getY()) << ")";
+    // std::cout << " - ";
+    // std::cout << "(" << p.getX() - p1.getX() << " * "  << (p2.getY() - p1.getY()) << ")" << std::endl;
 
-    std::cout << (p2.getX() - p1.getX()) * (p.getY() - p1.getY()) << " - " << ((p.getX() - p1.getX()) * (p2.getY() - p1.getY())) << std::endl;
+    // std::cout << (p2.getX() - p1.getX()) * (p.getY() - p1.getY()) << " - " << ((p.getX() - p1.getX()) * (p2.getY() - p1.getY())) << std::endl;
     
     return (((p2.getX() - p1.getX()) * (p.getY() - p1.getY())) - ((p.getX() - p1.getX()) * (p2.getY() - p1.getY())));
 }

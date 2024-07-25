@@ -1,14 +1,37 @@
 #include "Animal.h"
+#include "WrongAnimal.h"
+#include "WrongCat.h"
 #include "Cat.h"
 #include "Dog.h"
 #include <iostream>
 
 int main()
 {
-    Animal A("Le Chien");
-    std::cout << A << std::endl;
-    // std::cout << B << std::endl;
+    {    
+        const Animal* meta = new Animal();
+        const Animal* j = new Dog();
+        const Animal* i = new Cat();
+        std::cout << j->getType() << " " << std::endl;
+        std::cout << i->getType() << " " << std::endl;
+        i->makeSound(); //will output the cat sound!
+        j->makeSound();
+        meta->makeSound();
 
-    //Your wonderful code here
+        delete meta;
+        delete j;
+        delete i;
+    }
+    std::cout << std::endl;
+    //WrongAnimalTest
+    {   const WrongAnimal* meta = new WrongAnimal();
+        const WrongAnimal* i = new WrongCat();
+        std::cout << i->getType() << " " << std::endl; //Wrong type cuz no virtual
+        i->makeSound(); //will output the wrong cat sound!
+        meta->makeSound();
+
+        delete meta;
+        delete i;
+    }
+
     return 0;
 }

@@ -177,7 +177,7 @@ Fixed Fixed::operator--(int)
 
 Fixed &Fixed::operator++()
 {
-    ++(this->_number);
+    ++(this->_number); ++i i++
     return (*this);
 }
 

@@ -1,17 +1,22 @@
 #include "Dog.h"
+#include "Brain.h"
 #include <iostream>
 
 Dog::Dog() : type("Dog") 
 {
+    _Brain = new Brain;
     std::cout << "Dog Default Constructor" << std::endl;
 }
 
 Dog::Dog(Dog& other) : type(other.getType())
 {
+    _Brain = new Brain;
+    for (int i = 0; i < 100; i++)
     std::cout << "Dog copy Constructor" << std::endl;
 }
 Dog::~Dog() 
 {
+    delete _Brain;
     std::cout << "Dog Destructor" << std::endl;
 }
 

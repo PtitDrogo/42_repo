@@ -1,8 +1,10 @@
 #include "Cat.h"
+#include "Brain.h"
 #include <iostream>
 
 Cat::Cat() : type("Cat") 
 {
+    _Brain = new Brain;
     std::cout << "Cat Default Constructor" << std::endl;
 }
 
@@ -12,6 +14,7 @@ Cat::Cat(Cat& other) : type(other.getType())
 }
 Cat::~Cat() 
 {
+    delete _Brain;
     std::cout << "Cat Destructor" << std::endl;
 }
 
@@ -32,8 +35,8 @@ void Cat::makeSound() const
 
 std::string Cat::getType() const { return type; }
 
-std::ostream    &operator<<(std::ostream &out, Cat const &fixed)
+std::ostream    &operator<<(std::ostream &out, Cat const &object)
 {
-    out << fixed.getType() ;
+    out << object.getType() ;
     return (out);
 }

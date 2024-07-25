@@ -1,23 +1,26 @@
 #pragma once
 #include <iostream>
+#include "Animal.h"
 class Cat : public Animal
 {
 private:
-    int type;
+    std::string type;
 public:
     //Constructors
     Cat();
     Cat(Cat& other);
-    Cat(std::string type);
     
     //Destructors
     ~Cat();
 
-    //Overloads
+    //Overloads 
     Cat& operator=(const Cat& other);
 
     //Getters
-    int getX() const;
+    std::string getType() const;
+
+    //method
+    void makeSound() const;
 };
 
 std::ostream    &operator<<(std::ostream &o, Cat const &fixed);
