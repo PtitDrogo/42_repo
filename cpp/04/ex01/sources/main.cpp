@@ -6,24 +6,39 @@
 
 int main()
 {
+    //subject test
+    // std::cout << std::endl;
     // {    
-    //     const Animal* meta = new Animal();
     //     const Animal* j = new Dog();
     //     const Animal* i = new Cat();
-    //     std::cout << j->getType() << " " << std::endl;
-    //     std::cout << i->getType() << " " << std::endl;
-    //     i->makeSound(); //will output the cat sound!
-    //     j->makeSound();
-    //     meta->makeSound();
-
-    //     delete meta;
-    //     delete j;
+        
+    //     delete j;//should not create a leak
     //     delete i;
     // }
+    // std::cout << std::endl;
+    //what does a cat think about ?
+    // {
+    //     Cat* miaousse = new Cat();
+    //     std::cout << "Brain of cat : " << std::endl << *(miaousse->getBrain()) << std::endl;
+
+    //     delete miaousse;
+    // }
+    std::cout << std::endl;
+    // deep copy test
+    Dog basic;
     {
-        Brain brain;
-        std::cout << brain;
+        Dog tmp;
+        tmp = basic;
     }
+    std::cout << std::endl;
+    // deep copy with pointer test
+    // Cat *catthecat = new Cat();
+    // {
+    //     Cat *tmp;
+    //     tmp = catthecat;
+    // }
+    // std::cout << std::endl;
+    // delete catthecat;
 
     return 0;
 }

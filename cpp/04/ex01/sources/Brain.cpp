@@ -6,7 +6,7 @@ Brain::Brain()
 {
     for (int i = 0; i < 10; i++) 
     {
-        ideas[i] = "Salut c'est greg";
+        ideas[i] = "Manger Boire Dormir";
     }
     std::cout << "Brain Default Constructor" << std::endl;
 }

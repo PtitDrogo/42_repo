@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Animal.h"
+#include "Brain.h"
 class Cat : public Animal
 {
 private:
@@ -19,6 +20,7 @@ public:
 
     //Getters
     std::string getType() const;
+    Brain*      getBrain() const;
 
     //method
     void makeSound() const;

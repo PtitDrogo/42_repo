@@ -2,14 +2,14 @@
 #include "Brain.h"
 #include <iostream>
 
-Cat::Cat() : type("Cat") 
+Cat::Cat() : type("Cat"), _Brain(new Brain)
 {
-    _Brain = new Brain;
     std::cout << "Cat Default Constructor" << std::endl;
 }
 
-Cat::Cat(Cat& other) : type(other.getType())
+Cat::Cat(Cat& other) : type(other.getType()), _Brain(new Brain)
 {
+    *_Brain = *other._Brain;
     std::cout << "Cat copy Constructor" << std::endl;
 }
 Cat::~Cat() 
@@ -21,8 +21,10 @@ Cat::~Cat()
 Cat& Cat::operator=(const Cat& other)
 {
     std::cout << "Cat assignement operator" << std::endl;
+    _Brain = new Brain;
     if (this != &other)
     {
+        *_Brain = *other._Brain;
         this->type = getType();
     }
     return (*this);
@@ -33,6 +35,8 @@ void Cat::makeSound() const
     std::cout << "Meow" << std::endl;
 }
 
+//Getters
+Brain*      Cat::getBrain() const { return _Brain; }
 std::string Cat::getType() const { return type; }
 
 std::ostream    &operator<<(std::ostream &out, Cat const &object)

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Animal.h"
+#include "Brain.h"
 class Dog : public Animal
 {
 private:
@@ -14,11 +15,12 @@ public:
     //Destructors
     ~Dog();
 
-    //Overloads
+    //Overloads 
     Dog& operator=(const Dog& other);
 
     //Getters
     std::string getType() const;
+    Brain*      getBrain() const;
 
     //method
     void makeSound() const;
