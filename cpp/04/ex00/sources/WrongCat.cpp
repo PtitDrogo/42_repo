@@ -1,12 +1,12 @@
 #include "WrongCat.h"
 #include <iostream>
 
-WrongCat::WrongCat() : type("WrongCat") 
+WrongCat::WrongCat() : WrongAnimal("WrongCat") 
 {
     std::cout << "WrongCat Default Constructor" << std::endl;
 }
 
-WrongCat::WrongCat(WrongCat& other) : type(other.getType())
+WrongCat::WrongCat(WrongCat& other) :  WrongAnimal(other.getType())
 {
     std::cout << "WrongCat copy Constructor" << std::endl;
 }

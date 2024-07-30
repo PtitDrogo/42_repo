@@ -9,6 +9,7 @@ protected:
 public:
     //Constructors
     Animal();
+    Animal(std::string type);
     Animal(Animal& other);
     
     //Destructors

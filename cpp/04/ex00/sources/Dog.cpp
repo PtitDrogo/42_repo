@@ -1,12 +1,12 @@
 #include "Dog.h"
 #include <iostream>
 
-Dog::Dog() : type("Dog") 
+Dog::Dog() : Animal("Dog") 
 {
     std::cout << "Dog Default Constructor" << std::endl;
 }
 
-Dog::Dog(Dog& other) : type(other.getType())
+Dog::Dog(Dog& other) : Animal(other)
 {
     std::cout << "Dog copy Constructor" << std::endl;
 }

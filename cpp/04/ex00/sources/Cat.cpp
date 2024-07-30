@@ -1,12 +1,12 @@
 #include "Cat.h"
 #include <iostream>
 
-Cat::Cat() : type("Cat") 
+Cat::Cat() : Animal("Cat")
 {
     std::cout << "Cat Default Constructor" << std::endl;
 }
 
-Cat::Cat(Cat& other) : type(other.getType())
+Cat::Cat(Cat& other) : Animal(other)
 {
     std::cout << "Cat copy Constructor" << std::endl;
 }

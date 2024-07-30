@@ -3,8 +3,6 @@
 #include "Animal.h"
 class Dog : public Animal
 {
-private:
-    std::string type;
 public:
     //Constructors
     Dog();

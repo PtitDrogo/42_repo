@@ -3,12 +3,12 @@
 
 class WrongAnimal
 {
-private:
+protected:
     std::string type;
-
 public:
     //Constructors
     WrongAnimal();
+    WrongAnimal(std::string type);
     WrongAnimal(WrongAnimal& other);
     
     //Destructors

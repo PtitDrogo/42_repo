@@ -23,7 +23,8 @@ int main()
     }
     std::cout << std::endl;
     //WrongAnimalTest
-    {   const WrongAnimal* meta = new WrongAnimal();
+    {   
+        const WrongAnimal* meta = new WrongAnimal();
         const WrongAnimal* i = new WrongCat();
         std::cout << i->getType() << " " << std::endl; //Wrong type cuz no virtual
         i->makeSound(); //will output the wrong cat sound!
