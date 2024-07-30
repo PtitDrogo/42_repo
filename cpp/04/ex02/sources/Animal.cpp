@@ -5,12 +5,6 @@ Animal::Animal() : type("no_type")
 {
     std::cout << "Animal Default Constructor" << std::endl;
 }
-
-Animal::Animal(std::string type) : type(type)
-{
-	std::cout << "Animal type constructor called" << std::endl;
-}
-
 Animal::Animal(Animal& other) : type(other.getType())
 {
     std::cout << "Animal copy Constructor" << std::endl;

@@ -1,7 +1,5 @@
 #pragma once
 #include <iostream>
-#include <string>
-
 
 class Animal
 {
@@ -11,7 +9,6 @@ protected:
 public:
     //Constructors
     Animal();
-    Animal(std::string type);
     Animal(Animal& other);
     
     //Destructors
@@ -24,7 +21,7 @@ public:
     virtual std::string getType() const;
 
     //method
-    virtual void makeSound() const;
+    virtual void makeSound() const = 0;
 };
 
 std::ostream    &operator<<(std::ostream &o, Animal const &fixed);

@@ -1,22 +1,21 @@
 #include "Cat.h"
-#include <string>
+#include "Brain.h"
 #include <iostream>
 
-Cat::Cat() : Animal("Cat")
+Cat::Cat() : type("Cat"), _Brain(new Brain)
 {
+    // _Brain = new Brain;
     std::cout << "Cat Default Constructor" << std::endl;
 }
-Cat::Cat(std::string type) : type(type)
-{
-	std::cout << "Animal type constructor called" << std::endl;
-}
 
-Cat::Cat(Cat& other) : Animal(other)
+Cat::Cat(Cat& other) : Animal(), type(other.getType()), _Brain(new Brain)
 {
+    *_Brain = *other._Brain;
     std::cout << "Cat copy Constructor" << std::endl;
 }
 Cat::~Cat() 
 {
+    delete _Brain;
     std::cout << "Cat Destructor" << std::endl;
 }
 
@@ -25,6 +24,9 @@ Cat& Cat::operator=(const Cat& other)
     std::cout << "Cat assignement operator" << std::endl;
     if (this != &other)
     {
+        delete _Brain;
+        _Brain = new Brain;
+        *_Brain = *other._Brain;
         this->type = getType();
     }
     return (*this);
@@ -35,10 +37,12 @@ void Cat::makeSound() const
     std::cout << "Meow" << std::endl;
 }
 
+//Getters
+Brain*      Cat::getBrain() const { return _Brain; }
 std::string Cat::getType() const { return type; }
 
-std::ostream    &operator<<(std::ostream &out, Cat const &fixed)
+std::ostream    &operator<<(std::ostream &out, Cat const &object)
 {
-    out << fixed.getType() ;
+    out << object.getType() ;
     return (out);
 }

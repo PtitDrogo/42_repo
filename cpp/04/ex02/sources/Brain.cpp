@@ -1,5 +1,6 @@
 #include "Brain.h"
 #include <iostream>
+#include <string>
 
 Brain::Brain()
 {

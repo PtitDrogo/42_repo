@@ -2,20 +2,21 @@
 #include <iostream>
 #include "Animal.h"
 #include "Brain.h"
-class Cat : public Animal
+class Dog : public Animal
 {
 private:
+    std::string type;
     Brain* _Brain;
 public:
     //Constructors
-    Cat();
-    Cat(Cat& other);
+    Dog();
+    Dog(Dog& other);
     
     //Destructors
-    ~Cat();
+    ~Dog();
 
     //Overloads 
-    Cat& operator=(const Cat& other);
+    Dog& operator=(const Dog& other);
 
     //Getters
     std::string getType() const;
@@ -25,4 +26,4 @@ public:
     void makeSound() const;
 };
 
-std::ostream    &operator<<(std::ostream &o, Cat const &fixed);
+std::ostream    &operator<<(std::ostream &o, Dog const &fixed);

@@ -1,17 +1,14 @@
 #pragma once
 #include <iostream>
-#include <string>
-
 
 class Animal
 {
-protected:
+private:
     std::string type;
 
 public:
     //Constructors
     Animal();
-    Animal(std::string type);
     Animal(Animal& other);
     
     //Destructors
