@@ -4,7 +4,6 @@
 
 Cat::Cat() : type("Cat"), _Brain(new Brain)
 {
-    // _Brain = new Brain;
     std::cout << "Cat Default Constructor" << std::endl;
 }
 
@@ -39,7 +38,6 @@ void Cat::makeSound() const
 
 //Getters
 Brain*      Cat::getBrain() const { return _Brain; }
-std::string Cat::getType() const { return type; }
 
 std::ostream    &operator<<(std::ostream &out, Cat const &object)
 {

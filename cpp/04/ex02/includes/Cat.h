@@ -19,7 +19,6 @@ public:
     Cat& operator=(const Cat& other);
 
     //Getters
-    std::string getType() const;
     Brain*      getBrain() const;
 
     //method

@@ -4,7 +4,6 @@
 
 Dog::Dog() : type("Dog"), _Brain(new Brain)
 {
-    // _Brain = new Brain;
     std::cout << "Dog Default Constructor" << std::endl;
 }
 
@@ -39,7 +38,6 @@ void Dog::makeSound() const
 
 //Getters
 Brain*      Dog::getBrain() const { return _Brain; }
-std::string Dog::getType() const { return type; }
 
 std::ostream    &operator<<(std::ostream &out, Dog const &object)
 {

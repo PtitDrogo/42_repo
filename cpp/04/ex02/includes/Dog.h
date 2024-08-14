@@ -19,7 +19,6 @@ public:
     Dog& operator=(const Dog& other);
 
     //Getters
-    std::string getType() const;
     Brain*      getBrain() const;
 
     //method
