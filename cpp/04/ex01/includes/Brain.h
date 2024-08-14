@@ -12,7 +12,7 @@ public:
     Brain(Brain& other);
     
     //Destructors
-    virtual ~Brain();
+    ~Brain();
 
     //Overloads
     Brain& operator=(const Brain& other);
