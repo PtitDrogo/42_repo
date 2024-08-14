@@ -30,8 +30,6 @@ void Dog::makeSound() const
     std::cout << "Woof" << std::endl;
 }
 
-std::string Dog::getType() const { return type; }
-
 std::ostream    &operator<<(std::ostream &out, Dog const &fixed)
 {
     out << fixed.getType() ;

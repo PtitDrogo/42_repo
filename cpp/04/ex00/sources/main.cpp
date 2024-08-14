@@ -13,8 +13,8 @@ int main()
         const Animal* i = new Cat();
         std::cout << j->getType() << " " << std::endl;
         std::cout << i->getType() << " " << std::endl;
-        i->makeSound(); //will output the cat sound!
         j->makeSound();
+        i->makeSound(); //will output the cat sound!
         meta->makeSound();
 
         delete meta;
@@ -26,7 +26,7 @@ int main()
     {   
         const WrongAnimal* meta = new WrongAnimal();
         const WrongAnimal* i = new WrongCat();
-        std::cout << i->getType() << " " << std::endl; //Wrong type cuz no virtual
+        std::cout << i->getType() << " " << std::endl;
         i->makeSound(); //will output the wrong cat sound!
         meta->makeSound();
 

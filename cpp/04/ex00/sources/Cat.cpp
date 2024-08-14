@@ -6,11 +6,6 @@ Cat::Cat() : Animal("Cat")
 {
     std::cout << "Cat Default Constructor" << std::endl;
 }
-Cat::Cat(std::string type) : type(type)
-{
-	std::cout << "Animal type constructor called" << std::endl;
-}
-
 Cat::Cat(Cat& other) : Animal(other)
 {
     std::cout << "Cat copy Constructor" << std::endl;
@@ -34,8 +29,6 @@ void Cat::makeSound() const
 {
     std::cout << "Meow" << std::endl;
 }
-
-std::string Cat::getType() const { return type; }
 
 std::ostream    &operator<<(std::ostream &out, Cat const &fixed)
 {

@@ -31,8 +31,6 @@ void WrongCat::makeSound() const
     std::cout << "Salut c'est greg" << std::endl;
 }
 
-std::string WrongCat::getType() const { return type; }
-
 std::ostream    &operator<<(std::ostream &out, WrongCat const &fixed)
 {
     out << fixed.getType() ;

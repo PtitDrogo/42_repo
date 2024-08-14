@@ -8,7 +8,7 @@ WrongAnimal::WrongAnimal() : type("no_type_wrong")
 
 WrongAnimal::WrongAnimal(std::string type) : type(type)
 {
-	std::cout << "Animal type constructor called" << std::endl;
+	std::cout << "WrongAnimal type constructor called" << std::endl;
 }
 
 WrongAnimal::WrongAnimal(WrongAnimal& other) : type(other.getType())
