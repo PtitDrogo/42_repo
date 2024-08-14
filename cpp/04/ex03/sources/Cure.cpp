@@ -1,0 +1,37 @@
+#include "Cure.h"
+#include <iostream>
+
+// There seem to be a need for deep copy but i am not sure what the hell
+// requires copying;
+
+Cure::Cure() : AMateria("cure") {}
+Cure::Cure(Cure const & other) : AMateria(other.getType()) {}
+Cure::~Cure() {}
+
+Cure& Cure::operator=(const Cure& other)
+{
+    if (this != &other)
+    {
+        // this->type = other.getType();
+        //Above is not very useful !
+    }
+    return (*this);
+}
+
+std::string const &Cure::getType() const { return type; }
+
+void    Cure::use(ICharacter &target)
+{
+    std::cout << "* heals " << target.getName() << "’s wounds *" << std::endl;
+}
+Cure *Cure::clone() const
+{
+    Cure *new_cure = new Cure(*this);
+    return (new_cure);
+}
+
+std::ostream    &operator<<(std::ostream &out, Cure const &fixed)
+{
+    out << "Materia : " << fixed.getType();
+    return (out);
+}
