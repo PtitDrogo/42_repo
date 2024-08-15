@@ -14,8 +14,13 @@ public:
     
     //destructors
     ~Cure();
+
+    //overloads
+    Cure& operator=(const Cure& other);
+    
     //getters
     std::string const &getType() const; // Returns the materia type
+    
     //methods
     Cure *clone() const;
     void use(ICharacter &target);

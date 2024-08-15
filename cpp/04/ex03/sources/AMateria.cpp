@@ -21,9 +21,9 @@ std::string const &AMateria::getType() const { return type; }
 
 void    AMateria::use(ICharacter &target)
 {
-    std::cout << "Currently using the target !" << std::endl;
-    //will have to come back later to properly implement it
+    std::cout << "Currently using against the target !" << std::endl;
 }
+
 
 std::ostream    &operator<<(std::ostream &out, AMateria const &fixed)
 {

@@ -14,6 +14,10 @@ public:
     
     //destructors
     ~Ice();
+
+    //overloads
+    Ice& operator=(const Ice& other);
+
     //getters
     std::string const &getType() const; // Returns the materia type
     //methods

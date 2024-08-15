@@ -19,7 +19,7 @@ public:
     ~AMateria();
     
     //getters
-    std::string const &getType() const; // Returns the materia type
+    std::string const &getType() const;
     
     //methods
     virtual AMateria *clone() const = 0;
