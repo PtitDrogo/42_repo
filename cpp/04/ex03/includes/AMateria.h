@@ -5,6 +5,8 @@
 //This is the abstract class
 //it really only has one type
 
+class ICharacter;
+
 class AMateria
 {
 protected:
@@ -16,8 +18,11 @@ public:
     AMateria();
     
     //destructors
-    ~AMateria();
-    
+    virtual ~AMateria(); //DEBUG REMOVE
+
+    //overloads
+    AMateria& operator=(const AMateria& other);
+
     //getters
     std::string const &getType() const;
     

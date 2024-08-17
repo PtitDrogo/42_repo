@@ -7,7 +7,10 @@ class Character : public ICharacter
 private:
     std::string _name;
     AMateria    *_inventory[4];
-    int         last_equip_index;
+    int         _last_equip_index;
+
+    //private methods
+    bool is_already_equipped(AMateria *m);
 public:
     
     //Constructors
@@ -23,7 +26,9 @@ public:
 
     //getters
     std::string const &getName() const;
-    const AMateria* getInventory() const;
+    const AMateria* const *getInventory() const;
+    int getLastEquip() const;
+    
     //inherited methods
     void equip(AMateria *m);
     void unequip(int idx);

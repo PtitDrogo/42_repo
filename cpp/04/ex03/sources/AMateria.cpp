@@ -4,7 +4,10 @@
 AMateria::AMateria() : type("typeless materia") {}
 AMateria::AMateria(std::string const &type) : type(type) {}
 AMateria::AMateria(AMateria const & other) : type(other.getType()) {}
-AMateria::~AMateria() {}
+AMateria::~AMateria() 
+{
+    std::cout << "whats up gang AMateria Destroyer here" << std::endl;
+}
 
 AMateria& AMateria::operator=(const AMateria& other)
 {
@@ -17,11 +20,10 @@ AMateria& AMateria::operator=(const AMateria& other)
 
 std::string const &AMateria::getType() const { return type; }
 
-//Need to implement use
 
 void    AMateria::use(ICharacter &target)
 {
-    std::cout << "Currently using against the target !" << std::endl;
+    std::cout << "Currently using default AMateria against " << target.getName() << std::endl;
 }
 
 

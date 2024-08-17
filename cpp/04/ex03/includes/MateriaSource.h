@@ -6,6 +6,7 @@ class MateriaSource : public IMateriaSource
 {
 private:
     AMateria *_materia_source[4];
+    int     _last_learned_index;
 
 public:
     ~MateriaSource();
@@ -17,12 +18,12 @@ public:
     // overloads
     MateriaSource &operator=(const MateriaSource &other);
     // getters
-    const AMateria *getMateriaSource() const;
+    const AMateria * const *getMateriaSource() const;
+    int getLastLearnedIndex() const;
 
     // inherited methods
     void learnMateria(AMateria *other);
     AMateria *createMateria(std::string const &type);
 };
 
-//useless / impossible to use ?
 std::ostream &operator<<(std::ostream &o, AMateria const &fixed);

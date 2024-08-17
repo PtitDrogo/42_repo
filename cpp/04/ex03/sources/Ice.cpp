@@ -6,14 +6,16 @@
 
 Ice::Ice() : AMateria("ice") {}
 Ice::Ice(Ice const & other) : AMateria(other.getType()) {}
-Ice::~Ice() {}
+Ice::~Ice() 
+{
+    std::cout << "whats up gang Ice Destroyer here" << std::endl;
+}
 
 Ice& Ice::operator=(const Ice& other)
 {
     if (this != &other)
     {
-        // this->type = other.getType();
-        //Above is not very useful !
+        // Do nothing I guess !
     }
     return (*this);
 }

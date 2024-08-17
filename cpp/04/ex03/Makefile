@@ -10,9 +10,11 @@ DEPS	=	$(OBJS:.o=.d)
 
 #---------------------------------Sources---------------------------------#
 SRCS	=		$(SRCS_DIR)/main.cpp \
-				$(SRCS_DIR)/ClassA.cpp \
-				$(SRCS_DIR)/ClassB.cpp
-			
+				$(SRCS_DIR)/AMateria.cpp \
+				$(SRCS_DIR)/Character.cpp \
+				$(SRCS_DIR)/Cure.cpp \
+				$(SRCS_DIR)/Ice.cpp \
+				$(SRCS_DIR)/MateriaSource.cpp \
 #------------------------------------------------------------------------#
 
 #---------------------------------Compilation & Linking---------------------------------#

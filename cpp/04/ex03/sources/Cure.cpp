@@ -6,14 +6,16 @@
 
 Cure::Cure() : AMateria("cure") {}
 Cure::Cure(Cure const & other) : AMateria(other.getType()) {}
-Cure::~Cure() {}
+Cure::~Cure() 
+{
+    std::cout << "whats up gang Ice Cure here" << std::endl;
+}
 
 Cure& Cure::operator=(const Cure& other)
 {
     if (this != &other)
     {
-        // this->type = other.getType();
-        //Above is not very useful !
+        //do nothing !
     }
     return (*this);
 }
