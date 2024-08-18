@@ -20,7 +20,6 @@ AMateria& AMateria::operator=(const AMateria& other)
 
 std::string const &AMateria::getType() const { return type; }
 
-
 void    AMateria::use(ICharacter &target)
 {
     std::cout << "Currently using default AMateria against " << target.getName() << std::endl;

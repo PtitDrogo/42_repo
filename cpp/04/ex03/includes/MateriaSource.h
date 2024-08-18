@@ -6,7 +6,6 @@ class MateriaSource : public IMateriaSource
 {
 private:
     AMateria *_materia_source[4];
-    int     _last_learned_index;
 
 public:
     ~MateriaSource();
@@ -19,7 +18,6 @@ public:
     MateriaSource &operator=(const MateriaSource &other);
     // getters
     const AMateria * const *getMateriaSource() const;
-    int getLastLearnedIndex() const;
 
     // inherited methods
     void learnMateria(AMateria *other);

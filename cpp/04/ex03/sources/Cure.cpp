@@ -1,8 +1,6 @@
 #include "Cure.h"
 #include <iostream>
 
-// There seem to be a need for deep copy but i am not sure what the hell
-// requires copying;
 
 Cure::Cure() : AMateria("cure") {}
 Cure::Cure(Cure const & other) : AMateria(other.getType()) {}
