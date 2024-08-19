@@ -20,10 +20,6 @@ int main()
 
         Ice *Ice_clone  = test_ice.clone(); //this mallocs, its my job to free !
         Cure *Cure_clone  = test_cure.clone(); // This mallocs, its my job to free !
-        //character equipping
-        // ICharacter* me = new Character("me");
-        AMateria* tmp;
-        tmp = src->createMateria("ice");
         //do use test here;
         std::cout << *Ice_clone << std::endl;
         std::cout << *Cure_clone << std::endl;
@@ -56,14 +52,16 @@ int main()
     }
     // Sneaky Tests;
     // {
-    //     IMateriaSource* src = new MateriaSource();
-    //     Ice *new_Ice = new Ice();
+        IMateriaSource* src = new MateriaSource();
+        Ice *new_Ice = new Ice();
 
-    //     src->learnMateria(new_Ice);
-    //     src->learnMateria(NULL);
-    //     // src->learnMateria(new_Ice); //this will crash because of the instant delete;
-    //     delete src;
-        
+        src->learnMateria(new_Ice);
+        src->learnMateria(new_Ice);
+        src->learnMateria(new_Ice);
+        src->learnMateria(new_Ice);
+        src->learnMateria(new_Ice);
+        src->learnMateria(NULL);
+        delete src;  
     // }
     return 0;
 }
