@@ -14,12 +14,14 @@
 //FOR THE REST OF THE AMATERIA IN THE LIST AND NULL THEM
 // WITHOUT DELETE BEFORE !! GENIUS !
 
+#ifndef GC
+#define GC
 typedef struct s_gc
 {
     AMateria *to_free;
     s_gc *next;
 } t_gc;
-
+#endif
 class Character : public ICharacter
 {
 private:
