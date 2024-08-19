@@ -9,6 +9,8 @@ class ICharacter;
 
 class AMateria
 {
+private:
+    bool        _is_equipped;
 protected:
     std::string type;
 public:
@@ -25,6 +27,10 @@ public:
 
     //getters
     std::string const &getType() const;
+    bool getIsEquipped() const;
+
+    //setters
+    void setIsEquipped(bool new_value);
 
     //methods
     virtual AMateria *clone() const = 0;
