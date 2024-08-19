@@ -45,6 +45,7 @@ int main()
         ICharacter* bob = new Character("bob");
         me->use(0, *bob);
         me->use(1, *bob);
+        me->use(3, *bob); //Nothing is equiped here !
         me->equip(tmp);
         delete bob;
         delete me;
