@@ -4,11 +4,17 @@
 // There seem to be a need for deep copy but i am not sure what the hell
 // requires copying;
 
-Ice::Ice() : AMateria("ice") {}
-Ice::Ice(Ice const & other) : AMateria(other.getType()) {}
+Ice::Ice() : AMateria("ice") 
+{
+    // std::cout << "default constructor of ice" << std::endl;
+}
+Ice::Ice(Ice const & other) : AMateria(other.getType()) 
+{
+    // std::cout << "copy constructor of ice" << std::endl;
+}
 Ice::~Ice() 
 {
-    std::cout << "whats up gang Ice Destroyer here" << std::endl;
+    // std::cout << "Ice Destroyer here" << std::endl;
 }
 
 Ice& Ice::operator=(const Ice& other)

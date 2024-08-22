@@ -2,11 +2,17 @@
 #include <iostream>
 
 
-Cure::Cure() : AMateria("cure") {}
-Cure::Cure(Cure const & other) : AMateria(other.getType()) {}
+Cure::Cure() : AMateria("cure") 
+{
+    // std::cout << "Default constructor of Cure" << std::endl;
+}
+Cure::Cure(Cure const & other) : AMateria(other.getType()) 
+{
+    // std::cout << "Copy constructor of Cure" << std::endl;
+}
 Cure::~Cure() 
 {
-    std::cout << "whats up gang Ice Cure here" << std::endl;
+    // std::cout << "Ice Destroyer" << std::endl;
 }
 
 Cure& Cure::operator=(const Cure& other)

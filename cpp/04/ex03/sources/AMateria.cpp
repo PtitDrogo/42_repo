@@ -2,15 +2,22 @@
 #include <iostream>
 
 AMateria::AMateria() : _is_equipped(false), type("typeless materia") {}
-AMateria::AMateria(std::string const &type) : _is_equipped(false), type(type) {}
-AMateria::AMateria(AMateria const & other) : _is_equipped(false), type(other.getType()) {}
+AMateria::AMateria(std::string const &type) : _is_equipped(false), type(type) 
+{
+    // std::cout << "type constructor of amateria" << std::endl;
+}
+AMateria::AMateria(AMateria const & other) : _is_equipped(false), type(other.getType()) 
+{
+    // std::cout << "copy constructor of amateria" << std::endl;
+}
 AMateria::~AMateria() 
 {
-    std::cout << "whats up gang AMateria Destroyer here" << std::endl;
+    // std::cout << "whats up gang AMateria Destroyer here" << std::endl;
 }
 
 AMateria& AMateria::operator=(const AMateria& other)
 {
+    // std::cout << "= of amateria here" << std::endl;
     if (this != &other)
     {
         this->type = other.getType();

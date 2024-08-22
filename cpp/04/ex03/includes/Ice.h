@@ -2,9 +2,6 @@
 #include <iostream>
 #include "AMateria.h"
 
-//This is the abstract class
-//it really only has one type
-
 class Ice : public AMateria
 {
 public:

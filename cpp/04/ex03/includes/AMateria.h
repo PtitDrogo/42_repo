@@ -2,9 +2,6 @@
 #include <iostream>
 #include "ICharacter.h"
 
-// This is the abstract class
-// it really only has one type
-
 class ICharacter;
 
 
