@@ -1,26 +1,26 @@
 #include "Animal.h"
 #include <iostream>
 
-Animal::Animal() : type("no_type") 
+Animal::Animal() : type("no_type")
 {
     std::cout << "Animal Default Constructor" << std::endl;
 }
 
 Animal::Animal(std::string type) : type(type)
 {
-	std::cout << "Animal type constructor called" << std::endl;
+    std::cout << "Animal type constructor called" << std::endl;
 }
 
-Animal::Animal(Animal& other) : type(other.getType())
+Animal::Animal(Animal &other) : type(other.getType())
 {
     std::cout << "Animal copy Constructor" << std::endl;
 }
-Animal::~Animal() 
+Animal::~Animal()
 {
     std::cout << "Animal Destructor" << std::endl;
 }
 
-Animal& Animal::operator=(const Animal& other)
+Animal &Animal::operator=(const Animal &other)
 {
     std::cout << "Animal assignement operator" << std::endl;
     if (this != &other)
@@ -37,8 +37,8 @@ void Animal::makeSound() const
 
 std::string Animal::getType() const { return type; }
 
-std::ostream    &operator<<(std::ostream &out, Animal const &fixed)
+std::ostream &operator<<(std::ostream &out, Animal const &fixed)
 {
-    out << fixed.getType() ;
+    out << fixed.getType();
     return (out);
 }

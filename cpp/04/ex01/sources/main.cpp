@@ -6,8 +6,7 @@
 
 int main()
 {
-    //subject test
-    std::cout << std::endl;
+    std::cout << std::endl << "Subject TEST " << std::endl;
     {    
         const Animal* j = new Dog();
         const Animal* i = new Cat();
@@ -15,8 +14,7 @@ int main()
         delete j;
         delete i;
     }
-    //List of Animals
-    std::cout << std::endl;
+    std::cout << std::endl << "ANIMAL LIST TEST " << std::endl;
     {
         Animal* animals[10];
         
@@ -32,16 +30,14 @@ int main()
             delete animals[i];
         }
     }
-    std::cout << std::endl;
-    // what does a cat think about ?
+    std::cout << std::endl << "What does a cat think about ? " << std::endl;
     {
         Cat* miaousse = new Cat();
         std::cout << "Brain of cat : " << std::endl << *(miaousse->getBrain()) << std::endl;
 
         delete miaousse;
     }
-    std::cout << std::endl;
-    // deep copy test
+    std::cout << std::endl << "Deep Copy test " << std::endl;
    { 
         Dog basic;
         {
@@ -56,8 +52,7 @@ int main()
         std::cout << basic << std::endl;
         std::cout << "Brain address is " << basic.getBrain() << " and its content are " << std::endl << *(basic.getBrain());
     }
-    std::cout << std::endl;
-    // deep copy with pointer test
+    std::cout << std::endl << "Deep Copy test with pointer " << std::endl;
     {
         Cat *catthecat = new Cat();
         {
