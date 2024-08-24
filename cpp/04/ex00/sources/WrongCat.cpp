@@ -6,7 +6,7 @@ WrongCat::WrongCat() : WrongAnimal("WrongCat")
     std::cout << "WrongCat Default Constructor" << std::endl;
 }
 
-WrongCat::WrongCat(WrongCat& other) :  WrongAnimal(other.getType())
+WrongCat::WrongCat(const WrongCat& other) :  WrongAnimal(other.getType())
 {
     std::cout << "WrongCat copy Constructor" << std::endl;
 }
@@ -21,7 +21,7 @@ WrongCat& WrongCat::operator=(const WrongCat& other)
     std::cout << "WrongCat assignement operator" << std::endl;
     if (this != &other)
     {
-        this->type = getType();
+        this->type = other.getType();
     }
     return (*this);
 }

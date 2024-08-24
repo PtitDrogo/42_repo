@@ -10,7 +10,7 @@ public:
     //Constructors
     Animal();
     Animal(std::string type);
-    Animal(Animal& other);
+    Animal(const Animal& other);
     
     //Destructors
     virtual ~Animal();

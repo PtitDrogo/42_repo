@@ -7,7 +7,7 @@ Cat::Cat() : Animal("Cat"), _Brain(new Brain)
     std::cout << "Cat Default Constructor" << std::endl;
 }
 
-Cat::Cat(Cat& other) : Animal(other), _Brain(new Brain)
+Cat::Cat(const Cat& other) : Animal(other), _Brain(new Brain)
 {
     *_Brain = *other._Brain;
     std::cout << "Cat copy Constructor" << std::endl;
@@ -26,7 +26,7 @@ Cat& Cat::operator=(const Cat& other)
         delete _Brain;
         _Brain = new Brain;
         *_Brain = *other._Brain;
-        this->type = getType();
+        this->type = other.getType();
     }
     return (*this);
 }

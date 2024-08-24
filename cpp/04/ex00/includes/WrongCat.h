@@ -6,12 +6,12 @@ class WrongCat : public WrongAnimal
 public:
     //Constructors
     WrongCat();
-    WrongCat(WrongCat& other);
+    WrongCat(const WrongCat& other);
     
     //Destructors
     ~WrongCat();
 
-    //Overloads 
+    //Overloads
     WrongCat& operator=(const WrongCat& other);
 
     //Getters

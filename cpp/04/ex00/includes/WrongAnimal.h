@@ -9,7 +9,7 @@ public:
     //Constructors
     WrongAnimal();
     WrongAnimal(std::string type);
-    WrongAnimal(WrongAnimal& other);
+    WrongAnimal(const WrongAnimal& other);
     
     //Destructors
     ~WrongAnimal();

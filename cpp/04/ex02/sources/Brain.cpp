@@ -11,7 +11,7 @@ Brain::Brain()
     std::cout << "Brain Default Constructor" << std::endl;
 }
 
-Brain::Brain(Brain& other)
+Brain::Brain(const Brain& other)
 {
     for (int i = 0; i < 100; i++) 
     {

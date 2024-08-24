@@ -21,6 +21,17 @@ int main()
         delete j;
         delete i;
     }
+    std::cout << std::endl << "TEST : Canonical form" << std::endl;
+    {
+        const Animal ani = Animal();
+        Animal ani_dog = Dog();
+        Animal new_dog(ani_dog);
+        std::cout << "new_dog type is now = " << ani_dog.getType() << std::endl;
+        std::cout << "ani type is = " << ani.getType() << std::endl;
+        std::cout << "ani_dog type is = " << ani_dog.getType() << std::endl;
+        ani_dog = ani;
+        std::cout << "ani_dog type is now = " << ani_dog.getType() << std::endl;
+    }
     std::cout << std::endl << "TEST : WrongAnimalTest" << std::endl;
     
     {   

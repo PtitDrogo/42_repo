@@ -6,7 +6,7 @@ class Cat : public Animal
 public:
     //Constructors
     Cat();
-    Cat(Cat& other);
+    Cat(const Cat& other);
     
     //Destructors
     ~Cat();

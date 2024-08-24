@@ -9,7 +9,7 @@ private:
 public:
     //Constructors
     Brain();
-    Brain(Brain& other);
+    Brain(const Brain& other);
     
     //Destructors
     virtual ~Brain();

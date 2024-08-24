@@ -11,7 +11,7 @@ Animal::Animal(std::string type) : type(type)
 	std::cout << "Animal type constructor called" << std::endl;
 }
 
-Animal::Animal(Animal& other) : type(other.getType())
+Animal::Animal(const Animal& other) : type(other.getType())
 {
     std::cout << "Animal copy Constructor" << std::endl;
 }
@@ -25,7 +25,7 @@ Animal& Animal::operator=(const Animal& other)
     std::cout << "Animal assignement operator" << std::endl;
     if (this != &other)
     {
-        this->type = getType();
+        this->type = other.getType();
     }
     return (*this);
 }

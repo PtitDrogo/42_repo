@@ -6,7 +6,7 @@ class Dog : public Animal
 public:
     //Constructors
     Dog();
-    Dog(Dog& other);
+    Dog(const Dog& other);
     
     //Destructors
     ~Dog();

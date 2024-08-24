@@ -7,7 +7,7 @@ Dog::Dog() : type("Dog"), _Brain(new Brain)
     std::cout << "Dog Default Constructor" << std::endl;
 }
 
-Dog::Dog(Dog& other) : Animal(), type(other.getType()), _Brain(new Brain)
+Dog::Dog(const Dog& other) : Animal(), type(other.getType()), _Brain(new Brain)
 {
     *_Brain = *other._Brain;
     std::cout << "Dog copy Constructor" << std::endl;
@@ -26,7 +26,7 @@ Dog& Dog::operator=(const Dog& other)
         delete _Brain;
         _Brain = new Brain;
         *_Brain = *other._Brain;
-        this->type = getType();
+        this->type = other.getType();
     }
     return (*this);
 }

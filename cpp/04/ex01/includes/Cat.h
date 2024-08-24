@@ -9,7 +9,7 @@ private:
 public:
     //Constructors
     Cat();
-    Cat(Cat& other);
+    Cat(const Cat& other);
     
     //Destructors
     ~Cat();

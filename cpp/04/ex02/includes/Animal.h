@@ -9,7 +9,7 @@ protected:
 public:
     //Constructors
     Animal();
-    Animal(Animal& other);
+    Animal(const Animal& other);
     
     //Destructors
     virtual ~Animal();
