@@ -43,7 +43,6 @@ void Form::beSigned(const Bureaucrat& Bureaucrat)
 {
     if (Bureaucrat.getGrade() > _grade_sign) //having a bigger grade means its not good enough    
     {    
-        std::cerr << "AAAAAH" << std::endl;
         throw GradeTooLowException();
     }
     else
