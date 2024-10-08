@@ -35,6 +35,6 @@ RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& o
 std::ostream    &operator<<(std::ostream &out, RobotomyRequestForm const &RobotomyRequestForm)
 {
     out << static_cast<const AForm&>(RobotomyRequestForm);
-    out << ", type of form :" << RobotomyRequestForm.getName() << ", target is " << RobotomyRequestForm.getTarget();
+    out << ", Target is " << RobotomyRequestForm.getTarget();
     return (out);
 }

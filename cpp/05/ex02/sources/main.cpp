@@ -53,9 +53,26 @@ int main()
     PRINTERR(steve.executeForm(trees));
     PRINTGOOD(steve.signForm(trees));
     PRINTGOOD(steve.executeForm(trees));
-    std::cout << MAGENTA << "at least Steve has a green thumb" << END << std::endl;
+    std::cout << MAGENTA << "at least Steve has a green thumb" << END << std::endl << std::endl << std::endl;
 
+    //Some canonical Stuff;
+    RobotomyRequestForm roboform2("NEW CLONE ROBO");
+    ShrubberyCreationForm trees2("NEW CLONE SHRUBBERY");
+    PresidentialPardonForm bigform2("NEW CLONE PRESIDENT");
 
+    std::cout << MAGENTA << "Let us check that = works because of that one time it didnt, here are the new contestants :" << END << std::endl;
+    std::cout << YELLOW << roboform2 << std::endl << trees2 << std::endl << bigform2 << END << std::endl ;
+    roboform2 = roboform;
+    trees2 = trees;
+    bigform2 = bigform;
+    std::cout << MAGENTA << "Here they are now as clones of the first OG Forms :" << END << std::endl;
+    std::cout << YELLOW << roboform2 << std::endl << trees2 << std::endl << bigform2 << END << std::endl;
 
+    //Look at this it compiles I love polymorphisme
+    AForm *ptr_form;
+
+    std::cout << MAGENTA << "Polymorphisme working exemple" << END << std::endl;
+    ptr_form = &bigform2;
+    PRINTGOOD(god.executeForm(*ptr_form));
     return 0;
 }
