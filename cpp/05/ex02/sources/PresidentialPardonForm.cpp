@@ -12,8 +12,8 @@ std::string PresidentialPardonForm::getTarget() const {return _target;}
 
 void PresidentialPardonForm::execute(Bureaucrat const & executor) const
 {
-    (void)executor;
     std::cout << "Dear " << _target  << ", you have been pardoned by Zaphod Beeblebrox." << std::endl;
+    std::cout << executor.getName() << " executed form " << (*this).getName() << std::endl;
 }
 PresidentialPardonForm& PresidentialPardonForm::operator=(const PresidentialPardonForm& other)
 {
@@ -28,6 +28,6 @@ PresidentialPardonForm& PresidentialPardonForm::operator=(const PresidentialPard
 std::ostream    &operator<<(std::ostream &out, PresidentialPardonForm const &PresidentialPardonForm)
 {
     out << static_cast<const AForm&>(PresidentialPardonForm);
-    out << ", type of form : PresidentialPardon, target is " << PresidentialPardonForm.getTarget();
+    out << ", Target is " << PresidentialPardonForm.getTarget();
     return (out);
 }

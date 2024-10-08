@@ -53,7 +53,7 @@ void AForm::beSigned(const Bureaucrat& Bureaucrat)
 
 void AForm::checkRightsAndExec(Bureaucrat const & executor) const
 {
-    if (_grade_exec > executor.getGrade())
+    if (_grade_exec < executor.getGrade())
         throw GradeTooLowException();
     else if (_is_signed == false)
         throw FormNotSigned();
