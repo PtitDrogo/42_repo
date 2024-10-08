@@ -1,5 +1,8 @@
 #include "Bureaucrat.h"
 #include "AForm.h"
+#include "PresidentialPardonForm.h"
+#include "ShrubberyCreationForm.h"
+#include "RobotomyRequestForm.h"
 #include <iostream>
 
 #define RED     "\033[1;31m"
@@ -13,5 +16,14 @@
 
 int main()
 {
+    Bureaucrat macron("Macron", 20);   
+    PresidentialPardonForm bigform("Jean");
+    PresidentialPardonForm bigform2("The world");
+    std::cout << bigform << std::endl << bigform2 << std::endl;
+    bigform = bigform2;
+    std::cout << bigform << std::endl << bigform2 << std::endl;
+    macron.signForm(bigform);
+    bigform.execute(macron);
+
     return 0;
 }

@@ -28,6 +28,7 @@ public:
 
     //methods
     void beSigned(const Bureaucrat& Bureaucrat);
+    virtual void execute(Bureaucrat const & executor) = 0; //My beautiful abstract function
 
     //Overloads
     AForm& operator=(const AForm& other);

@@ -12,6 +12,7 @@ DEPS	=	$(OBJS:.o=.d)
 SRCS	=		$(SRCS_DIR)/main.cpp \
 				$(SRCS_DIR)/Bureaucrat.cpp \
 				$(SRCS_DIR)/AForm.cpp \
+				$(SRCS_DIR)/PresidentialPardonForm.cpp \
 #------------------------------------------------------------------------#
 
 #---------------------------------Compilation & Linking---------------------------------#
