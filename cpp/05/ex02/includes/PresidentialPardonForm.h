@@ -23,7 +23,7 @@ public:
     ~PresidentialPardonForm();
 
     //methods 
-    void execute(Bureaucrat const & executor);
+    void execute(Bureaucrat const & executor) const;
 
     //getters
     std::string getTarget() const;

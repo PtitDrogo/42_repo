@@ -10,6 +10,11 @@ PresidentialPardonForm::~PresidentialPardonForm() {}
 
 std::string PresidentialPardonForm::getTarget() const {return _target;}
 
+void PresidentialPardonForm::execute(Bureaucrat const & executor) const
+{
+    (void)executor;
+    std::cout << "Dear " << _target  << ", you have been pardoned by Zaphod Beeblebrox." << std::endl;
+}
 PresidentialPardonForm& PresidentialPardonForm::operator=(const PresidentialPardonForm& other)
 {
     if (this != &other)
@@ -25,8 +30,4 @@ std::ostream    &operator<<(std::ostream &out, PresidentialPardonForm const &Pre
     out << static_cast<const AForm&>(PresidentialPardonForm);
     out << ", type of form : PresidentialPardon, target is " << PresidentialPardonForm.getTarget();
     return (out);
-}
-void PresidentialPardonForm::execute(Bureaucrat const & executor)
-{
-    std::cout << "hi guys this is my parameter bureaucrat" << executor << std::endl;
 }

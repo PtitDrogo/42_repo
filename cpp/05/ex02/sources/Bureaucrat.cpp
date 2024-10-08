@@ -64,6 +64,19 @@ void Bureaucrat::signForm(AForm& form) const
     }
 }
 
+void    Bureaucrat::executeForm(AForm const & form)
+{
+    try
+    {
+        form.checkRightsAndExec(*this);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << *this << " couldn’t execute " << form << " because " << e.what() << std::endl;
+    }
+    
+}
+
 void Bureaucrat::check_grade()
 {
     if (_grade > 150)

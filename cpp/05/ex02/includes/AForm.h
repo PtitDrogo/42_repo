@@ -24,11 +24,12 @@ public:
     AForm(std::string name, int grade_sign, int grade_exec);
     
     //Destructors
-    ~AForm();
+    virtual ~AForm();
 
     //methods
     void beSigned(const Bureaucrat& Bureaucrat);
-    virtual void execute(Bureaucrat const & executor) = 0; //My beautiful abstract function
+    void checkRightsAndExec(Bureaucrat const & executor) const ;
+    virtual void execute(Bureaucrat const & executor) const = 0; //My beautiful abstract function
 
     //Overloads
     AForm& operator=(const AForm& other);
@@ -47,6 +48,11 @@ public:
 	};
 
     class GradeTooLowException : public std::exception
+	{
+	public:
+		virtual const char *what() const throw();
+	};
+    class FormNotSigned : public std::exception
 	{
 	public:
 		virtual const char *what() const throw();
