@@ -25,6 +25,13 @@ public:
     //methods 
     void execute(Bureaucrat const & executor) const;
 
+    //new custom error
+    class IOError : public std::exception
+	{
+	public:
+		virtual const char *what() const throw();
+	};
+
     //getters
     std::string getTarget() const;
     //Overloads

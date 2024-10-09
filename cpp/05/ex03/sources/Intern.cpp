@@ -16,8 +16,8 @@ Intern::~Intern() {}
 
 //methods
     AForm *Intern::makePresidentialForm(std::string target) const {return (new PresidentialPardonForm(target));}
-    AForm *Intern::makeRobotomyForm(std::string target) const {return (new PresidentialPardonForm(target));}
-    AForm *Intern::makeShrubberyForm(std::string target) const {return (new PresidentialPardonForm(target));}
+    AForm *Intern::makeRobotomyForm(std::string target) const {return (new RobotomyRequestForm(target));}
+    AForm *Intern::makeShrubberyForm(std::string target) const {return (new ShrubberyCreationForm(target));}
 
 AForm *Intern::makeForm(const std::string &formName, const std::string &formTarget) const
 { 
@@ -29,7 +29,6 @@ AForm *Intern::makeForm(const std::string &formName, const std::string &formTarg
         {
             if (possibles_forms[i] == formName)
             {
-                std::cout << possibles_forms[i] << " == " << formName << std::endl;
                 std::cout << "Intern creates " << formName << std::endl;
                 return (this->*internFunctions[i])(formTarget);
             }

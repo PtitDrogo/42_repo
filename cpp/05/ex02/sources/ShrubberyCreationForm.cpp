@@ -23,10 +23,17 @@ void ShrubberyCreationForm::execute(Bureaucrat const & executor) const
 };
     std::ofstream outFile((_target + "_shrubbery").c_str());
     
-    if (!outFile.is_open()) {
-        std::cerr << "Failed to open file. No trees for you" << std::endl;
+    try 
+    {
+        if (!outFile.is_open()) 
+            throw IOError();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error execute shrubbery form because : "<< e.what() << std::endl;
         return ;
     }
+    
     for (int i = 0; i < 6; ++i) {
         outFile << trees[i] << std::endl;
     }
@@ -42,6 +49,8 @@ ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationF
     }
     return (*this);
 }
+//error
+const char *ShrubberyCreationForm::IOError::what(void) const throw()  {return ("Error opening the target file");};
 
 std::ostream    &operator<<(std::ostream &out, ShrubberyCreationForm const &ShrubberyCreationForm)
 {

@@ -25,14 +25,14 @@ int main()
     AForm *current_form;
 
     
-    std::cout << MAGENTA << "Hello, my interns will now do some Forms !" << END << std::endl;
+    std::cout << MAGENTA << "Hello, my interns will now do some Forms !" << END << std::endl << std::endl;
     
     //Failed Form
     std::cout << RED;
     current_form = James.makeForm("Epic Form Free Style", "My Dog");
     std::cout << END;
     if (current_form)
-        std::cout << YELLOW << *current_form << END << std::endl;
+        std::cout << YELLOW << *current_form << END << std::endl << std::endl;
     delete (current_form);
     
     //Robot form
@@ -40,7 +40,7 @@ int main()
     current_form = James.makeForm("RobotomyRequestForm", "My cat fan or robots");
     std::cout << END;
     if (current_form)
-        std::cout << YELLOW << *current_form << END << std::endl;
+        std::cout << YELLOW << *current_form << END << std::endl << std::endl;
     delete (current_form);
     
     //President Form
@@ -48,7 +48,7 @@ int main()
     current_form = James.makeForm("PresidentialPardonForm", "My cat fan or robots");
     std::cout << END;
     if (current_form)
-        std::cout << YELLOW << *current_form << END << std::endl;
+        std::cout << YELLOW << *current_form << END << std::endl << std::endl;
     delete (current_form);
     
     
@@ -57,7 +57,7 @@ int main()
     current_form = James.makeForm("ShrubberyCreationForm", "My cat fan or robots");
     std::cout << END;
     if (current_form)
-        std::cout << YELLOW << *current_form << END << std::endl;
+        std::cout << YELLOW << *current_form << END << std::endl << std::endl;
     delete (current_form);
     return 0;
 }
