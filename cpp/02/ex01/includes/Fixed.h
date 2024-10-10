@@ -10,7 +10,7 @@ class Fixed
 {
 private:
     int _number;
-    static const int _precision = 8;
+    static const int _precision = 1;
 
 public:
     
