@@ -9,6 +9,7 @@ private:
     //Constructors
     ScalarConverter();
     ScalarConverter(ScalarConverter& other);
+    
     //Destructors
     ~ScalarConverter();
 public:
