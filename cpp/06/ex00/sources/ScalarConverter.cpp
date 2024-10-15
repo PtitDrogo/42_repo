@@ -1,59 +1,190 @@
 #include "ScalarConverter.h"
 #include <iostream>
-#include <sstream> 
+#include <cstdlib>
 
-enum type {
-    INT,
+
+//Structs
+enum e_type {
     CHAR,
+    INT,
     FLOAT,
     DOUBLE,
+    NONE,
 };
 
+typedef struct s_char_bools {
+    bool has_dot;
+    bool has_f;
+    bool has_plus;
+    bool has_minus;
+} t_bools;
 
-static type identifyType(const std::string literal)
+typedef struct s_outputs {
+    int    i;
+    char   c;
+    float  f;
+    double d;
+} t_out;
+
+//prototypes
+static e_type   identifyType(const std::string literal, const t_bools &bools);
+static void     convertTime(const std::string literal, e_type type);
+static bool     isPossiblyViableString(const std::string literal, t_bools &bools);
+static void     printOutput(t_out vars);
+
+
+//method
+void ScalarConverter::convert(const std::string literal)
 {
-    //42.0f is a float;
-    //42.0 is a double;
-    //42 is an int
-
-    //the only non numbers characters that are possible are |+|-|f|.|
-    //all of these can have one + or one - at the start, not more;
-    //must always be at the end for it to be considered a float;
-    //there must only be one .
+    std::string result;
+    t_bools     bools = {};
+    e_type        type;
     
-    //LETS CHECK IF THE LAST CHARACTER IS f, if not, it cant be a float;
-    // 
-
-    //First lets scan if there is any non wanted character;
-    for (int i = 0; i < literal.size(); i++)
+    if (!isPossiblyViableString(literal, bools))
     {
-        
-
+        std::cout << "Cant convert this shit gotta reread subject to know what to write" << std::endl;
+        return ;
     }
-
-
-    if (literal.size() == 1 && literal[0] >= 32 && literal[0] <= 126)
+    type = identifyType(literal, bools);
+    if (type == NONE)
     {
-        return (CHAR); //this will make 0 to 9 count as char, such is life gotta pick one;        
+        std::cout << "Cant convert this shit gotta reread subject to know what to write" << std::endl;
+        return ;
     }
-    else if (literal[literal.size() - 1] == 'f')
-    {
-        //Do check for numbers
+    // std::cout << type << std::endl;
+    convertTime(literal, type);
 
+    return ;
+}
+
+//helper functions
+static bool    isPossiblyViableString(const std::string literal, t_bools &bools)
+{
+    int  strlen = literal.length();
+    const std::string set = ".f-+";
+
+    if (strlen == 1)
+    {
+        if (literal[0] < 0 || literal[0] > 127)
+            return false;
+        return true;
     }
-    else if ()
+    for (int i = 0; i < strlen; i++)
     {
-
+        if (literal[i] == 'f')
+        {
+            if (bools.has_f)
+                return false;
+            bools.has_f = true;
+        }
+        else if (literal[i] == '.')
+        {
+            if (bools.has_dot)
+                return false;
+            bools.has_dot = true;
+        }
+        else if (literal[i] == '+')
+        {
+            if (bools.has_plus)
+                return false;
+            bools.has_plus = true;
+        }
+        else if (literal[i] == '-')
+        {
+            if (bools.has_minus)
+                return false;
+            bools.has_minus = true;
+        }
+        bool is_invalid_char = !std::isdigit((literal[i])) && set.find(literal[i]) == std::string::npos;
+        if (is_invalid_char)
+            return false;
     }
-    else if ()
-    {
+    return true;
+}
 
+//I want to convert the data, then I call a function that will print that data and print all 3 other data type 
+//with a cast
+static void convertTime(const std::string literal, e_type type)
+{
+    t_out vars;
+    
+    switch (type)
+    {
+    case INT:
+        vars.i = std::atoi(literal.c_str());
+        vars.c = static_cast<char>(vars.i);
+        vars.f = static_cast<float>(vars.i);
+        vars.d = static_cast<double>(vars.i);
+        printOutput(vars);
+        break;
+    case CHAR:
+        std::cout << "I WILL COME BACK TO THIS" << std::endl; //Extremely annoying because the input has to be taken has the decimal value and we print said decimal value char equivalent
+        break;
+    case FLOAT:
+        vars.f = strtof(literal.c_str(), NULL);
+        vars.i = static_cast<int>(vars.f);
+        vars.c = static_cast<char>(vars.f);
+        vars.d = static_cast<double>(vars.f);
+        printOutput(vars);
+        break;
+    case DOUBLE:
+        vars.d = strtod(literal.c_str(), NULL);
+        vars.f = static_cast<float>(vars.d);
+        vars.i = static_cast<int>(vars.d);
+        vars.c = static_cast<char>(vars.d);
+        printOutput(vars);
+        break;
+    default:
+        break;
+    }
+    return ;
+}
+
+static void printOutput(t_out vars)
+{
+    std::cout << vars.i << std::endl;
+    if (vars.i < 32 || vars.i > 128)
+    {
+        if (vars.i < 0 || vars.i == 128)
+            std::cout << "Non displayable" << std::endl;
+        else
+            std::cout << "Impossible" << std::endl;
+    }
+    else
+        std::cout << vars.c << std::endl;
+    // std::cout <<"DEBUG : "<< vars.f << std::endl;
+    // std::cout <<"DEBUG : "<< static_cast<int>(vars.f) << std::endl;
+    if (vars.f == static_cast<int>(vars.f)) //Check if there is even something after the dot.
+    {
+        std::cout << vars.f << ".0f" << std::endl;
+        std::cout << vars.d << ".0" << std::endl;
     }
     else
     {
-        std::cout << "wtf" << std::endl;
+        std::cout << vars.f << "f" << std::endl;
+        std::cout << vars.d << std::endl;
     }
+}
 
+static e_type identifyType(const std::string literal, const t_bools &bools)
+{
+    if (literal.size() == 0)
+        return NONE;
+    if (bools.has_plus == true)
+    {
+        if (literal[0] != '+')
+            return NONE;
+    }
+    if (bools.has_minus == true)
+    {
+        if (literal[0] != '-')
+            return NONE;
+    }
+    if (literal.size() == 1) {return (CHAR);}
+    else if (!bools.has_dot && !bools.has_f) {return INT;}
+    else if (literal[literal.size() - 1] == 'f') {return FLOAT;}
+    else if (bools.has_dot) {return DOUBLE;}
+    return(NONE);
 
 }
 
@@ -70,19 +201,6 @@ ScalarConverter& ScalarConverter::operator=(const ScalarConverter& other)
     return (*this);
 }
 
-void ScalarConverter::convert(const std::string literal)
-{
-    std::stringstream ss;
-    std::string result;
-
-    int     i;
-    float   f;
-    double  d;
-    char    c;
-
-    std::cout << result << std::endl;
-    return ;
-}
 
 std::ostream    &operator<<(std::ostream &out, ScalarConverter const &fixed)
 {
