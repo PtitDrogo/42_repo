@@ -3,13 +3,13 @@
 int main(int argc, char const *argv[])
 {
     float test;
-    char test2;
-    test = 42000000.5;
+    float test2;
+    test = 420000.5f;
 
-    test2 = static_cast<char>(test);
+    test2 = test / 1;
     std::cout << test << std::endl;
     std::cout << test2 << std::endl;
-    std::cout << static_cast<int>(test2) << std::endl;
+    // std::cout << static_cast<int>(test2) << std::endl;
     // test = .5;
     return 0;
 }

@@ -4,7 +4,7 @@
 #include <cerrno>
 #include <limits.h>
 #include <limits>
-
+#include <cmath> 
 
 //Structs
 enum e_type {
@@ -30,10 +30,15 @@ typedef struct s_outputs {
 } t_out;
 
 //prototypes
-static e_type   identifyType(const std::string literal, const t_bools &bools);
-static void     convertTime(const std::string literal, e_type type);
-static bool     isPossiblyViableString(const std::string literal, t_bools &bools);
+static bool     isForFunliterals(const std::string& literal);
+static e_type   identifyType(const std::string &literal, const t_bools &bools);
+static void     convertTime(const std::string &literal, e_type type);
+static bool     isPossiblyViableString(const std::string& literal, t_bools &bools);
 static void     printOutput(t_out vars);
+static void     printChar(t_out vars);
+static void     printInt(t_out vars);
+static void     printFloat(t_out vars);
+static void     printDouble(t_out vars);
 
 
 //method
@@ -43,25 +48,60 @@ void ScalarConverter::convert(const std::string literal)
     t_bools     bools = {};
     e_type        type;
     
+    if (isForFunliterals(literal) == true)
+        return ;
     if (!isPossiblyViableString(literal, bools))
     {
-        std::cout << "Cant convert this shit gotta reread subject to know what to write" << std::endl;
+        std::cout << "Cannot convert string" << std::endl;
         return ;
     }
     type = identifyType(literal, bools);
+    std::cout << type << std::endl;
     if (type == NONE)
     {
-        std::cout << "Cant convert this shit gotta reread subject to know what to write" << std::endl;
+        std::cout << "Cannot convert string" << std::endl;
         return ;
     }
-    // std::cout << type << std::endl;
     convertTime(literal, type);
 
     return ;
 }
 
 //helper functions
-static bool    isPossiblyViableString(const std::string literal, t_bools &bools)
+
+static bool isForFunliterals(const std::string& literal)
+{
+    static const char *const funliterals[] = {"+inf", "-inf", "+inff", "-inff", "nan", NULL};
+    int i = 0;
+    
+    for (i = 0; i < 5; i++)
+    {
+        if (literal == funliterals[i])
+            break;
+    }
+    if (i == 5)
+        return false;
+    std::cout << "char: impossible" << std::endl;
+    std::cout << "int: impossible" << std::endl;
+    if (literal == "+inff" || literal == "+inf")
+    {
+        std::cout << "float: +inff" << std::endl;
+        std::cout << "double: +inf" << std::endl;
+    }
+    else if (literal == "-inff" || literal == "-inf")
+    {
+        std::cout << "float: -inff" << std::endl;
+        std::cout << "double: -inf" << std::endl;
+    }
+    else if (literal == "nan")
+    {
+        std::cout << "float: nanf" << std::endl;
+        std::cout << "double: nan" << std::endl;
+    }
+    return true;
+}
+
+static bool    isPossiblyViableString(const std::string& literal, t_bools &bools)
 {
     int  strlen = literal.length();
     const std::string set = ".f-+";
@@ -105,8 +145,28 @@ static bool    isPossiblyViableString(const std::string literal, t_bools &bools)
     return true;
 }
 
+static e_type identifyType(const std::string &literal, const t_bools &bools)
+{
+    if (literal.size() == 0)
+        return NONE;
+    if (bools.has_plus == true)
+    {
+        if (literal[0] != '+')
+            return NONE;
+    }
+    if (bools.has_minus == true)
+    {
+        if (literal[0] != '-')
+            return NONE;
+    }
+    if (literal.size() == 1) {return (CHAR);}
+    else if (!bools.has_dot && !bools.has_f) {return INT;}
+    else if (literal[literal.size() - 1] == 'f') {return FLOAT;}
+    else if (bools.has_dot && !bools.has_f) {return DOUBLE;}
+    return(NONE);
+}
 
-static void convertTime(const std::string literal, e_type type)
+static void convertTime(const std::string &literal, e_type type)
 {
     t_out vars;
     
@@ -160,6 +220,14 @@ static void printOutput(t_out vars)
         std::cout << "double: impossible" << std::endl;
         return ;
     }
+    printChar(vars);
+    printInt(vars);
+    printFloat(vars);
+    printDouble(vars);
+}
+
+static void     printChar(t_out vars)
+{
     std::cout << "char: ";
     if (vars.i < 32 || vars.i > 128)
     {
@@ -170,44 +238,30 @@ static void printOutput(t_out vars)
     }
     else
         std::cout << vars.c << std::endl;
-
+}
+static void     printInt(t_out vars)
+{
     if (vars.d > INT_MAX || vars.d < INT_MIN)
         std::cout << "int: impossible" << std::endl;
     else
         std::cout << "int: " << vars.i << std::endl;
-    if (vars.f == static_cast<int>(vars.f)) //Check if there is even something after the dot.
-    {
-        //need to check for overflow of float (from double ig);
-        std::cout << "float: " << vars.f << ".0f" << std::endl;
-        std::cout << "double: " << vars.d << ".0" << std::endl;
-    }
-    else
-    {
-        std::cout << "float: " << vars.f << "f" << std::endl;
-        std::cout << "double: " << vars.d << std::endl;
-    }
 }
-
-static e_type identifyType(const std::string literal, const t_bools &bools)
+static void     printFloat(t_out vars)
 {
-    if (literal.size() == 0)
-        return NONE;
-    if (bools.has_plus == true)
-    {
-        if (literal[0] != '+')
-            return NONE;
-    }
-    if (bools.has_minus == true)
-    {
-        if (literal[0] != '-')
-            return NONE;
-    }
-    if (literal.size() == 1) {return (CHAR);}
-    else if (!bools.has_dot && !bools.has_f) {return INT;}
-    else if (literal[literal.size() - 1] == 'f') {return FLOAT;}
-    else if (bools.has_dot) {return DOUBLE;}
-    return(NONE);
+    if (vars.d > std::numeric_limits<float>::max() || vars.d < std::numeric_limits<float>::min())
+        std::cout << "float: impossible" << std::endl;
+    else if (std::fmod(vars.f, 1.0) == 0.0) //Check if there is even something after the dot.
+        std::cout << "float: " << vars.f << ".0f" << std::endl;
+    else
+        std::cout << "float: " << vars.f << "f" << std::endl;
 
+}
+static void     printDouble(t_out vars)
+{
+    if (std::fmod(vars.d, 1.0) == 0.0)
+        std::cout << "double: " << vars.d << ".0" << std::endl;
+    else
+        std::cout << "double: " << vars.d << std::endl;
 }
 
 ScalarConverter::ScalarConverter() {}
