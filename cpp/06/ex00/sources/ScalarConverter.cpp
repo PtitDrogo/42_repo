@@ -1,6 +1,9 @@
 #include "ScalarConverter.h"
 #include <iostream>
 #include <cstdlib>
+#include <cerrno>
+#include <limits.h>
+#include <limits>
 
 
 //Structs
@@ -102,67 +105,86 @@ static bool    isPossiblyViableString(const std::string literal, t_bools &bools)
     return true;
 }
 
-//I want to convert the data, then I call a function that will print that data and print all 3 other data type 
-//with a cast
+
 static void convertTime(const std::string literal, e_type type)
 {
     t_out vars;
     
+    errno = 0;
     switch (type)
     {
     case INT:
+    {
+        long tmp = strtol(literal.c_str(), NULL, 10);
+        if (tmp > INT_MAX || tmp < INT_MIN)
+            errno = ERANGE; //Doing this because atoi doesnt have overflow detection;
         vars.i = std::atoi(literal.c_str());
         vars.c = static_cast<char>(vars.i);
         vars.f = static_cast<float>(vars.i);
         vars.d = static_cast<double>(vars.i);
-        printOutput(vars);
         break;
+    }
     case CHAR:
-        std::cout << "I WILL COME BACK TO THIS" << std::endl; //Extremely annoying because the input has to be taken has the decimal value and we print said decimal value char equivalent
+        vars.c = static_cast<char>(literal[0]);
+        vars.f = static_cast<float>(vars.c);
+        vars.d = static_cast<double>(vars.c);
+        vars.i = static_cast<int>(vars.c);
         break;
     case FLOAT:
         vars.f = strtof(literal.c_str(), NULL);
         vars.i = static_cast<int>(vars.f);
         vars.c = static_cast<char>(vars.f);
         vars.d = static_cast<double>(vars.f);
-        printOutput(vars);
         break;
     case DOUBLE:
         vars.d = strtod(literal.c_str(), NULL);
         vars.f = static_cast<float>(vars.d);
         vars.i = static_cast<int>(vars.d);
         vars.c = static_cast<char>(vars.d);
-        printOutput(vars);
         break;
     default:
         break;
     }
+    printOutput(vars);
     return ;
 }
 
 static void printOutput(t_out vars)
 {
-    std::cout << vars.i << std::endl;
+    if (errno == ERANGE)
+    {
+        //the idea being that even if i get an overflow from the main type, all other casting would be meaningless
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: impossible" << std::endl;
+        std::cout << "double: impossible" << std::endl;
+        return ;
+    }
+    std::cout << "char: ";
     if (vars.i < 32 || vars.i > 128)
     {
-        if (vars.i < 0 || vars.i == 128)
-            std::cout << "Non displayable" << std::endl;
-        else
+        if (vars.i < 0 || vars.i > 128)
             std::cout << "Impossible" << std::endl;
+        else
+            std::cout << "Non displayable" << std::endl;
     }
     else
         std::cout << vars.c << std::endl;
-    // std::cout <<"DEBUG : "<< vars.f << std::endl;
-    // std::cout <<"DEBUG : "<< static_cast<int>(vars.f) << std::endl;
+
+    if (vars.d > INT_MAX || vars.d < INT_MIN)
+        std::cout << "int: impossible" << std::endl;
+    else
+        std::cout << "int: " << vars.i << std::endl;
     if (vars.f == static_cast<int>(vars.f)) //Check if there is even something after the dot.
     {
-        std::cout << vars.f << ".0f" << std::endl;
-        std::cout << vars.d << ".0" << std::endl;
+        //need to check for overflow of float (from double ig);
+        std::cout << "float: " << vars.f << ".0f" << std::endl;
+        std::cout << "double: " << vars.d << ".0" << std::endl;
     }
     else
     {
-        std::cout << vars.f << "f" << std::endl;
-        std::cout << vars.d << std::endl;
+        std::cout << "float: " << vars.f << "f" << std::endl;
+        std::cout << "double: " << vars.d << std::endl;
     }
 }
 

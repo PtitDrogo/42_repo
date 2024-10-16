@@ -1,9 +1,11 @@
 #include "ScalarConverter.h"
 #include <iostream>
 
-int main()
+int main(int argc, char const *argv[])
 {
     std::string result;
+    if (argc == 2)
+        ScalarConverter::convert(argv[1]);
     // ScalarConverter::convert("Y");
     // ScalarConverter::convert("+");
     // ScalarConverter::convert("-");
@@ -21,6 +23,9 @@ int main()
     // ScalarConverter::convert("42.");
     // ScalarConverter::convert("+");
     // ScalarConverter::convert("-");
-    ScalarConverter::convert("12312311111");
+    ScalarConverter::convert(argv[1]);
+    ScalarConverter::convert("111111111111111111111111111111111111111.2f"); //MAX FLOAT
+    ScalarConverter::convert("123112312312.31232311111f");
     return 0;
 }
+
