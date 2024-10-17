@@ -19,4 +19,28 @@ public:
 };
 
 std::ostream    &operator<<(std::ostream &o, ScalarConverter const &fixed);
+
+//Structs
+enum e_type {
+    CHAR,
+    INT,
+    FLOAT,
+    DOUBLE,
+    NONE,
+};
+
+typedef struct s_char_bools {
+    bool has_dot;
+    bool has_f;
+    bool has_plus;
+    bool has_minus;
+} t_bools;
+
+typedef struct s_outputs {
+    int    i;
+    char   c;
+    float  f;
+    double d;
+} t_out;
+
 #endif

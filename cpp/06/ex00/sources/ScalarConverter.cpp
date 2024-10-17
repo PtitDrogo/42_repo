@@ -6,29 +6,6 @@
 #include <limits>
 #include <cmath> 
 
-//Structs
-enum e_type {
-    CHAR,
-    INT,
-    FLOAT,
-    DOUBLE,
-    NONE,
-};
-
-typedef struct s_char_bools {
-    bool has_dot;
-    bool has_f;
-    bool has_plus;
-    bool has_minus;
-} t_bools;
-
-typedef struct s_outputs {
-    int    i;
-    char   c;
-    float  f;
-    double d;
-} t_out;
-
 //prototypes
 static bool     isForFunliterals(const std::string& literal);
 static e_type   identifyType(const std::string &literal, const t_bools &bools);
@@ -48,6 +25,12 @@ void ScalarConverter::convert(const std::string literal)
     t_bools     bools = {};
     e_type        type;
     
+    //Uncomment this for smoother evaluation;
+    // if (literal.length() > 1000)
+    //     std::cout << std::endl << "String : REALLY BIG NUMBER" << std::endl;
+    // else
+    //     std::cout << std::endl << "String : " << literal << std::endl;
+    
     if (isForFunliterals(literal) == true)
         return ;
     if (!isPossiblyViableString(literal, bools))
@@ -56,7 +39,6 @@ void ScalarConverter::convert(const std::string literal)
         return ;
     }
     type = identifyType(literal, bools);
-    std::cout << type << std::endl;
     if (type == NONE)
     {
         std::cout << "Cannot convert string" << std::endl;
@@ -248,7 +230,7 @@ static void     printInt(t_out vars)
 }
 static void     printFloat(t_out vars)
 {
-    if (vars.d > std::numeric_limits<float>::max() || vars.d < std::numeric_limits<float>::min())
+    if (vars.d > std::numeric_limits<float>::max() || vars.d < -std::numeric_limits<float>::max())
         std::cout << "float: impossible" << std::endl;
     else if (std::fmod(vars.f, 1.0) == 0.0) //Check if there is even something after the dot.
         std::cout << "float: " << vars.f << ".0f" << std::endl;
