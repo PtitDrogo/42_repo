@@ -5,13 +5,7 @@
 # include <algorithm>
 
 template <typename T>
-int easyFind(T& array, int to_find);
-
-class IndexNotFound : public std::exception
-{
-public:    
-    virtual const char *what() const throw();
-};
+typename T::iterator easyFind(T& array, int to_find);
 
 
 #include "easyfind.tpp"
