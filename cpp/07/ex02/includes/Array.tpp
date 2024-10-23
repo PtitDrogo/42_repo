@@ -13,7 +13,7 @@ Array<T>::Array(const Array& other) : _array(new T[other.size()]), _size(other.s
 {
     for (unsigned int i = 0; i < _size; i++)
     {
-        _array[i] = other[i]; //doute
+        _array[i] = other[i];
     }
 }
 
@@ -22,29 +22,25 @@ Array<T>::Array(unsigned int n) : _array(new T[n]), _size(n)
 {
     for (unsigned int i = 0; i < _size; i++)
     {
-        _array[i] = 0; //doute
+        _array[i] = T();
     }
 }
 
 template <typename T>
 Array<T>::~Array()
 {
-    for (unsigned int i = 0; i < _size; i++)
-    {
-        delete _array[i];
-    }
-    //do i need to set the inside of the array to NULL ?
+    delete[] _array;
 }
 
 
 //getters
 template <typename T> unsigned int Array<T>::size() const {return (_size);}
-template <typename T> const T* Array<T>::getArray() const {return (_array);}
+template <typename T> T* Array<T>::getFirstElem() const {return (_array);}
 
 template <typename T>
-T& Array<T>::operator[](unsigned int index)
+T& Array<T>::operator[](unsigned int index) const
 {
-    if (index > _size)
+    if (index >= _size)
         throw InvalidIndexException();
     return (_array[index]);
 }
@@ -52,16 +48,14 @@ T& Array<T>::operator[](unsigned int index)
 template <typename T>
 Array<T>& Array<T>::operator=(const Array& other)
 {
-    for (unsigned int i = 0; i < _size; i++)
-    {
-        delete _array[i];
-    }
+    delete[] _array;
     _size = other.size();
     _array = new T[_size];
     for (unsigned int i = 0; i < _size; i++)
     {
         _array[i] = other[i];
     }
+    return (*this);
 }
 
 template< typename T >

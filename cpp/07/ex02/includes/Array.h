@@ -8,6 +8,8 @@ template <class T> class Array
 private:
     T*           _array;
     unsigned int _size;
+    //Getters
+
 public:
     //Constructors
     Array();
@@ -19,13 +21,12 @@ public:
 
     //Overloads
     Array& operator=(const Array& other);
-    T& operator[](unsigned int index);
+    T& operator[](unsigned int index) const;
 
-    //Getters
-    const T*     getArray() const;
 
     //Method
     unsigned int size() const;
+    T*     getFirstElem() const;
     
     class	InvalidIndexException : public std::exception
     {

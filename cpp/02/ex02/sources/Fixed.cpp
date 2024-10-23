@@ -142,7 +142,7 @@ Fixed Fixed::operator-(const Fixed &other) const
 Fixed Fixed::operator*(const Fixed &other) const
 {
     long int x = _number;
-    x *= other._number;
+    x *= other._number; 
     x >>= _precision;
     Fixed result;
     result.setRawBits(x);
