@@ -32,7 +32,7 @@ void Span::addNumber(const int n)
 void Span::addManyNumbers(const std::vector<int>& numbers)
 {
     if (_span.size() + numbers.size() > _span.capacity())
-        throw SizeTooSmallError();
+        throw NewVectorTooBigError();
     std::cout << "I am the add many numbers function, you see me once, but I am adding " << numbers.size() << "numbers !" << std::endl;
     _span.insert(_span.end(), numbers.begin(), numbers.end());
 }

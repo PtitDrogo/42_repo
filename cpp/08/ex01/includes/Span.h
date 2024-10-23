@@ -43,7 +43,7 @@ class TooSmallSizeError : public std::exception
     }
 };
 
-class SizeTooSmallError : public std::exception
+class NewVectorTooBigError : public std::exception
 {
     virtual const char *what() const throw()
     {

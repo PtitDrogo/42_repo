@@ -29,8 +29,18 @@ int main()
     std::cout << "my span is : "; 
     myspan.printSpan();
 
-    std::cout << "shortest Span is : " << myspan.shortestSpan() << std::endl;
-    std::cout << "longest Span is : "<< myspan.longestSpan() << std::endl;
+    try {
+       std::cout << "shortest Span is : " << myspan.shortestSpan() << std::endl;
+    }
+    catch(const std::exception& e) {
+        std::cerr << RED << e.what() << END << std::endl;
+    }
+    try {
+       std::cout << "longest Span is : "<< myspan.longestSpan() << std::endl;
+    }
+    catch(const std::exception& e) {
+        std::cerr << RED << e.what() << END << std::endl;
+    }
     
     std::cout << MAGENTA << std::endl << "Time to test my methods on invalid Spans" << END << std::endl;
     
@@ -129,9 +139,18 @@ int main()
     // }
     // std::cout << END;
     // big_span.printSpan();
-    // std::cout << "shortest Span is : " << big_span.shortestSpan() << std::endl;
-    // std::cout << "longest Span is : "<< big_span.longestSpan() << std::endl;
-
+    // try {
+    //     std::cout << "shortest Span is : " << big_span.shortestSpan() << std::endl;
+    // }
+    // catch(const std::exception& e) {
+    //     std::cerr << RED << e.what() << END << std::endl;
+    // }
+    // try {
+    //     std::cout << "longest Span is : "<< big_span.longestSpan() << std::endl;
+    // }
+    // catch(const std::exception& e) {
+    //     std::cerr << RED << e.what() << END << std::endl;
+    // }
     return 0;
 }
 
