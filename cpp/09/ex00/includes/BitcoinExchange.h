@@ -5,6 +5,10 @@
 #include <fstream>
 #include <map>
 #include <cstdlib>
+#include <cctype>
+#include <cstring>
+#include <cerrno>
+#include <limits.h>
 
 class BitcoinExchange
 {
@@ -12,10 +16,15 @@ private:
     std::map<std::string, double> database;
 
     //methods
-    bool    isInputFileValid(const char *filename);
     void    fillMap();
+    bool    isInputTextLineValid(const std::string& line) const;
 
 public:
+
+    //methods
+    void    exchangeBitcoin(const char *filename) const;
+    
+    
     //Constructors
     BitcoinExchange();
     BitcoinExchange(BitcoinExchange& other);

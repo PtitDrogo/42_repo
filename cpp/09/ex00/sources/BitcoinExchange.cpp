@@ -18,33 +18,68 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other)
 }
 
 //Methods
-bool BitcoinExchange::isInputFileValid(const char *filename)
+void BitcoinExchange::exchangeBitcoin(const char *filename) const
 {
     std::ifstream ifs;
 
     ifs.open(filename);
-
     if (ifs.is_open() == false)
     {
         std::cerr << "Error: could not open file." << std::endl;
-        return false;
+        return ;
     }
 
     std::string line;
-    std::string pair[2];
-    std::string::size_type pos;
 
     while (std::getline(ifs, line))
     {
-        pos = line.find(',');
-        pair[0] = line.substr(0, pos);
-        pair[1] = line.substr(pos + 1);
-        //add this shit to my map;
-        database.insert(std::make_pair(pair[0], strtod(pair[1].c_str(), NULL)));
+        //Evaluate if theres a syntax error;
+        isInputTextLineValid(line);
+        //if not, do math, and print said math;
+    }
+}
+
+bool BitcoinExchange::isInputTextLineValid(const std::string& line) const 
+{
+    int i;
+
+    if (line.length() < strlen("XXXX-XX-XX | X"))
+    {
+            std::cerr << "5Error: bad input => " << line << std::endl;
+            return false;
+    }
+    //Poor man Regex
+    if (!isdigit(line[0]) || !isdigit(line[1]) || !isdigit(line[2]) || !isdigit(line[3]) 
+        || line[4] != '-' || !isdigit(line[5]) || !isdigit(line[6]) || line[7] != '-'
+        || !isdigit(line[8]) || !isdigit(line[9]) || line[10] != ' ' || line[11] != '|'
+        || line[12] != ' ' || (!isdigit(line[13]) && line[13] != '-'))
+    {
+        std::cerr << "4Error: bad input => " << line << std::endl;
+        return false;
     }
 
+    std::string last_int_str;
+    char * bad_int_check = NULL;
 
-    ifs.close();
+    last_int_str = line.substr(strlen("XXXX-XX-XX | "));
+    double int_value = strtod(last_int_str.c_str(), &bad_int_check);
+    if (*bad_int_check != '\0')
+    {
+        std::cerr << "1Error: bad input => " << line << std::endl;
+        return false;
+    }
+    // std::cerr << last_int_str << " VS " << int_value << std::endl;
+    if (errno == ERANGE || int_value > 1000)
+    {
+        std::cerr << "2Error: too large a number." << std::endl;
+        return false;
+    }
+    if (int_value < 0)
+    {
+        std::cerr << "3Error: not a positive number." << std::endl;
+        return false;
+    }
+    std::cout << line << database[line.substr(0, strlen("XXXX-XX-XX"))] << std::endl;
     return true;
 }
 
@@ -73,16 +108,12 @@ void BitcoinExchange::fillMap()
     }
 
     //PRINTING MY MAP TO SEE IF IT WORKS
-    for (std::map<std::string, double>::const_iterator it = database.begin(); it != database.end(); ++it) 
-    {
-        std::cout << it->first << " => " << it->second << std::endl;
-    }
-    return true;
-
+    // for (std::map<std::string, double>::const_iterator it = database.begin(); it != database.end(); ++it) 
+    // {
+    //     std::cout << it->first << " => " << it->second << std::endl;
+    // }
+    //END DEBUG
 }
-
-
-
 
 
 std::ostream    &operator<<(std::ostream &out, BitcoinExchange const &fixed)
