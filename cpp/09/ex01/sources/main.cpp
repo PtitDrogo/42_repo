@@ -1,14 +1,12 @@
-#include "ClassA.h"
-#include "ClassB.h"
-#include <iostream>
+#include "BitcoinExchange.h"
 
-int main()
+
+int main(int argc, char const *argv[])
 {
-    ClassA A(4, 5);
-    ClassB B;
-    std::cout << A << std::endl;
-    std::cout << B << std::endl;
-
-    //Your wonderful code here
+    if (argc != 2)
+    {
+        std::cerr << "Error: could not open file." << std::endl;
+        return (1);
+    }
     return 0;
 }
