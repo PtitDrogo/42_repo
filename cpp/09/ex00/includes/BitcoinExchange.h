@@ -13,11 +13,12 @@
 class BitcoinExchange
 {
 private:
-    std::map<std::string, double> database;
+    std::map<std::string, double> _database;
 
     //methods
     void    fillMap();
-    bool    isInputTextLineValid(const std::string& line) const;
+    void    parseLine(const std::string& line) const;
+    void    sanitizeLine(const std::string& line);
 
 public:
 
@@ -37,7 +38,5 @@ public:
 
     //Getters
 };
-
-std::ostream    &operator<<(std::ostream &o, BitcoinExchange const &fixed);
 
 #endif

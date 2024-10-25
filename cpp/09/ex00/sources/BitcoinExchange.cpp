@@ -1,20 +1,73 @@
 #include "BitcoinExchange.h"
 
+static bool isValidDate(const std::string& date);
 
 BitcoinExchange::BitcoinExchange() 
 {
     fillMap();
 }
-BitcoinExchange::BitcoinExchange(BitcoinExchange& other) {}
+BitcoinExchange::BitcoinExchange(BitcoinExchange& other) : _database(other._database) 
+{}
 BitcoinExchange::~BitcoinExchange() {}
 
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other)
 {
     if (this != &other)
     {
-
+        _database = other._database;
     }
     return (*this);
+}
+
+void BitcoinExchange::fillMap()
+{
+    std::ifstream ifs;
+    ifs.open("data.csv");
+    if (ifs.is_open() == false)
+        throw std::runtime_error("Error: could not open database.");
+
+    
+    std::string line;
+
+    std::getline(ifs, line);
+    if (line != "date,exchange_rate")
+        throw std::runtime_error("Error: WrongFormat in csv header");
+    
+    while (std::getline(ifs, line))
+    {
+        sanitizeLine(line);
+    }   
+}
+
+void BitcoinExchange::sanitizeLine(const std::string& line)
+{
+    std::string::size_type pos;
+    std::string            pair[2];
+    
+    pos = line.find(',');
+    if (pos == std::string::npos)
+        return ;
+    
+    pair[0] = line.substr(0, pos);
+    pair[1] = line.substr(pos + 1);
+    if (pair[1].empty())
+        return ;
+    char    *bad_value_check;
+    double  bitcoin_value = strtod(pair[1].c_str(), &bad_value_check);
+
+    if (errno == ERANGE)
+    {    
+        errno = 0;
+        return ;
+    }
+    if (bitcoin_value < 0)
+        return ;
+    if (isValidDate(pair[0]) == false)
+        return ;
+    if (*bad_value_check != '\0')
+        return ;
+    std::cout << line << " - Value of double is : " << bitcoin_value << std::endl;
+    _database.insert(std::make_pair(pair[0], bitcoin_value));
 }
 
 //Methods
@@ -24,124 +77,109 @@ void BitcoinExchange::exchangeBitcoin(const char *filename) const
 
     ifs.open(filename);
     if (ifs.is_open() == false)
+        throw std::runtime_error("Error: could not open file.");
+    
+    std::string line;
+    std::getline(ifs, line);
+    if (line != "date | value")
+        throw std::runtime_error("Error: Wrong data format.");
+    
+    while (std::getline(ifs, line))
     {
-        std::cerr << "Error: could not open file." << std::endl;
+        parseLine(line);
+    }
+    ifs.close();
+}
+
+void BitcoinExchange::parseLine(const std::string& line) const 
+{
+    int i;
+    size_t format_line_len = strlen("XXXX-XX-XX | X");
+    if (line.length() < format_line_len)
+    {
+            std::cerr << "1Error: bad input => " << line << std::endl;
+            return ;
+    }
+    bool is_valid_date = isValidDate(line.substr(0, strlen("XXXX-XX-XX")));
+    bool is_valid_post_date_format = (line[10] == ' ' && line[11] == '|' && line[12] == ' ' && (!isdigit(line[13]) || line[13] != '-' || line[13] != '+'));
+    if (is_valid_date == false || is_valid_post_date_format == false)
+    {
+        std::cerr << "Error: bad input => " << line << std::endl;
+            return ;
+    }
+
+
+    std::string last_int_str;
+    char * bad_int_check;
+
+    last_int_str = line.substr(strlen("XXXX-XX-XX | "));
+    double number_bitcoins = strtod(last_int_str.c_str(), &bad_int_check);
+    if (*bad_int_check != '\0')
+    {
+        std::cerr << "3Error: bad input => " << line << std::endl;
+        return ;
+    }
+    if (errno == ERANGE || number_bitcoins > 1000)
+    {
+        errno = 0;
+        std::cerr << "Error: too large a number." << std::endl;
+        return ;
+    }
+    if (number_bitcoins < 0)
+    {
+        std::cerr << "Error: not a positive number." << std::endl;
         return ;
     }
 
-    std::string line;
-
-    while (std::getline(ifs, line))
+    std::string date = line.substr(0, strlen("XXXX-XX-XX"));
+    std::map<std::string, double>::const_iterator it = _database.lower_bound(date);
+    if (it == _database.begin())
     {
-        //Evaluate if theres a syntax error;
-        isInputTextLineValid(line);
-        //if not, do math, and print said math;
+        if (date == it->first)
+            std::cout << date << " => " << number_bitcoins << " = " << number_bitcoins * it->second << std::endl;
+        else
+        {
+            std::cerr << "Error: date too early" << std::endl;
+            return ;
+        }
     }
+    else if (it == _database.end() || it->first != date)
+    {
+        it--;
+        std::cout << date << " => " << number_bitcoins << " = " << number_bitcoins * it->second << std::endl;
+    }
+    return ;
 }
 
-bool BitcoinExchange::isInputTextLineValid(const std::string& line) const 
-{
-    int i;
 
-    if (line.length() < strlen("XXXX-XX-XX | X"))
+static bool isValidDate(const std::string& date) 
+{
+    
+    // std::cout << "DEBUG: "<< date << std::endl;
+    
+    if (date.length() != 10 || date[4] != '-' || date[7] != '-')
+        return false;
+
+    for (size_t i = 0; i < date.length(); i++) 
     {
-            std::cerr << "5Error: bad input => " << line << std::endl;
+        if (i != 4 && i != 7 && !isdigit(date[i]))
             return false;
     }
-    //Poor man Regex
-    if (!isdigit(line[0]) || !isdigit(line[1]) || !isdigit(line[2]) || !isdigit(line[3]) 
-        || line[4] != '-' || !isdigit(line[5]) || !isdigit(line[6]) || line[7] != '-'
-        || !isdigit(line[8]) || !isdigit(line[9]) || line[10] != ' ' || line[11] != '|'
-        || line[12] != ' ' || (!isdigit(line[13]) && line[13] != '-'))
-    {
-        std::cerr << "4Error: bad input => " << line << std::endl;
-        return false;
-    }
 
-    std::string last_int_str;
-    char * bad_int_check = NULL;
+    int year = atoi(date.substr(0, 4).c_str());
+    int month = atoi(date.substr(5, 2).c_str());
+    int day = atoi(date.substr(8, 2).c_str());
 
-    last_int_str = line.substr(strlen("XXXX-XX-XX | "));
-    double int_value = strtod(last_int_str.c_str(), &bad_int_check);
-    if (*bad_int_check != '\0')
-    {
-        std::cerr << "1Error: bad input => " << line << std::endl;
+    if (year < 1 || month < 1 || month > 12 || day < 1 || day > 31)
         return false;
-    }
-    // std::cerr << last_int_str << " VS " << int_value << std::endl;
-    if (errno == ERANGE || int_value > 1000)
-    {
-        std::cerr << "2Error: too large a number." << std::endl;
+
+    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    
+    if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))
+            daysInMonth[1] = 29;
+
+    if (day > daysInMonth[month - 1])
         return false;
-    }
-    if (int_value < 0)
-    {
-        std::cerr << "3Error: not a positive number." << std::endl;
-        return false;
-    }
-    std::cout << line << database[line.substr(0, strlen("XXXX-XX-XX"))] << std::endl;
     return true;
 }
 
-void BitcoinExchange::fillMap()
-{
-    std::ifstream ifs;
-
-    ifs.open("data.csv");
-
-    if (ifs.is_open() == false)
-    {
-        std::cerr << "Error: could not open database." << std::endl;
-        return ;
-    }
-
-    std::string line;
-    std::string pair[2];
-    std::string::size_type pos;
-
-    while (std::getline(ifs, line))
-    {
-        pos = line.find(',');
-        pair[0] = line.substr(0, pos);
-        pair[1] = line.substr(pos + 1);
-        database.insert(std::make_pair(pair[0], strtod(pair[1].c_str(), NULL)));
-    }
-
-    //PRINTING MY MAP TO SEE IF IT WORKS
-    // for (std::map<std::string, double>::const_iterator it = database.begin(); it != database.end(); ++it) 
-    // {
-    //     std::cout << it->first << " => " << it->second << std::endl;
-    // }
-    //END DEBUG
-}
-
-
-std::ostream    &operator<<(std::ostream &out, BitcoinExchange const &fixed)
-{
-    out << "btc class whoah !";
-    return (out);
-}
-
-
-/*
-    First I need to do Parsing on the txt file to validate its format.
-    after that I need to look up in my csv file the corresponding date.
-    if it exist, do the math and print the result.
-    if it doesnt exist, I take the lower date (ence why we need a map and not an unordered one)
-    I print this shit and I am good
-
-    A valid date will always be in the following format: Year-Month-Day.
-
-    > head input.txt
-    date | value
-    2011-01-03 | 3
-    2011-01-03 | 2
-    2011-01-03 | 1
-    2011-01-03 | 1.2
-    2011-01-09 | 1
-    2012-01-11 | -1
-    2001-42-42
-    2012-01-11 | 1
-    2012-01-11 | 2147483648
-
-*/
