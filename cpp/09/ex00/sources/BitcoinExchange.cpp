@@ -1,6 +1,7 @@
 #include "BitcoinExchange.h"
 
 static bool isValidDate(const std::string& date);
+static void printErr(const std::string& err_msg);
 
 BitcoinExchange::BitcoinExchange() 
 {
@@ -97,7 +98,7 @@ void BitcoinExchange::parseLine(const std::string& line) const
     size_t format_line_len = strlen("XXXX-XX-XX | X");
     if (line.length() < format_line_len)
     {
-            std::cerr << "1Error: bad input => " << line << std::endl;
+            std::cerr << "Error: bad input => " << line << std::endl;
             return ;
     }
     bool is_valid_date = isValidDate(line.substr(0, strlen("XXXX-XX-XX")));
@@ -105,9 +106,8 @@ void BitcoinExchange::parseLine(const std::string& line) const
     if (is_valid_date == false || is_valid_post_date_format == false)
     {
         std::cerr << "Error: bad input => " << line << std::endl;
-            return ;
+        return ;
     }
-
 
     std::string last_int_str;
     char * bad_int_check;
@@ -155,8 +155,6 @@ void BitcoinExchange::parseLine(const std::string& line) const
 static bool isValidDate(const std::string& date) 
 {
     
-    // std::cout << "DEBUG: "<< date << std::endl;
-    
     if (date.length() != 10 || date[4] != '-' || date[7] != '-')
         return false;
 
@@ -177,9 +175,14 @@ static bool isValidDate(const std::string& date)
     
     if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))
             daysInMonth[1] = 29;
-
     if (day > daysInMonth[month - 1])
         return false;
     return true;
+}
+
+static void printErr(const std::string& err_msg)
+{
+    std::cerr << err_msg << std::endl;
+    return ;
 }
 
