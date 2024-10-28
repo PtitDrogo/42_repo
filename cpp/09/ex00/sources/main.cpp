@@ -12,9 +12,9 @@ int main(int argc, char const *argv[])
     try 
     {
         BitcoinExchange hello;
-        // BitcoinExchange hi;
-        // hi = hello;
-        // BitcoinExchange hi2(hello);
+        BitcoinExchange hi;
+        hi = hello;
+        BitcoinExchange hi2(hello);
 
         hello.exchangeBitcoin(argv[1]);
     }

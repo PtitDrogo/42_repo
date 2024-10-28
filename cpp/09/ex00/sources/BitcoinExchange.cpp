@@ -27,7 +27,6 @@ void BitcoinExchange::fillMap()
     if (ifs.is_open() == false)
         throw std::runtime_error("Error: could not open database.");
 
-    
     std::string line;
 
     std::getline(ifs, line);
@@ -67,7 +66,6 @@ void BitcoinExchange::sanitizeLine(const std::string& line)
         return ;
     if (*bad_value_check != '\0')
         return ;
-    std::cout << line << " - Value of double is : " << bitcoin_value << std::endl;
     _database.insert(std::make_pair(pair[0], bitcoin_value));
 }
 
@@ -84,7 +82,6 @@ void BitcoinExchange::exchangeBitcoin(const char *filename) const
     std::getline(ifs, line);
     if (line != "date | value")
         throw std::runtime_error("Error: Wrong data format.");
-    
     while (std::getline(ifs, line))
     {
         parseLine(line);
@@ -109,48 +106,62 @@ void BitcoinExchange::parseLine(const std::string& line) const
         return ;
     }
 
+    double number_bitcoins;
+    if (isValidNumberBitcoinsValue(line, number_bitcoins) == false)
+        return ;
+    getDateAndCompare(line, number_bitcoins); 
+}
+
+bool    BitcoinExchange::isValidNumberBitcoinsValue(const std::string& line, double &number_bitcoins) const
+{
     std::string last_int_str;
     char * bad_int_check;
 
     last_int_str = line.substr(strlen("XXXX-XX-XX | "));
-    double number_bitcoins = strtod(last_int_str.c_str(), &bad_int_check);
+    number_bitcoins = strtod(last_int_str.c_str(), &bad_int_check);
     if (*bad_int_check != '\0')
     {
-        std::cerr << "3Error: bad input => " << line << std::endl;
-        return ;
+        std::cerr << "Error: bad input => " << line << std::endl;
+        return (false) ;
     }
     if (errno == ERANGE || number_bitcoins > 1000)
     {
         errno = 0;
         std::cerr << "Error: too large a number." << std::endl;
-        return ;
+        return (false) ;
     }
     if (number_bitcoins < 0)
     {
         std::cerr << "Error: not a positive number." << std::endl;
-        return ;
+        return (false) ;
     }
+    return (true);
+}
 
+
+
+void    BitcoinExchange::getDateAndCompare(const std::string& line, double number_bitcoins) const
+{
     std::string date = line.substr(0, strlen("XXXX-XX-XX"));
     std::map<std::string, double>::const_iterator it = _database.lower_bound(date);
-    if (it == _database.begin())
+    
+    
+    if (it->first == date)
     {
-        if (date == it->first)
-            std::cout << date << " => " << number_bitcoins << " = " << number_bitcoins * it->second << std::endl;
+        std::cout << date << " => " << number_bitcoins << " = " << number_bitcoins * it->second << std::endl;
+    }
+    else
+    {
+        if (it == _database.begin())
+            std::cerr << "Error: date too early" << std::endl;
         else
         {
-            std::cerr << "Error: date too early" << std::endl;
-            return ;
+            it--;
+            std::cout << date << " => " << number_bitcoins << " = " << number_bitcoins * it->second << std::endl;
         }
-    }
-    else if (it == _database.end() || it->first != date)
-    {
-        it--;
-        std::cout << date << " => " << number_bitcoins << " = " << number_bitcoins * it->second << std::endl;
     }
     return ;
 }
-
 
 static bool isValidDate(const std::string& date) 
 {

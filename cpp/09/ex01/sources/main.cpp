@@ -1,12 +1,24 @@
-#include "BitcoinExchange.h"
+#include "RPN.h"
 
 
 int main(int argc, char const *argv[])
 {
-    if (argc != 2)
+    if (argc <= 1)
     {
-        std::cerr << "Error: could not open file." << std::endl;
+        std::cerr << "Error" << std::endl;
         return (1);
     }
+    RPN PolishCalculator;
+
+    try
+    {
+        PolishCalculator.calculateArgsPolishStyle(argv[1]);
+    }
+    catch(const std::exception& e)
+    {
+        // std::cerr << e.what() << std::endl;
+        std::cerr << "Error" << std::endl;
+    }
+    
     return 0;
 }
