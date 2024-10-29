@@ -3,16 +3,18 @@
 
 #include <vector>
 #include <iostream>
+#include <algorithm>
 class PmergeMe
 {
 private:
     std::vector<int> _vector;
+    int  binarySearch(const std::vector<int>& arr, int target);
+    std::vector<int> epicSort(std::vector<int>& vector);
 
 public:
     //methods
     void fillVector(const int *array, int size);
-    int  binarySearch(const std::vector<int>& arr, int target) ;
-    void epicSort();
+    void epicSortWrapper();
     
     //Constructors
     PmergeMe();

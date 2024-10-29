@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     // std::cout << array_result << std::endl;
     
     A.fillVector(array_result, argc - 1);
-    A.epicSort();
+    A.epicSortWrapper();
     delete[] array_result;
     return 0;
 }
