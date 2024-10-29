@@ -1,5 +1,5 @@
 #ifndef P_MERGE_ME_LIST_H
-# define P_MERGE_ME_LIST_H
+#define P_MERGE_ME_LIST_H
 
 #include <iostream>
 #include <list>
@@ -10,18 +10,18 @@ private:
     std::list<int> _list;
 
 public:
-    //Constructors
+    // Constructors
     PmergeMeList();
-    PmergeMeList(PmergeMeList& other);
-    
-    //Destructors
+
+    PmergeMeList(PmergeMeList &other);
+    // Destructors
     ~PmergeMeList();
 
-    //Overloads
-    PmergeMeList& operator=(const PmergeMeList& other);
+    // Overloads
+    PmergeMeList &operator=(const PmergeMeList &other);
 
-    //Getters
+    // Getters
 };
 
-std::ostream    &operator<<(std::ostream &o, PmergeMeList const &fixed);
+std::ostream &operator<<(std::ostream &o, PmergeMeList const &fixed);
 #endif
