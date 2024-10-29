@@ -77,7 +77,7 @@ std::vector<int> PmergeMe::epicSort(std::vector<int> &vector)
         }
         else
         {
-            pairs.push_back(std::make_pair(vector[i], -1)); //This pair doesnt count and left number will be a small num always
+            pairs.push_back(std::make_pair(vector[i], -1)); //-1 method doesnt actually work.
         }
     }
 
@@ -110,32 +110,19 @@ std::vector<int> PmergeMe::epicSort(std::vector<int> &vector)
         std::cout << pairs[i].first << " "<< pairs[i].second << " "; 
     }
     std::cout << std::endl;
+
+    //Recursion Time
     std::vector<int> S = epicSort(larger_elements);
     std::cout << "Printing content of my big vector" << std::endl;
     for (unsigned int i = 0; i < S.size(); i++)
     {
         std::cout << S[i] << " "; 
     }
+    return S;
 
-
-    return S; //DEBUG TODELETE
-    //HOW ??
-    //trier les paires par leur plus grand nombre par récursion : 2 33 8 15 4 99 = > 8 15 2 33 4 99
-
-    // // Step 3: Recursively sort the larger elements
 
     // // Step 4: Insert the smaller element from each pair at the start of S
-    // for (int i = 0; i < n; i += 2)
-    // {
-    //     if (pairs[i / 2].second != -1)
-    //     {
-    //         S.insert(S.begin(), std::min(pairs[i / 2].first, pairs[i / 2].second));
-    //     }
-    //     else
-    //     {
-    //         S.insert(S.begin(), pairs[i / 2].first);
-    //     }
-    // }
+    //Technically this isnt even needed for this shit to Work
 
     // // Step 5: Insert the remaining elements into S using binary search
     // for (int i = 0; i < n; i++)
@@ -144,6 +131,11 @@ std::vector<int> PmergeMe::epicSort(std::vector<int> &vector)
     //     {
     //         S.insert(S.begin() + binarySearch(S, vector[i]), vector[i]);
     //     }
+    // }
+    // for (unsigned int i = 0; i < vector_to_insert.size(); i++)
+    // {
+    //     int index_to_insert = binarySearch(vector, vector_to_insert[i]);
+    //     vector.insert(vector.begin() + index_to_insert, vector_to_insert[i]);
     // }
 
     // return S;
