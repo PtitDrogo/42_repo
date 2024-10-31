@@ -61,9 +61,14 @@ std::vector<int> PmergeMe::epicSort(std::vector<int> &vector)
 
     int n = vector.size();
 
-    // Base case: If the list has 0 or 1 elements, it is already sorted
     if (n <= 1)
     {
+        return vector;
+    }
+    if (n == 2)
+    {
+        if (vector[0] < vector[1])
+            std::swap(vector[0], vector[1]);
         return vector;
     }
 
@@ -77,30 +82,28 @@ std::vector<int> PmergeMe::epicSort(std::vector<int> &vector)
         }
         else
         {
-            pairs.push_back(std::make_pair(vector[i], -1)); //-1 method doesnt actually work.
+            continue;
+            // pairs.push_back(std::make_pair(vector[i], -1)); //-1 method doesnt actually work.
         }
     }
 
-    std::cout << "Printing content of my vector of pairs" << std::endl;
-    for (unsigned int i = 0; i < pairs.size(); i++)
-    {
-        std::cout << pairs[i].first << " "<< pairs[i].second << " "; 
-    }
-    std::cout << std::endl;
+    // std::cout << "Printing content of my vector of pairs" << std::endl;
+    // for (unsigned int i = 0; i < pairs.size(); i++)
+    // {
+    //     std::cout << pairs[i].first << " "<< pairs[i].second << " "; 
+    // }
+    // std::cout << std::endl;
 
     // Step 2: Perform comparisons to determine the larger element in each pair
     std::vector<int> larger_elements;
     for (unsigned int i = 0; i < pairs.size(); i++)
     {
-        if (pairs[i].second == -1)
-            continue;// larger_elements.push_back(pairs[i].first);
-        else
-        {
+        // if (pairs[i].second == -1)
+        //     continue;// larger_elements.push_back(pairs[i].first);
             //I wanna swap I think;
-            if (pairs[i].first > pairs[i].second)
-                std::swap(pairs[i].first, pairs[i].second);
-            larger_elements.push_back(pairs[i].second);
-        }
+        if (pairs[i].first > pairs[i].second)
+            std::swap(pairs[i].first, pairs[i].second);
+        larger_elements.push_back(pairs[i].second);
     }
 
 
