@@ -3,7 +3,7 @@
 
 int main(int argc, char const *argv[])
 {
-    if (argc <= 1)
+    if (argc != 2)
     {
         std::cerr << "Error" << std::endl;
         return (1);
@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
     }
     catch(const std::exception& e)
     {
-        // std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
         std::cerr << "Error" << std::endl;
     }
     

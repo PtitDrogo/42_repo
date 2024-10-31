@@ -30,19 +30,22 @@ void RPN::calculateArgsPolishStyle(const char *args)
             continue;
         else if (strchr(operators, c) != NULL)
         {
-            if (_stack.size() != 2)
+            if (_stack.size() < 2)
                 throw std::runtime_error("Operation without two numbers in stack");
             executeCalculation(c);
         }
         else if (isdigit(c))
         {
-            if (_stack.size() >= 2)
-                throw std::runtime_error("Digit added on top of stack of size 2");
+            // std::cout << "Current digit is : " << c << "Next digit is :" << args[i + 1] << std::endl;
+            if (isdigit(args[i + 1]))
+                throw std::runtime_error("Only single digits accepted");
             _stack.push(static_cast<int>(c - '0'));
         }
         else
-            throw std::runtime_error("");
+            throw std::runtime_error("Invalid char found");
     }
+    if (_stack.size() != 1)
+        throw std::runtime_error("Unvalid digit to operator ratio");
     std::cout << _stack.top() << std::endl;
 }
 
