@@ -63,7 +63,6 @@ Pour optimiser la dernière étape tu utilises la suite de Jacobsthal (https://f
 void PmergeMe::epicSortWrapper()
 {
     std::cout << "Before :" << *this << std::endl;
-    
     bool is_odd = _vector.size() % 2 != 0;
     int last_elem;
     if (is_odd)
@@ -72,22 +71,10 @@ void PmergeMe::epicSortWrapper()
         _vector.pop_back();
     }
     std::vector<int> preSortedArr = epicSort(_vector);
-    //Vector above becomes the sorted pairs.
-    //I need then to add the biggest one to a second array,
-    //then we binary search to add.
-
-    // _vector = epicSort(_vector);
-    printVector(preSortedArr);
     std::vector<int> largeElements = moveLargeElements(preSortedArr);
-    // std::cout << "My large elements : "; printVector(largeElements); std::cout << std::endl;
-    // std::cout << "My vector is now : "; printVector(preSortedArr); std::cout << std::endl;
-    
-    //add the stray
     if (is_odd)
         preSortedArr.push_back(last_elem);
-    // std::cout << "DEBUG"; printVector(largeElements);
     binaryInsert(preSortedArr, largeElements);
-    
     std::cout << "After : "; printVector(largeElements);
 }
 
@@ -98,8 +85,9 @@ std::vector<int> PmergeMe::moveLargeElements(std::vector<int>& vector)
     it++;
     for (; it != vector.end(); it += 1)
     {
-        largeElements.push_back(*it); //1 5 3 7
+        largeElements.push_back(*it);
         it = vector.erase(it);
+        //Erase returns the iterator AFTER the one it just deleted; ence why this entire thing works;
         if (it == vector.end() || it + 1 == vector.end())
             break;
     }
@@ -119,27 +107,11 @@ std::vector<int> PmergeMe::epicSort(std::vector<int> &vector)
     
     std::vector<int>::size_type middle = vector.size() / 2;
     middle = (middle / 2) * 2;
-
-
     std::vector<int> left(vector.begin(), vector.begin() + middle);
     std::vector<int> right(vector.begin() + middle, vector.end());
-
-
     left = epicSort(left);
     right = epicSort(right);
-
     return (merge(left, right));
-}
-// Helper function to get the max value in a pair
-int pairMax(int a, int b)
-{
-    return a > b ? a : b;
-}
-
-// Helper function to get the min value in a pair
-int pairMin(int a, int b)
-{
-    return a < b ? a : b;
 }
 
 std::vector<int> PmergeMe::merge(std::vector<int> &left, std::vector<int> &right)
@@ -150,9 +122,8 @@ std::vector<int> PmergeMe::merge(std::vector<int> &left, std::vector<int> &right
 
     while (leftIt != left.end() && rightIt != right.end())
     {
-        // Compare max values of the current pairs
-        int leftPairMax = pairMax(*leftIt, *(leftIt + 1));
-        int rightPairMax = pairMax(*rightIt, *(rightIt + 1)); //this works in vector AND list
+        int leftPairMax = std::max(*leftIt, *(leftIt + 1));
+        int rightPairMax = std::max(*rightIt, *(rightIt + 1)); //this works in vector AND list
 
         if (leftPairMax <= rightPairMax)
         {
@@ -167,23 +138,18 @@ std::vector<int> PmergeMe::merge(std::vector<int> &left, std::vector<int> &right
             rightIt += 2;
         }
     }
-
-    // Copy remaining pairs from left vector
     while (leftIt != left.end())
     {
         merged.push_back(*leftIt);
         merged.push_back(*(leftIt + 1));
         leftIt += 2;
     }
-
-    // Copy remaining pairs from right vector
     while (rightIt != right.end())
     {
         merged.push_back(*rightIt);
         merged.push_back(*(rightIt + 1));
         rightIt += 2;
     }
-
     return (merged);
 }
 
@@ -192,6 +158,9 @@ void PmergeMe::binaryInsert(std::vector<int>& small_vector, std::vector<int>& bi
     std::vector<int>::iterator it = small_vector.begin();
     std::vector<int>::iterator index;
 
+    //We can insert the first number its always correct;
+    big_vector.insert(big_vector.begin(), *it);
+    it++;
     while (it != small_vector.end())
     {
         index = big_vector.begin() + binarySearch(big_vector, *it);

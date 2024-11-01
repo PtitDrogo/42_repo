@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <limits.h>
 #include <ctime>
+#include <iomanip>
 
 static const int *parseArgs(int argc, char **argv);
 
@@ -19,12 +20,12 @@ int main(int argc, char *argv[])
     }
     // std::cout << array_result << std::endl;
     
-    A.fillVector(array_result, argc - 1);
     std::clock_t start = std::clock();
+    A.fillVector(array_result, argc - 1);
     A.epicSortWrapper();
     std::clock_t end = std::clock();
-    double elapsed = (end - start) / (double)(CLOCKS_PER_SEC * 100);
-    std::cout << "Time to process a range of undefined" << " elements with std::vector: " << elapsed << " us" << std::endl;
+    double elapsed = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
+    std::cout << "Time to process a range of undefined" << " elements with std::vector: " << std::fixed << std::setprecision(8) << elapsed << " us" << std::endl;
     delete[] array_result;
     return 0;
 }
