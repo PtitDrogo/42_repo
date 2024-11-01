@@ -2,6 +2,7 @@
 #include "PmergeMeList.h"
 #include <cstdlib>
 #include <limits.h>
+#include <ctime>
 
 static const int *parseArgs(int argc, char **argv);
 
@@ -19,10 +20,31 @@ int main(int argc, char *argv[])
     // std::cout << array_result << std::endl;
     
     A.fillVector(array_result, argc - 1);
+    std::clock_t start = std::clock();
     A.epicSortWrapper();
+    std::clock_t end = std::clock();
+    double elapsed = (end - start) / (double)(CLOCKS_PER_SEC * 100);
+    std::cout << "Time to process a range of undefined" << " elements with std::vector: " << elapsed << " us" << std::endl;
     delete[] array_result;
     return 0;
 }
+
+/*
+ std::clock_t start = std::clock();
+        std::cout << "before: ";
+        gamberge.printArray(array);
+        gamberge.algorithm(array, 0, array.size() - 1);
+        std::cout << "after: ";
+        gamberge.printArray(array);
+        std::clock_t end = std::clock();
+        double elapsed = double(end - start);
+        std::cout << "Time to process a range of " << array.size() << " elements with std::vector: " << elapsed << " us" << std::endl;
+        
+        start = std::clock();
+        gamberge1.algorithm(array1, 0, array.size() - 1);
+        end = std::clock();
+        elapsed = double(end - start);
+        std::cout << "Time to process a range of " << array1.size() << " elements with std::deque: " << elapsed << " us" << std::endl;*/
 
 // The parsing is independant of the implementation of each class so we will do it first.
 // once I have an array of int, perhaps i can look into method to add it all at once to the

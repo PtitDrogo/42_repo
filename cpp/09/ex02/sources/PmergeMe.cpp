@@ -6,6 +6,17 @@ PmergeMe::PmergeMe(PmergeMe &other) : _vector(other._vector)
 }
 PmergeMe::~PmergeMe() {}
 
+
+void printVector(const std::vector<int> &arr)
+{
+    for (std::vector<int>::const_iterator it = arr.begin(); it != arr.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+}
+
+
 PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 {
     if (this != &other)
@@ -52,98 +63,144 @@ Pour optimiser la dernière étape tu utilises la suite de Jacobsthal (https://f
 void PmergeMe::epicSortWrapper()
 {
     std::cout << "Before :" << *this << std::endl;
-    _vector = epicSort(_vector);
-    std::cout << "After : " << *this << std::endl;
+    
+    bool is_odd = _vector.size() % 2 != 0;
+    int last_elem;
+    if (is_odd)
+    {
+        last_elem = _vector.back();
+        _vector.pop_back();
+    }
+    std::vector<int> preSortedArr = epicSort(_vector);
+    //Vector above becomes the sorted pairs.
+    //I need then to add the biggest one to a second array,
+    //then we binary search to add.
+
+    // _vector = epicSort(_vector);
+    printVector(preSortedArr);
+    std::vector<int> largeElements = moveLargeElements(preSortedArr);
+    // std::cout << "My large elements : "; printVector(largeElements); std::cout << std::endl;
+    // std::cout << "My vector is now : "; printVector(preSortedArr); std::cout << std::endl;
+    
+    //add the stray
+    if (is_odd)
+        preSortedArr.push_back(last_elem);
+    // std::cout << "DEBUG"; printVector(largeElements);
+    binaryInsert(preSortedArr, largeElements);
+    
+    std::cout << "After : "; printVector(largeElements);
+}
+
+std::vector<int> PmergeMe::moveLargeElements(std::vector<int>& vector)
+{
+    std::vector<int> largeElements;
+    std::vector<int>::iterator it = vector.begin();
+    it++;
+    for (; it != vector.end(); it += 1)
+    {
+        largeElements.push_back(*it); //1 5 3 7
+        it = vector.erase(it);
+        if (it == vector.end() || it + 1 == vector.end())
+            break;
+    }
+    return (largeElements);
 }
 
 std::vector<int> PmergeMe::epicSort(std::vector<int> &vector)
 {
-    // hi
-
-    int n = vector.size();
-
-    if (n <= 1)
-    {
+    if (vector.size() == 1)
         return vector;
-    }
-    if (n == 2)
+    if (vector.size() == 2)
     {
-        if (vector[0] < vector[1])
+        if (vector[0] > vector[1])
             std::swap(vector[0], vector[1]);
         return vector;
     }
+    
+    std::vector<int>::size_type middle = vector.size() / 2;
+    middle = (middle / 2) * 2;
 
-    // Step 1: Group the elements into pairs
-    std::vector<std::pair<int, int> > pairs;
-    for (int i = 0; i < n; i += 2)
+
+    std::vector<int> left(vector.begin(), vector.begin() + middle);
+    std::vector<int> right(vector.begin() + middle, vector.end());
+
+
+    left = epicSort(left);
+    right = epicSort(right);
+
+    return (merge(left, right));
+}
+// Helper function to get the max value in a pair
+int pairMax(int a, int b)
+{
+    return a > b ? a : b;
+}
+
+// Helper function to get the min value in a pair
+int pairMin(int a, int b)
+{
+    return a < b ? a : b;
+}
+
+std::vector<int> PmergeMe::merge(std::vector<int> &left, std::vector<int> &right)
+{
+    std::vector<int> merged;
+    std::vector<int>::iterator leftIt = left.begin();
+    std::vector<int>::iterator rightIt = right.begin();
+
+    while (leftIt != left.end() && rightIt != right.end())
     {
-        if (i + 1 < n)
+        // Compare max values of the current pairs
+        int leftPairMax = pairMax(*leftIt, *(leftIt + 1));
+        int rightPairMax = pairMax(*rightIt, *(rightIt + 1)); //this works in vector AND list
+
+        if (leftPairMax <= rightPairMax)
         {
-            pairs.push_back(std::make_pair(vector[i], vector[i + 1]));
+            merged.push_back(*leftIt);
+            merged.push_back(*(leftIt + 1));
+            leftIt += 2;
         }
         else
         {
-            continue;
-            // pairs.push_back(std::make_pair(vector[i], -1)); //-1 method doesnt actually work.
+            merged.push_back(*rightIt);
+            merged.push_back(*(rightIt + 1));
+            rightIt += 2;
         }
     }
 
-    // std::cout << "Printing content of my vector of pairs" << std::endl;
-    // for (unsigned int i = 0; i < pairs.size(); i++)
-    // {
-    //     std::cout << pairs[i].first << " "<< pairs[i].second << " "; 
-    // }
-    // std::cout << std::endl;
-
-    // Step 2: Perform comparisons to determine the larger element in each pair
-    std::vector<int> larger_elements;
-    for (unsigned int i = 0; i < pairs.size(); i++)
+    // Copy remaining pairs from left vector
+    while (leftIt != left.end())
     {
-        // if (pairs[i].second == -1)
-        //     continue;// larger_elements.push_back(pairs[i].first);
-            //I wanna swap I think;
-        if (pairs[i].first > pairs[i].second)
-            std::swap(pairs[i].first, pairs[i].second);
-        larger_elements.push_back(pairs[i].second);
+        merged.push_back(*leftIt);
+        merged.push_back(*(leftIt + 1));
+        leftIt += 2;
     }
 
-
-    std::cout << "Printing content of my vector of pairs after swap" << std::endl;
-    for (unsigned int i = 0; i < pairs.size(); i++)
+    // Copy remaining pairs from right vector
+    while (rightIt != right.end())
     {
-        std::cout << pairs[i].first << " "<< pairs[i].second << " "; 
+        merged.push_back(*rightIt);
+        merged.push_back(*(rightIt + 1));
+        rightIt += 2;
     }
-    std::cout << std::endl;
 
-    //Recursion Time
-    std::vector<int> S = epicSort(larger_elements);
-    std::cout << "Printing content of my big vector" << std::endl;
-    for (unsigned int i = 0; i < S.size(); i++)
-    {
-        std::cout << S[i] << " "; 
-    }
-    return S;
-
-
-    // // Step 4: Insert the smaller element from each pair at the start of S
-    //Technically this isnt even needed for this shit to Work
-
-    // // Step 5: Insert the remaining elements into S using binary search
-    // for (int i = 0; i < n; i++)
-    // {
-    //     if (std::find(S.begin(), S.end(), vector[i]) == S.end())
-    //     {
-    //         S.insert(S.begin() + binarySearch(S, vector[i]), vector[i]);
-    //     }
-    // }
-    // for (unsigned int i = 0; i < vector_to_insert.size(); i++)
-    // {
-    //     int index_to_insert = binarySearch(vector, vector_to_insert[i]);
-    //     vector.insert(vector.begin() + index_to_insert, vector_to_insert[i]);
-    // }
-
-    // return S;
+    return (merged);
 }
+
+void PmergeMe::binaryInsert(std::vector<int>& small_vector, std::vector<int>& big_vector)
+{
+    std::vector<int>::iterator it = small_vector.begin();
+    std::vector<int>::iterator index;
+
+    while (it != small_vector.end())
+    {
+        index = big_vector.begin() + binarySearch(big_vector, *it);
+        big_vector.insert(index, *it);
+        it++;
+    }
+}
+
+
 
 int PmergeMe::binarySearch(const std::vector<int> &arr, int target)
 {
@@ -159,5 +216,5 @@ int PmergeMe::binarySearch(const std::vector<int> &arr, int target)
         else
             right = mid - 1;
     }
-    return (left); // We want to know where the number should be, so we are returning left instead of -1;
+    return (left); //We want to know where the number should be, so we are returning left instead of -1;
 }

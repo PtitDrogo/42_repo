@@ -8,9 +8,12 @@ class PmergeMe
 {
 private:
     std::vector<int> _vector;
-    int  binarySearch(const std::vector<int>& arr, int target);
+    
+    int              binarySearch(const std::vector<int>& arr, int target);
     std::vector<int> epicSort(std::vector<int>& vector);
-
+    std::vector<int> merge(std::vector<int> &left, std::vector<int> &right);
+    std::vector<int> moveLargeElements(std::vector<int>& vector);
+    void             binaryInsert(std::vector<int>& vector, std::vector<int>& big_vector);
 public:
     //methods
     void fillVector(const int *array, int size);
