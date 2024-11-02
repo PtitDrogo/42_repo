@@ -1,9 +1,18 @@
 #include "PmergeMe.h"
 
+/*
+l y a 5 étapes je vais essayer de t'expliquer et de les illustrer avec un exemple :
+Tu as cette entrée : 33 2 15 8 99 4
+faire des paires avec le plus grand d'un coté et le plus petit de l'autre  : 33 2 15 8 99 4 = >  2 33 8 15 4 99
+trier les paires par leur plus grand nombre par récursion : 2 33 8 15 4 99 = > 8 15 2 33 4 99   
+Mettre les plus petits dans un tableau et les plus grands dans un autre : 8 2 4 | 15 33 99
+Vu que les paires étaient triés le tableau des grands est trié, tu ajoutes le petit de la première paire 8 au premier index du tableau des grands : 2 4 | 8 15 33 99
+Tu ajoutes les petits dans la tableau des grands avec un binary search (recherche dichotomique)
+Pour optimiser la dernière étape tu utilises la suite de Jacobsthal (https://fr.wikipedia.org/wiki/Suite_de_Jacobsthal)
+*/
+
 PmergeMe::PmergeMe() {}
-PmergeMe::PmergeMe(PmergeMe &other) : _vector(other._vector)
-{
-}
+PmergeMe::PmergeMe(PmergeMe &other) : _vector(other._vector) {}
 PmergeMe::~PmergeMe() {}
 
 
@@ -48,17 +57,6 @@ void PmergeMe::fillVector(const int *array, int size)
     // _vector.insert(_vector.end(), &array[0], &array[size]);
 }
 
-/*
-l y a 5 étapes je vais essayer de t'expliquer et de les illustrer avec un exemple :
-Tu as cette entrée : 33 2 15 8 99 4
-faire des paires avec le plus grand d'un coté et le plus petit de l'autre  : 33 2 15 8 99 4 = >  2 33 8 15 4 99
-trier les paires par leur plus grand nombre par récursion : 2 33 8 15 4 99 = > 8 15 2 33 4 99   
-//RECURSION ENDS HERE I GUESS
-Mettre les plus petits dans un tableau et les plus grands dans un autre : 8 2 4 | 15 33 99
-Vu que les paires étaient triés le tableau des grands est trié, tu ajoutes le petit de la première paire 8 au premier index du tableau des grands : 2 4 | 8 15 33 99
-Tu ajoutes les petits dans la tableau des grands avec un binary search (recherche dichotomique)
-Pour optimiser la dernière étape tu utilises la suite de Jacobsthal (https://fr.wikipedia.org/wiki/Suite_de_Jacobsthal)
-*/
 
 void PmergeMe::epicSortWrapper()
 {
@@ -168,8 +166,6 @@ void PmergeMe::binaryInsert(std::vector<int>& small_vector, std::vector<int>& bi
         it++;
     }
 }
-
-
 
 int PmergeMe::binarySearch(const std::vector<int> &arr, int target)
 {
