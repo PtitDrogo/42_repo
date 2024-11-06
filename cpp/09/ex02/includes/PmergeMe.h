@@ -4,20 +4,27 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+template<typename Container>
 class PmergeMe
 {
 private:
-    std::vector<int> _vector;
+    Container _container;
     
-    int              binarySearch(const std::vector<int>& arr, int target);
-    std::vector<int> epicSort(std::vector<int>& vector);
-    std::vector<int> merge(std::vector<int> &left, std::vector<int> &right);
-    std::vector<int> moveLargeElements(std::vector<int>& vector);
-    void             binaryInsert(std::vector<int>& vector, std::vector<int>& big_vector);
+    // typedef typename Container::value_type  value_type;
+    // typedef typename Container::size_type   size_type;
+    // typedef typename Container::iterator   iterator;
+    // typedef typename Container::const_iterator   const_iterator;
+    
+    int              binarySearch(const Container& arr, int target);
+    Container        epicSort(Container& vector);
+    Container        merge(Container& left, Container &right);
+    Container        moveLargeElements(Container& vector);
+    void             binaryInsert(Container& vector, Container& big_vector);
 public:
     //methods
-    void fillVector(const int *array, int size);
+    void fillContainer(const int *array, int size);
     void epicSortWrapper();
+    size_t size() const;
     
     //Constructors
     PmergeMe();
@@ -31,9 +38,13 @@ public:
     PmergeMe& operator=(const PmergeMe& other);
 
     //Getters
-    const std::vector<int>&getVector() const;
+    const Container&getContainer() const;
 };
 
-std::ostream    &operator<<(std::ostream &o, PmergeMe const &fixed);
+int pairMax(int a, int b);
 
+template <typename Container>
+std::ostream &operator<<(std::ostream &out, const PmergeMe<Container> &fixed);
+
+#include "PmergeMe.tpp"
 #endif

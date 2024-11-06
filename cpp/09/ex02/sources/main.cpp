@@ -1,16 +1,16 @@
 #include "PmergeMe.h"
-#include "PmergeMeList.h"
 #include <cstdlib>
 #include <limits.h>
 #include <ctime>
 #include <iomanip>
+#include <deque>
 
 static const int *parseArgs(int argc, char **argv);
 
 int main(int argc, char *argv[])
 {
-    PmergeMe A;
-    PmergeMeList B;
+    PmergeMe<std::vector<int> > A;
+    PmergeMe<std::deque<int> > B;
 
     const int *array_result = parseArgs(argc, argv);
     if (array_result == NULL)
@@ -18,14 +18,28 @@ int main(int argc, char *argv[])
         std::cerr << "Invalid Arguments" << std::endl;
         return (1);
     }
-    // std::cout << array_result << std::endl;
+    // try 
+    // {
+        A.fillContainer(array_result, argc - 1);
+        std::clock_t start = std::clock();
+        A.epicSortWrapper();
+        std::clock_t end = std::clock();
+        double elapsed = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
+        
+        B.fillContainer(array_result, argc - 1);
+        start = std::clock();
+        B.epicSortWrapper();
+        end = std::clock();
+        double elapsed2 = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
+        
+        std::cout << "Time to process a range of " << A.size() << " elements with std::vector : " << std::fixed << std::setprecision(3) << elapsed << " us" << std::endl;
+        std::cout << "Time to process a range of " << B.size() << " elements with std::deque : " << std::fixed << std::setprecision(3) << elapsed2 << " us" << std::endl;
+    // }
+    // catch (const std::exception& e)
+    // {
+    //     e.what();
+    // }
     
-    std::clock_t start = std::clock();
-    A.fillVector(array_result, argc - 1);
-    A.epicSortWrapper();
-    std::clock_t end = std::clock();
-    double elapsed = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
-    std::cout << "Time to process a range of undefined" << " elements with std::vector: " << std::fixed << std::setprecision(8) << elapsed << " us" << std::endl;
     delete[] array_result;
     return 0;
 }
