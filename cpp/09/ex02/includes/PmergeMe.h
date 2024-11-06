@@ -9,17 +9,12 @@ class PmergeMe
 {
 private:
     Container _container;
-    
-    // typedef typename Container::value_type  value_type;
-    // typedef typename Container::size_type   size_type;
-    // typedef typename Container::iterator   iterator;
-    // typedef typename Container::const_iterator   const_iterator;
-    
+
     int              binarySearch(const Container& arr, int target);
     Container        epicSort(Container& vector);
     Container        merge(Container& left, Container &right);
     Container        moveLargeElements(Container& vector);
-    void             binaryInsert(Container& vector, Container& big_vector);
+    void             binaryInsert(Container& vector);
 public:
     //methods
     void fillContainer(const int *array, int size);
@@ -38,7 +33,7 @@ public:
     PmergeMe& operator=(const PmergeMe& other);
 
     //Getters
-    const Container&getContainer() const;
+    const Container &getContainer() const;
 };
 
 int pairMax(int a, int b);

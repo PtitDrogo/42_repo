@@ -18,52 +18,29 @@ int main(int argc, char *argv[])
         std::cerr << "Invalid Arguments" << std::endl;
         return (1);
     }
-    // try 
-    // {
-        A.fillContainer(array_result, argc - 1);
-        std::clock_t start = std::clock();
-        A.epicSortWrapper();
-        std::clock_t end = std::clock();
-        double elapsed = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
-        
-        B.fillContainer(array_result, argc - 1);
-        start = std::clock();
-        B.epicSortWrapper();
-        end = std::clock();
-        double elapsed2 = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
-        
-        std::cout << "Time to process a range of " << A.size() << " elements with std::vector : " << std::fixed << std::setprecision(3) << elapsed << " us" << std::endl;
-        std::cout << "Time to process a range of " << B.size() << " elements with std::deque : " << std::fixed << std::setprecision(3) << elapsed2 << " us" << std::endl;
-    // }
-    // catch (const std::exception& e)
-    // {
-    //     e.what();
-    // }
+
+    A.fillContainer(array_result, argc - 1);
+    B.fillContainer(array_result, argc - 1);
+    std::cout << "Before : "; printContainer(A.getContainer());
+
+    std::clock_t start = std::clock();
+    A.epicSortWrapper();
+    std::clock_t end = std::clock();
+    double elapsed = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
     
+    start = std::clock();
+    B.epicSortWrapper();
+    end = std::clock();
+    double elapsed2 = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
+
+
+    std::cout << "After : "; printContainer(B.getContainer());
+    std::cout << "Time to process a range of " << A.size() << " elements with std::vector : " << std::fixed << std::setprecision(3) << elapsed << " us" << std::endl;
+    std::cout << "Time to process a range of " << B.size() << " elements with std::deque : " << std::fixed << std::setprecision(3) << elapsed2 << " us" << std::endl;
+
     delete[] array_result;
     return 0;
 }
-
-/*
- std::clock_t start = std::clock();
-        std::cout << "before: ";
-        gamberge.printArray(array);
-        gamberge.algorithm(array, 0, array.size() - 1);
-        std::cout << "after: ";
-        gamberge.printArray(array);
-        std::clock_t end = std::clock();
-        double elapsed = double(end - start);
-        std::cout << "Time to process a range of " << array.size() << " elements with std::vector: " << elapsed << " us" << std::endl;
-        
-        start = std::clock();
-        gamberge1.algorithm(array1, 0, array.size() - 1);
-        end = std::clock();
-        elapsed = double(end - start);
-        std::cout << "Time to process a range of " << array1.size() << " elements with std::deque: " << elapsed << " us" << std::endl;*/
-
-// The parsing is independant of the implementation of each class so we will do it first.
-// once I have an array of int, perhaps i can look into method to add it all at once to the
-// containers ?
 
 static const int *parseArgs(int argc, char **argv)
 {
@@ -76,7 +53,7 @@ static const int *parseArgs(int argc, char **argv)
     for (int i = 1; i < argc; i++)
     {
         tmp = strtod(argv[i], &end_check);
-        if (*end_check != '\0')
+        if (*argv[i] == '\0' || *end_check != '\0')
         {    
             delete[] array_result;
             return NULL;

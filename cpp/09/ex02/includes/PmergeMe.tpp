@@ -1,16 +1,18 @@
 #ifndef P_MERGE_ME_TPP
-# define P_MERGE_ME_TPP
+#define P_MERGE_ME_TPP
 
 #include "PmergeMe.h"
 
-template<typename Container>
+template <typename Container>
 PmergeMe<Container>::PmergeMe() {}
-template<typename Container>
+
+template <typename Container>
 PmergeMe<Container>::PmergeMe(PmergeMe<Container> &other) : _container(other._container) {}
-template<typename Container>
+
+template <typename Container>
 PmergeMe<Container>::~PmergeMe() {}
 
-template<typename Container>
+template <typename Container>
 void printContainer(const Container &arr)
 {
     for (typename Container::const_iterator it = arr.begin(); it != arr.end(); ++it)
@@ -20,13 +22,13 @@ void printContainer(const Container &arr)
     std::cout << std::endl;
 }
 
-template<typename Container>
+template <typename Container>
 size_t PmergeMe<Container>::size() const
 {
     return (_container.size());
 }
 
-template<typename Container>
+template <typename Container>
 PmergeMe<Container> &PmergeMe<Container>::operator=(const PmergeMe &other)
 {
     if (this != &other)
@@ -36,23 +38,23 @@ PmergeMe<Container> &PmergeMe<Container>::operator=(const PmergeMe &other)
     return (*this);
 }
 
-template<typename Container>
+template <typename Container>
 const Container &PmergeMe<Container>::getContainer() const
 {
     return (_container);
 }
 
-template<typename Container>
+template <typename Container>
 void PmergeMe<Container>::fillContainer(const int *array, int size)
 {
     _container.insert(_container.end(), array, array + size);
 }
 
-template<typename Container>
+template <typename Container>
 void PmergeMe<Container>::epicSortWrapper()
 {
-    std::cout << "Before :"; printContainer(_container);
-    
+    if (_container.size() == 1)
+        return;
     bool is_odd = _container.size() % 2 != 0;
     int last_elem;
     if (is_odd)
@@ -60,17 +62,16 @@ void PmergeMe<Container>::epicSortWrapper()
         last_elem = _container.back();
         _container.pop_back();
     }
+
     Container preSortedArr = epicSort(_container);
-    Container largeElements = moveLargeElements(preSortedArr);
+    _container = moveLargeElements(preSortedArr);
     if (is_odd)
         preSortedArr.push_back(last_elem);
-    binaryInsert(preSortedArr, largeElements);
-    
-    std::cout << "After : "; printContainer(largeElements);
+    binaryInsert(preSortedArr);
 }
 
-template<typename Container>
-Container PmergeMe<Container>::moveLargeElements(Container& container)
+template <typename Container>
+Container PmergeMe<Container>::moveLargeElements(Container &container)
 {
     Container largeElements;
     typename Container::iterator it = container.begin();
@@ -85,7 +86,7 @@ Container PmergeMe<Container>::moveLargeElements(Container& container)
     return (largeElements);
 }
 
-template<typename Container>
+template <typename Container>
 Container PmergeMe<Container>::epicSort(Container &container)
 {
     if (container.size() == 1)
@@ -96,14 +97,12 @@ Container PmergeMe<Container>::epicSort(Container &container)
             std::swap(container[0], container[1]);
         return container;
     }
-    
+
     typename Container::size_type middle = container.size() / 2;
     middle = (middle / 2) * 2;
 
-
     Container left(container.begin(), container.begin() + middle);
     Container right(container.begin() + middle, container.end());
-
 
     left = epicSort(left);
     right = epicSort(right);
@@ -111,7 +110,7 @@ Container PmergeMe<Container>::epicSort(Container &container)
     return (merge(left, right));
 }
 
-template<typename Container>
+template <typename Container>
 Container PmergeMe<Container>::merge(Container &left, Container &right)
 {
     Container merged;
@@ -152,22 +151,21 @@ Container PmergeMe<Container>::merge(Container &left, Container &right)
     return (merged);
 }
 
-template<typename Container>
-void PmergeMe<Container>::binaryInsert(Container& small_container, Container& big_container)
+template <typename Container>
+void PmergeMe<Container>::binaryInsert(Container &small_container)
 {
     typename Container::iterator it = small_container.begin();
     typename Container::iterator index;
 
     while (it != small_container.end())
     {
-        index = big_container.begin() + binarySearch(big_container, *it);
-        big_container.insert(index, *it);
+        index = _container.begin() + binarySearch(_container, *it);
+        _container.insert(index, *it);
         it++;
     }
 }
 
-
-template<typename Container>
+template <typename Container>
 int PmergeMe<Container>::binarySearch(const Container &arr, int target)
 {
     int left = 0;
