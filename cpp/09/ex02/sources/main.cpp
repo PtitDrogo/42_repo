@@ -28,15 +28,15 @@ int main(int argc, char *argv[])
     std::clock_t end = std::clock();
     double elapsed = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
     
-    start = std::clock();
-    B.epicSortWrapper();
-    end = std::clock();
-    double elapsed2 = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
+    // start = std::clock();
+    // B.epicSortWrapper();
+    // end = std::clock();
+    // double elapsed2 = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
 
 
-    std::cout << "After : "; printContainer(B.getContainer());
+    std::cout << "After : "; printContainer(A.getContainer());
     std::cout << "Time to process a range of " << A.size() << " elements with std::vector : " << std::fixed << std::setprecision(3) << elapsed << " us" << std::endl;
-    std::cout << "Time to process a range of " << B.size() << " elements with std::deque : " << std::fixed << std::setprecision(3) << elapsed2 << " us" << std::endl;
+    // std::cout << "Time to process a range of " << B.size() << " elements with std::deque : " << std::fixed << std::setprecision(3) << elapsed2 << " us" << std::endl;
 
     delete[] array_result;
     return 0;

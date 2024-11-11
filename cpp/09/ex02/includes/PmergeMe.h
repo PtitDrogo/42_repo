@@ -38,8 +38,5 @@ public:
 
 int pairMax(int a, int b);
 
-template <typename Container>
-std::ostream &operator<<(std::ostream &out, const PmergeMe<Container> &fixed);
-
 #include "PmergeMe.tpp"
 #endif

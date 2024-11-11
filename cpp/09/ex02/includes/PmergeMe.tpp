@@ -154,15 +154,57 @@ Container PmergeMe<Container>::merge(Container &left, Container &right)
 template <typename Container>
 void PmergeMe<Container>::binaryInsert(Container &small_container)
 {
-    typename Container::iterator it = small_container.begin();
-    typename Container::iterator index;
+    typename Container::iterator index_big;
+    typename Container::iterator index_small_start;
+    typename Container::iterator index_small_end;
+    const size_t jacobsthal[] = {0, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525}; //got rid of one 1s.
+    int js_len = sizeof(jacobsthal) / sizeof(size_t);
+    
+    //I do a sliding window.
+    // I go from End to start each time, then reset start to be End + 1 AND end to be jacobstal[i++];
 
-    while (it != small_container.end())
-    {
-        index = _container.begin() + binarySearch(_container, *it);
-        _container.insert(index, *it);
-        it++;
-    }
+    std::cout << "big container : ";
+    printContainer(_container); std::cout << std::endl;
+    std::cout << "small container : ";
+    printContainer(small_container); std::cout << std::endl; 
+   
+    
+    //I do it once for the index 0; This is hacky i guess;
+    index_big = _container.begin() + binarySearch(_container, small_container[0]);
+    _container.insert(index_big, small_container[0]);
+   for (int i = 0; i < js_len; i++)
+   {
+        if (jacobsthal[i] > small_container.size())
+            break ;
+
+        //Inserting everything before the index of jacobsthal;
+        std::cout << "the value of i now is " << i << ", so that means fucking jacobsthal[i] is :" << jacobsthal[i] << std::endl;
+        index_small_start = small_container.begin() + jacobsthal[i];
+        index_small_end = small_container.begin() + jacobsthal[i + 1]; //THIS WILL CRASH EVENTUALLY;
+        std::cout << "Start index (aka the value i will end my loop at) is " << *index_small_start << std::endl;
+        std::cout << "end index (aka the value i will start my loop at) is " << *index_small_end << std::endl;
+        
+        while (index_small_end != index_small_start)
+        {
+            //We insert into the big array;
+            index_big = _container.begin() + binarySearch(_container, *index_small_end);
+            _container.insert(index_big, *index_small_end);
+            std::cout << "Inserting : " << *index_small_end << std::endl;
+            //After doing the fucking jacob insert, we insert the one before until we go to the start;
+            index_small_end--;
+        }
+   }
+    // std::cout << "size of container is : " << small_container.size() << std::endl;
+
+    //We then insert the rest
+    // typename Container::iterator it = small_container.begin();
+    // it = small_container.begin();
+    // while (it != small_container.end())
+    // {
+    //     index_big = _container.begin() + binarySearch(_container, *it);
+    //     _container.insert(index_big, *it);
+    //     it++;
+    // }
 }
 
 template <typename Container>
