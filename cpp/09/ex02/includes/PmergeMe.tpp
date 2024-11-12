@@ -191,17 +191,13 @@ void PmergeMe<Container>::binaryInsert(Container &small_container)
 
 
     //We then insert the rest
-    // typename Container::iterator it = small_container.begin() + jacobsthal[i] + 1; //We go after the more recently used jacobsthal number.
-    // if (jacobsthal[i] + 1 < small_container.size())
-    // {
-    //     return ;
-    // }
-    // while (it != small_container.end()) //So now we can finally iterate over the end
-    // {
-    //     index_big = _container.begin() + binarySearch(_container, *it);
-    //     _container.insert(index_big, *it);
-    //     it++;
-    // }
+    typename Container::iterator it = small_container.begin() + jacobsthal[i - 1] + 1; //We go after the more recently used jacobsthal number.
+    while (it != small_container.end()) //So now we can finally iterate over the end
+    {
+        index_big = _container.begin() + binarySearch(_container, *it);
+        _container.insert(index_big, *it);
+        it++;
+    }
 }
 
 template <typename Container>

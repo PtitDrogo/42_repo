@@ -18,7 +18,7 @@ SRCS	=		$(SRCS_DIR)/main.cpp \
 CC		=	c++
 RM		=	rm -f
 
-CFLAGS		=	-g3 -std=c++98 #-Wall -Werror -Wextra
+CFLAGS		=	-g3 -std=c++98 -Wall -Werror -Wextra
 
 INCLUDES	=	-I $(HEADER_DIR) -MMD -MP
 

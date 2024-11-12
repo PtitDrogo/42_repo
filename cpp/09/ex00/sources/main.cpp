@@ -1,6 +1,5 @@
 #include "BitcoinExchange.h"
 
-
 int main(int argc, char const *argv[])
 {
     if (argc != 2)
@@ -8,8 +7,8 @@ int main(int argc, char const *argv[])
         std::cerr << "Error: could not open file." << std::endl;
         return (1);
     }
-    
-    try 
+
+    try
     {
         BitcoinExchange hello;
         BitcoinExchange hi;
@@ -18,13 +17,9 @@ int main(int argc, char const *argv[])
 
         hello.exchangeBitcoin(argv[1]);
     }
-    catch (const std::exception& e)
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << std::endl;
     }
     return 0;
 }
-
-
-
-

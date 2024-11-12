@@ -4,11 +4,12 @@
 #include <limits.h>
 
 RPN::RPN() {}
-RPN::RPN(RPN& other) : _stack(other._stack) 
-{}
+RPN::RPN(RPN &other) : _stack(other._stack)
+{
+}
 RPN::~RPN() {}
 
-RPN& RPN::operator=(const RPN& other)
+RPN &RPN::operator=(const RPN &other)
 {
     if (this != &other)
     {
@@ -36,7 +37,6 @@ void RPN::calculateArgsPolishStyle(const char *args)
         }
         else if (isdigit(c))
         {
-            // std::cout << "Current digit is : " << c << "Next digit is :" << args[i + 1] << std::endl;
             if (isdigit(args[i + 1]))
                 throw std::runtime_error("Only single digits accepted");
             _stack.push(static_cast<int>(c - '0'));
@@ -49,7 +49,7 @@ void RPN::calculateArgsPolishStyle(const char *args)
     std::cout << _stack.top() << std::endl;
 }
 
-void    RPN::executeCalculation(const char c)
+void RPN::executeCalculation(const char c)
 {
     long long first;
     long long second;
@@ -83,11 +83,5 @@ void    RPN::executeCalculation(const char c)
     }
     if (result > INT_MAX || result < INT_MIN)
         throw std::runtime_error("Overflow/Underflow");
-    // std::cout << "first is : " << first << std::endl;
-    // std::cout << "second is : " << second << std::endl;  
-    // std::cout << result << std::endl;
-
     _stack.push(static_cast<int>(result));
 }
-
-
