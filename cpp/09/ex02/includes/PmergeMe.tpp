@@ -166,20 +166,19 @@ void PmergeMe<Container>::binaryInsert(Container &small_container)
     std::cout << "small container : ";
     printContainer(small_container); std::cout << std::endl;
 
-    //Insert the first element;
     index_big = _container.begin() + binarySearch(_container, small_container[0]);
     _container.insert(index_big, small_container[0]);
     std::cout << "hi2 " << "inserting " << small_container[0] << "\n";
-    //After this the window is non inclusive at the start;
 
     for (i = 1; i < js_len; i++)
     {
-        if (small_container.size() < jacobsthal[i])
+        std::cout << "SIZE CHECK : jacobsthal[i] = " << jacobsthal[i] << " small_container.size() = " << small_container.size() << std::endl;
+        if (small_container.size() <= jacobsthal[i])
             break ;
-        
         index_small_start = small_container.begin() + jacobsthal[i]; //We will go backwards
         index_small_end = small_container.begin() + jacobsthal[i - 1];
         std::cout << "jacobsthal[i] = " << jacobsthal[i] << "jacobsthal[i - 1] = " << jacobsthal[i - 1] << std::endl;
+
         while (index_small_end != index_small_start)
         {
             index_big = _container.begin() + binarySearch(_container, *index_small_start);
@@ -189,6 +188,8 @@ void PmergeMe<Container>::binaryInsert(Container &small_container)
         }
 
     }
+
+
     //We then insert the rest
     // typename Container::iterator it = small_container.begin() + jacobsthal[i] + 1; //We go after the more recently used jacobsthal number.
     // if (jacobsthal[i] + 1 < small_container.size())
